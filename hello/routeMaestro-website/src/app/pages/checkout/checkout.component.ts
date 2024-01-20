@@ -35,7 +35,7 @@ export class CheckoutComponent implements OnInit {
  
 
   ngOnInit(): void {
-    this.value = this.route.snapshot.paramMap.get('value');
+    this.value = this.route.snapshot.paramMap.get('id');
     console.log(this.value)
     this.plan=this.value === '0' ? 'free' : this.value === '8500' ? 'basic' : this.value === '10500'? 'pro': '';
     this.total=this.value;
