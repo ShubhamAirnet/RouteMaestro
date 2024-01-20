@@ -20,6 +20,12 @@ import { PricingComponent } from './pages/pricing/pricing.component';
 import { DashboardComponent } from './pages/dashboard/dashboard.component';
 import { ItineraryComponent } from './pages/itinerary/itinerary.component';
 import { FlightDetailsComponent } from './components/flight-details/flight-details.component';
+import { UserListComponent } from './pages/user-list/user-list.component';
+import { AdminPricingComponent } from './pages/admin-pricing/admin-pricing.component';
+import { AddUserComponent } from './pages/add-user/add-user.component';
+import { MerchantComponent } from './pages/merchant/merchant.component';
+import { UserViewComponent } from './pages/user-view/user-view.component';
+import { SuccessComponent } from './pages/success/success.component';
 
 const routes: Routes = [
   {
@@ -51,7 +57,7 @@ const routes: Routes = [
   { path: 'privacy-policy', component: PoliciesComponent },
   { path: 'terms-and-conditions', component: TermCondComponent },
   { path: 'shipping-and-delivery', component: ShippingComponent },
-  { path: 'Checkout', component: CheckoutComponent },
+  { path: 'Checkout/:id', component: CheckoutComponent },
   { path: 'refund', component: RefundComponent },
   { path: 'contact-us', component: ContactUsComponent },
   { path: 'about-us',      component: AboutUsComponent },
@@ -59,6 +65,12 @@ const routes: Routes = [
   { path:'home',component:HomeComponent},
   {path:"dashboard",component:DashboardComponent},
   {path:"itinerary" , component:ItineraryComponent},
+  {path:"user-list" , component:UserListComponent},
+  {path:"admin-pricing" , component:AdminPricingComponent},
+  {path:"add-user" , component:AddUserComponent},
+  {path:"merchant" , component:MerchantComponent},
+  {path:"user-view/:id" , component:UserViewComponent},
+  {path:"success/:id" , component:SuccessComponent},
   {
     path: '**',
     redirectTo: 'home'

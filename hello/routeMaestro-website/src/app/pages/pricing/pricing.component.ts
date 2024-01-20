@@ -54,7 +54,7 @@ export class PricingComponent implements OnInit {
 
     
     console.log(value)
-    this.router.navigate(["/Checkout/value", { value: value }]);
+    this.router.navigate([`/Checkout/${value}`]);
 
     // let price:number;
 
