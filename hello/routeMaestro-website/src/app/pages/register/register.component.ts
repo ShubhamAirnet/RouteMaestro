@@ -24,15 +24,18 @@ export class RegisterComponent implements OnInit {
       this.registerForm = this.fb.group({
         name: [null, [ Validators.required ]],
         email: [null, [ Validators.required, Validators.email ]],
-        password: [null, [Validators.required, Validators.minLength(6)]]
+        password: [null, [Validators.required, Validators.minLength(6)]],
+        phone: [null, [Validators.required, Validators.minLength(10),Validators.maxLength(10),  Validators.pattern(/^[0-9]{10}$/),]],
+        plan:[null]
       });
     }
   
     registerUser(form: any): void {
       // let formValues = { ...form.value };
+      console.log(form)
       delete this.errorMsg;
       this.loader = true;
-      let formValues: {  name: string; email: string; password: string } = Object.assign({}, form.value);
+      let formValues: {  name: string; phone:string; email: string; password: string } = Object.assign({}, form.value);
       this.authService.registerUser(formValues)
         .then(() => this.loader = false)
         .catch((error) => {
