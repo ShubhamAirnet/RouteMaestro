@@ -1,0 +1,23 @@
+
+.main-nav{
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+    width: 100vw;
+    gap:30px;
+   
+   margin-right: 20%;
+   a{
+    font-size: large;
+    text-decoration: none;
+   }
+  
+  }
+  .main-head{
+    height:90px;
+    position: fixed;
+    z-index: 999;
+  }
+  .header{
+    margin-left: 5%;
+  }

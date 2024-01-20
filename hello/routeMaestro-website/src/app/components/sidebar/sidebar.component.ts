@@ -7,6 +7,7 @@ declare interface RouteInfo {
     title: string;
     icon: string;
     class: string;
+    
 }
 export const ROUTES: RouteInfo[] = [
   { path: '', title: 'Create Itinerary', icon: 'bullet-list-67 text-primary', class: '' },
@@ -26,7 +27,7 @@ export class SidebarComponent implements OnInit {
   public menuItems: any[];
   // public isCollapsed = false;
   isLoggedIn = false;
-
+  isDropdownOpen = false;
   isCollapsed = true;
 
 
@@ -45,6 +46,9 @@ export class SidebarComponent implements OnInit {
    this.isLoggedIn = this.authService.getIsLoggedIn();
   }
 
+  toggleDropdown() {
+    this.isDropdownOpen = !this.isDropdownOpen;
+  }
   toggleCollapse() {
     this.isCollapsed = !this.isCollapsed;
   }
