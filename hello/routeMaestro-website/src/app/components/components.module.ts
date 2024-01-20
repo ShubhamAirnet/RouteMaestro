@@ -9,6 +9,7 @@ import { FlightCardComponent } from './flight-card/flight-card.component';
 import { FlightDetailsComponent } from './flight-details/flight-details.component';
 import { FlightSetCardComponent } from './flight-set-card/flight-set-card.component';
 import { AlternateFlightOptionsComponent } from './alternate-flight-options/alternate-flight-options.component';
+import { AdminNavbarComponent } from './admin-navbar/admin-navbar.component';
 
 @NgModule({
   imports: [
@@ -24,6 +25,7 @@ import { AlternateFlightOptionsComponent } from './alternate-flight-options/alte
     FlightDetailsComponent,
     FlightSetCardComponent,
     AlternateFlightOptionsComponent,
+    AdminNavbarComponent,
   ],
   exports: [
     FooterComponent,
@@ -32,7 +34,8 @@ import { AlternateFlightOptionsComponent } from './alternate-flight-options/alte
     FlightCardComponent,
     FlightDetailsComponent,
     FlightSetCardComponent,
-    AlternateFlightOptionsComponent
+    AlternateFlightOptionsComponent,
+    AdminNavbarComponent
   ]
 })
 export class ComponentsModule { }

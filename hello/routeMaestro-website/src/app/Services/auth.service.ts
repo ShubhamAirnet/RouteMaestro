@@ -11,6 +11,8 @@ import {
   Timestamp,
   setDoc,
   onSnapshot,
+  DocumentData,
+  QuerySnapshot
 } from "@angular/fire/firestore";
 import {
   getAuth,
@@ -26,6 +28,8 @@ import {
 } from "@angular/fire/auth";
 import { UserModel } from "../model/user-model";
 import { getuid } from "process";
+
+
 
 @Injectable({
   providedIn: "root",
@@ -47,13 +51,15 @@ export class AuthService {
     "auth/weak-password": "Password should be at least 6 characters.",
     "auth/invalid-email": "Invalid Email Address",
   };
+  
 
   constructor(
     private auth: Auth,
     private router: Router,
     private firestore: Firestore,
-    private db: Firestore
+    private db: Firestore,
   ) {
+
     onAuthStateChanged(
       auth,
       (user) => {
@@ -101,18 +107,21 @@ export class AuthService {
     name,
     email,
     password,
+    phone
   }: {
     name: string;
     password: string;
     email: string;
+    phone:string;
   }): Promise<UserCredential> {
     return new Promise((resolve, reject) => {
       createUserWithEmailAndPassword(this.auth, email, password)
         .then((resp: UserCredential) => {
+          console.log(resp)
           this.router.navigate(["/"]);
-          this.saveUserDetailsToFirestore({ name, email, password });
+          this.saveUserDetailsToFirestore({ name, email, password,phone,isAdmin:false });
           // this.saveUserToFirestore({ name, email, password, authId: resp.user.uid })
-          resolve(resp);
+          console.log(resp.user.uid);
         })
         .catch((error) =>
           reject(
@@ -128,10 +137,16 @@ export class AuthService {
     name,
     email,
     password,
+    phone,
+    isAdmin,
+  
   }: {
     email: string;
     password: string;
     name: string;
+    phone:string;
+    isAdmin:boolean;
+   
   }) {
     const uid = await this.getUserUid();
     console.log(uid);
@@ -140,23 +155,198 @@ export class AuthService {
       let userDetails = {
         name,
         email,
+        phone,
+        isAdmin,
         password,
         created_on: Timestamp.now(),
       };
 
       const docRef = doc(
         this.firestore,
-        "users",
+        "users_login",
         `${uid}`,
         "user_details",
         "details"
       );
       await setDoc(docRef, userDetails);
+
+      const userLoginDocRef = doc(this.firestore, 'users_login', `${uid}`);
+    await setDoc(userLoginDocRef, { key: uid }, { merge: true });
     } else {
       console.log("User not authenticated");
     }
   }
 
+
+  // register user when admin registers them
+  registerUserByAdmin({
+    name,
+    email,
+    password,
+    phone
+  }: {
+    name: string;
+    password: string;
+    email: string;
+    phone: string;
+  }): Promise<UserCredential> {
+    return new Promise((resolve, reject) => {
+      createUserWithEmailAndPassword(this.auth, email, password)
+        .then((resp: UserCredential) => {
+          const userUid = resp.user.uid;
+          console.log(resp);
+          
+          // Save user details to Firestore with isAdmin: false
+          this.saveUserDetailsToFirestoreByAdmin({ name, email, password, phone, isAdmin: false,userUid });
+  
+          // Note: You can choose not to redirect and log in the user immediately.
+          // For demonstration, the following lines are commented out.
+          // this.router.navigate(["/"]);
+          // this.saveUserToFirestore({ name, email, password, authId: userUid })
+  
+          // Resolve with the UserCredential
+          resolve(resp);
+        })
+        .catch((error) =>
+          reject(
+            this.errorCodeMessages[error.code] ??
+              "Something went wrong. Please try again..."
+          )
+        );
+    });
+  }
+
+ 
+async saveUserDetailsToFirestoreByAdmin({
+  name,
+  email,
+  password,
+  phone,
+  isAdmin,
+  userUid,
+}: {
+  email: string;
+  password: string;
+  name: string;
+  phone: string;
+  isAdmin: boolean;
+  userUid: string;
+}) {
+  if (userUid) {
+    let userDetails = {
+      name,
+      email,
+      phone,
+      isAdmin,
+      password,
+      created_on: Timestamp.now(),
+    };
+
+    const docRef = doc(
+      this.firestore,
+      'users_login',
+      `${userUid}`,
+      'user_details',
+      'details'
+    );
+
+    // Set user details in 'user_details/details' document
+    await setDoc(docRef, userDetails);
+
+    // Set additional field in 'users_login' document
+    const userLoginDocRef = doc(this.firestore, 'users_login', `${userUid}`);
+    await setDoc(userLoginDocRef, { key: userUid }, { merge: true });
+  } else {
+    console.log('User not authenticated');
+  }
+}
+  
+  
+async getAllUserDetails(): Promise<any[]> {
+  try {
+    const documents: any[] = [];
+
+    const usersLoginCollectionRef = collection(this.firestore, 'users_login');
+    const usersLoginSnapshot = await getDocs(usersLoginCollectionRef);
+
+    // Iterate through each user document
+    for (const userLoginDoc of usersLoginSnapshot.docs) {
+
+      console.log("hello")
+      console.log(userLoginDoc.data())
+
+      // Check if 'plan_details' collection exists in the user's document
+      const planDetailsCollectionRef = collection(userLoginDoc.ref, 'plan');
+      const planDetailsSnapshot = await getDocs(planDetailsCollectionRef);
+
+      // If 'plan_details' collection doesn't exist, add user details to the array
+      if (planDetailsSnapshot.empty) {
+        const userDetailsCollectionRef = collection(userLoginDoc.ref, 'user_details');
+        const userDetailsDocRef = doc(userDetailsCollectionRef, 'details');
+        const userDetailsSnapshot = await getDoc(userDetailsDocRef);
+
+        // Check if the 'details' document exists and has data
+        if (userDetailsSnapshot.exists()) {
+          const userDetailsData = userDetailsSnapshot.data();
+          documents.push({
+            uid: userLoginDoc.id,
+            userDetails: userDetailsData,
+          });
+        }
+      }
+    }
+
+    console.log('User Details without plan_details:', documents);
+    return documents;
+  } catch (error) {
+    console.error('Error fetching user details:', error);
+    throw error; // Propagate the error
+  }
+}
+
+async getUserDetailsWithPlan(): Promise<any[]> {
+  try {
+    const documentsWithPlan: any[] = [];
+
+    const usersLoginCollectionRef = collection(this.firestore, 'users_login');
+    const usersLoginSnapshot = await getDocs(usersLoginCollectionRef);
+
+    // Iterate through each user document
+    for (const userLoginDoc of usersLoginSnapshot.docs) {
+      // Check if 'plan' subcollection exists in the user's document
+      const planCollectionRef = collection(userLoginDoc.ref, 'plan');
+      const planDetailsDocRef = doc(planCollectionRef, 'details');
+      const planDetailsSnapshot = await getDoc(planDetailsDocRef);
+
+      // If 'plan_details' document exists, fetch user details and plan details
+      if (planDetailsSnapshot.exists()) {
+        const userDetailsCollectionRef = collection(userLoginDoc.ref, 'user_details');
+        const userDetailsDocRef = doc(userDetailsCollectionRef, 'details');
+        const userDetailsSnapshot = await getDoc(userDetailsDocRef);
+
+        // Check if the 'details' document exists and has data
+        if (userDetailsSnapshot.exists()) {
+          const userDetailsData = userDetailsSnapshot.data();
+          const planDetailsData = planDetailsSnapshot.data();
+
+          documentsWithPlan.push({
+            uid: userLoginDoc.id,
+            userDetails: userDetailsData,
+            planDetails: planDetailsData,
+          });
+        }
+      }
+    }
+
+    console.log('User Details with plan_details:', documentsWithPlan);
+    return documentsWithPlan;
+  } catch (error) {
+    console.error('Error fetching user details with plan_details:', error);
+    throw error; // Propagate the error
+  }
+}
+
+  
   // \made by hemant
   async getUserUid() {
     return new Promise<string>((resolve, reject) => {
@@ -180,7 +370,7 @@ export class AuthService {
     if (uid) {
       const userDocRef = doc(
         this.firestore,
-        "users",
+        "users_login",
         `${uid}`,
         "user_details",
         "details"
@@ -207,7 +397,7 @@ export class AuthService {
  async getUserName(uid:string){
 
 
-  const userDocRef=doc(this.firestore,"users",`${uid}`,"user_details","details" );
+  const userDocRef=doc(this.firestore,"users_login",`${uid}`,"user_details","details" );
 
   const userDocSnap=await getDoc(userDocRef);
 
@@ -221,17 +411,6 @@ export class AuthService {
 
 
  }
-
-
-
-
-
-
-
-
-
-
-
 
 
 

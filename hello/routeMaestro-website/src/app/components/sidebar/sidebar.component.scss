@@ -1,8 +1,7 @@
-.sub-menu.collapsed {
-    display: none;
-  }
-  
-  .sub-menu:not(.collapsed) {
-    display: block;
-  }
-  
+.main{
+
+  height: 100vh;
+ position: fixed;
+ bottom: 0;
+ 
+}

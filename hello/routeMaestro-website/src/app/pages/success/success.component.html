@@ -1,0 +1,24 @@
+<div *ngIf="form" class="success-page-container">
+    <h2>Payment Success!</h2>
+    <div class="user-details">
+      <h3>User Details</h3>
+      <div class="user-item">
+        <span class="label">Name:</span>
+        <span class="value">{{ form.name }}</span>
+      </div>
+      <div class="user-item">
+        <span class="label">Phone:</span>
+        <span class="value">{{ form.phone }}</span>
+      </div>
+      <div class="user-item">
+        <span class="label">Email:</span>
+        <span class="value">{{ form.email }}</span>
+      </div>
+    </div>
+  
+    <h3>Total Cost</h3>
+    <p class="total-cost">{{ form.totalCost | currency:'INR':'symbol':'1.2-2' }}</p>
+  
+    <p class="confirmation-message">Thank you for your payment! The transaction has been successfully completed.</p>
+  </div>
+  

@@ -34,6 +34,13 @@ import { FormsModule } from '@angular/forms';
 import { NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
 import { ItineraryComponent } from './pages/itinerary/itinerary.component';
 import { NgxSpinner, NgxSpinnerModule } from 'ngx-spinner';
+import { AddUserComponent } from './pages/add-user/add-user.component';
+import { AdminPricingComponent } from './pages/admin-pricing/admin-pricing.component';
+import { MerchantComponent } from './pages/merchant/merchant.component';
+import { SuccessComponent } from './pages/success/success.component';
+import { UserListComponent } from './pages/user-list/user-list.component';
+import { UserViewComponent } from './pages/user-view/user-view.component';
+
 
 
 @NgModule({
@@ -73,6 +80,13 @@ import { NgxSpinner, NgxSpinnerModule } from 'ngx-spinner';
     HomeComponent,
     FaqComponent,
     ItineraryComponent,
+    AddUserComponent,
+    AdminPricingComponent,
+    MerchantComponent,
+    SuccessComponent,
+    UserListComponent,
+    UserViewComponent,
+    
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA], 
   providers: [AuthService, DatePipe],
