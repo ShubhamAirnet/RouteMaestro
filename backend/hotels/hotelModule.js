@@ -114,6 +114,46 @@ router.get("/topDestinations",async(req,res)=>{
 })
 
 
+// hotel search
+router.get('/hotelSearch',async(req,res)=>{
+  const {tokenId}=req.body;
+
+  const payload = {
+    EndUserIp:"49.43.88.155",
+    TokenId:tokenId,
+    CheckInDate:"22/01/2024",
+    NoOfNights:2,
+    CountryCode:"IN",
+    CityId:125928,
+    IsTBOMapped:"false",
+    Radius:"5",
+    PreferredCurrency:"INR",
+    GuestNationality:"IN",
+    NoOfRooms:1,
+    RoomGuests:[{
+        NoOfAdults:2,
+        NoOfChild:0
+    }],
+    MaxRating:4,
+    MinRating:1,
+  };
+
+  try {
+    const { data } = await axios.post(
+      "http://api.tektravels.com/BookingEngineService_Hotel/hotelservice.svc/rest/GetHotelResult/",
+      payload
+    );
+
+    console.log(data);
+    res.status(200).json({
+      data:data
+    });
+  } catch (err) {
+    console.log("here is the error in last catch");
+    res.status(400).json(err);
+  }
+
+})
 
 
 module.exports = router;
