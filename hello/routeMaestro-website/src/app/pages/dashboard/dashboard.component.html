@@ -1,0 +1,134 @@
+<main>
+    <nav class="dashboard-body">
+      <h1>Hello Welcome to Dashboard</h1>
+  
+      <button type="button" class="btn btn-warning" (click)="openDiv()" >
+        Profile
+      </button>
+  
+  
+  
+    </nav>
+  
+    <div *ngIf="showDiv" 
+      style="
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+      "
+    >
+      <div class="diaglog-main">
+        <div style="padding: 25px;position: relative;">
+          <!-- here the form will come -->
+  
+          <div style="display: flex; flex-direction: column">
+            <h2>Your Personal Details</h2>
+            <form>
+              <div style="display: flex; justify-content: space-evenly;gap: 20px;">
+                <div class="form-group">
+                  <label for="name">Name:</label>
+                  <input
+                    type="text"
+                    class="form-control input-field"
+                    id="name"
+                    placeholder="Enter your Name"
+                    name="name"
+                    [(ngModel)]="name"
+                    required
+                  />
+                </div>
+                <div class="form-group">
+                  <label for="contact">Contact :</label>
+                  <input
+                    type="number"
+                    class="form-control input-field"
+                    id="contact"
+                    placeholder="Contact Number"
+                    name="contact"
+                    [(ngModel)]="contact"
+                    required
+                  />
+                </div>
+              </div>
+  
+              <h2 style="margin-top: 18px; font-weight: 600">
+                Your Company Details
+              </h2>
+              <div style="display: flex; flex-direction: column">
+                <div class="form-group">
+                  <label for="companyName">Company Name:</label>
+                  <input
+                    type="text"
+                    class="form-control input-field"
+                    id="companyName"
+                    placeholder="Enter Company Name"
+                    name="companyName"
+                    [(ngModel)]="companyName"
+                    required
+                  />
+                </div>
+  
+                <div style="display: flex; justify-content: space-evenly;gap: 20px;">
+                  <div class="form-group">
+                    <label for="gst">GSTIN</label>
+                    <input
+                      type="text"
+                      class="form-control input-field"
+                      id="gst"
+                      placeholder=" Company GST Number "
+                      name="gst"
+                      [(ngModel)]="gst"
+                      required
+                    />
+                  </div>
+                  <div class="form-group">
+                    <label for="pan">PAN </label>
+                    <input
+                      type="text"
+                      class="form-control input-field"
+                      id="pan"
+                      placeholder=" Enter you PAN "
+                      name="pan"
+                      [(ngModel)]="pan"
+                      required
+                    />
+                  </div>
+                </div>
+  
+                <div class="form-group">
+                  <label for="address">Address</label>
+                  <textarea
+                    class="form-control input-field"
+                    id="address"
+                    rows="2"
+                    name="address"
+                    [(ngModel)]="address"
+                    required
+                  ></textarea>
+                </div>
+              </div>
+  
+              <button type="submit" class="btn btn-primary"  >Submit</button>
+            </form>
+  
+            <button class="skip-btn" (click)="closeDiv()" >
+              Skip for now >
+            </button>
+            
+            
+  
+          </div>
+        </div>
+        <div style="position: relative">
+          <!-- here the image will come -->
+          <img
+            src="../../../assets/img/brand/charlota-blunarova-U7ud6KGrsRQ-unsplash.jpg"
+            style="height: 100%; border-radius: 5px; width: 500px"
+            alt=""
+          />
+          
+        </div>
+      </div>
+    </div>
+  </main>

@@ -1,0 +1,8 @@
+.sub-menu.collapsed {
+    display: none;
+  }
+  
+  .sub-menu:not(.collapsed) {
+    display: block;
+  }
+  

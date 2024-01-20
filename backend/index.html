@@ -1,0 +1,471 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <script src="https://sdk.cashfree.com/js/v3/cashfree.js"></script>
+    <script src="index.js"></script>
+
+    <style>
+      h1,
+      h2,
+      h3,
+      h4,
+      h5,
+      h6 {
+        margin: 0;
+        padding: 0;
+      }
+      h3 {
+        font-size: 15px;
+      }
+      h4 {
+        font-size: 10px;
+      }
+    </style>
+  </head>
+  <body>
+    <main>
+      <!-- 
+      <div class="fare-summary" style="border: 2px solid darkgray;justify-content: space-evenly;padding: 15px ;height: 200px; width: 300px;  background-color:beige ;display: flex; flex-direction: column;" >
+        <div class="flight-summary-header">
+          <h2>Fare Summary</h2>
+        </div>
+        <div class="flight-summary-stats" >
+          <div class="flight-summary-stats-inner" style="display: flex; flex-direction: column; gap: 20px;">
+            <div class="flight-summary-stats-inner-flexbox total" style="display: flex;justify-content: space-between;">
+              <h3>Net Payable</h3>
+              <h4>₹ 40,760</h4>
+            </div>
+            <div class="flight-summary-stats-inner-flexbox published" style="display: flex; justify-content: space-between;">
+              <h3>Published Fare (for the end-user )</h3>
+              <h4>₹44,314</h4>
+            </div>
+            <div class="flight-summary-stats-inner-flexbox Offered" style="display: flex; justify-content: space-between;">
+              <h3>Offered Fare (for the merchant)</h3>
+              <h4>₹40,760</h4>
+            </div>
+          </div>
+        </div>
+      </div> -->
+
+      <div
+        style="
+          width: 90%;
+          background-color: #fff;
+          display: flex;
+          border-radius: 10px;
+          border: 2px solid darkslategrey;
+          box-shadow: 10px 10px 10px 0 grey;
+        "
+      >
+        <!-- airline section -->
+        <div
+          style="
+            width: 20%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+          "
+        >
+          <div>
+            <img src="" alt="logo1" height="12px" width="12px" />
+            <img src="" alt="logo2" height="12px" width="12px" />
+          </div>
+          <p>Multiple Carriers</p>
+        </div>
+
+        <!-- flights section -->
+        <div
+          style="
+            width: 55%;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-evenly;
+            align-items: center;
+          "
+        >
+          <div
+            style="
+              background-color: aqua;
+              width: 98%;
+              /* height: 50px; */
+              display: flex;
+            "
+          >
+            <div
+              style="
+                background-color: violet;
+                width: 33%;
+                height: 100%;
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+              "
+            >
+              <div
+                style="
+                  display: flex;
+                  align-items: center;
+                  justify-content: center;
+                  gap: 5px;
+                "
+              >
+                <h3>01:35</h3>
+                <h3>DEL</h3>
+                <h3>15 Feb</h3>
+              </div>
+              <div
+                style="
+                  display: flex;
+                  flex-direction: column;
+                  align-items: center;
+                  justify-content: center;
+                "
+              >
+                <div
+                  style="
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                  "
+                >
+                  <h4>T3</h4>
+                  <span>,</span>
+                  <h4>John F. Kennedy International Airport</h4>
+                </div>
+                <h4>Thiruvananthapuram</h4>
+              </div>
+            </div>
+            <div
+              style="
+                background-color: rgb(130, 238, 175);
+                width: 34%;
+                height: 100%;
+                display: flex;
+                flex-direction: column;
+                justify-content: space-evenly;
+                align-items: center;
+              "
+            >
+              <h3>13h 25m</h3>
+              <img src="" alt="stopsBar" />
+              <h5>via Dubai (DXB)</h5>
+            </div>
+            <div
+              style="
+                background-color: violet;
+                width: 33%;
+                height: 100%;
+                display: flex;
+                flex-direction: column;
+                justify-content: space-evenly;
+                align-items: center;
+              "
+            >
+              <h3>01:35</h3>
+              <h3></h3>
+              <h3>15 Feb,23</h3>
+            </div>
+          </div>
+          <div
+            style="
+              background-color: aqua;
+              width: 98%;
+              height: 50px;
+              display: flex;
+            "
+          >
+            <div
+              style="
+                background-color: red;
+                width: 33%;
+                height: 100%;
+                display: flex;
+                flex-direction: column;
+                justify-content: space-evenly;
+                align-items: center;
+              "
+            >
+              <h3>01:35</h3>
+              <h3>DEL</h3>
+              <h3>15 Feb,23</h3>
+            </div>
+            <div
+              style="
+                background-color: green;
+                width: 34%;
+                height: 100%;
+                display: flex;
+                flex-direction: column;
+                justify-content: space-evenly;
+                align-items: center;
+              "
+            >
+              <h3>13h 25m</h3>
+              <img src="" alt="stopsBar" />
+              <h5>via Dubai (DXB)</h5>
+            </div>
+            <div
+              style="
+                background-color: yellow;
+                width: 33%;
+                height: 100%;
+                display: flex;
+                flex-direction: column;
+                justify-content: space-evenly;
+                align-items: center;
+              "
+            >
+              <h3>01:35</h3>
+              <h3></h3>
+              <h3>15 Feb,23</h3>
+            </div>
+          </div>
+          <div
+            style="
+              background-color: aqua;
+              width: 98%;
+              height: 50px;
+              display: flex;
+            "
+          >
+            <div
+              style="
+                background-color: violet;
+                width: 33%;
+                height: 100%;
+                display: flex;
+                flex-direction: column;
+                justify-content: space-evenly;
+                align-items: center;
+              "
+            >
+              <h3>01:35</h3>
+              <h3>DEL</h3>
+              <h3>15 Feb,23</h3>
+            </div>
+            <div
+              style="
+                background-color: rgb(130, 238, 175);
+                width: 34%;
+                height: 100%;
+                display: flex;
+                flex-direction: column;
+                justify-content: space-evenly;
+                align-items: center;
+              "
+            >
+              <h3>13h 25m</h3>
+              <img src="" alt="stopsBar" />
+              <h5>via Dubai (DXB)</h5>
+            </div>
+            <div
+              style="
+                background-color: violet;
+                width: 33%;
+                height: 100%;
+                display: flex;
+                flex-direction: column;
+                justify-content: space-evenly;
+                align-items: center;
+              "
+            >
+              <h3>01:35</h3>
+              <h3></h3>
+              <h3>15 Feb,23</h3>
+            </div>
+          </div>
+        </div>
+
+        <!-- fare section -->
+        <div
+          style="
+            width: 25%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 20px;
+          "
+        >
+          <div
+            class="published-fare-diff"
+            style="
+              display: flex;
+              flex-direction: column;
+              align-items: center;
+              gap: 8px;
+            "
+          >
+            <h2>Fare Difference:</h2>
+            <h3 style="color: green; font-size: 20px">
+              <i> <b> + ₹1200 </b> </i>
+            </h3>
+          </div>
+          <div
+            class="incentive-earned"
+            style="
+              display: flex;
+              flex-direction: column;
+              align-items: center;
+              gap: 8px;
+            "
+          >
+            <h2>Incentive Earned:</h2>
+            <h3 style="color: green; font-size: 20px">₹15,000</h3>
+          </div>
+        </div>
+      </div>
+
+      <div>
+        <ng-template #content let-modal>
+          <div class="modal-header">
+            <h4 class="modal-title">Modal title</h4>
+            <button
+              type="button"
+              class="btn-close"
+              aria-label="Close"
+              (click)="modal.dismiss('Cross click')"
+            ></button>
+          </div>
+          <div class="modal-body">
+            <p>One fine body&hellip;</p>
+          </div>
+          <div class="modal-footer">
+            <button
+              type="button"
+              class="btn btn-secondary"
+              (click)="modal.close('Close click')"
+            >
+              Close
+            </button>
+          </div>
+        </ng-template>
+
+        <ng-template #longContent let-modal>
+          <div class="modal-header">
+            <h4 class="modal-title">Modal title</h4>
+            <button
+              type="button"
+              class="btn-close"
+              aria-label="Close"
+              (click)="modal.dismiss('Cross click')"
+            ></button>
+          </div>
+          <div class="modal-body">
+            <p>
+              Cras mattis consectetur purus sit amet fermentum. Cras justo odio,
+              dapibus ac facilisis in, egestas eget quam. Morbi leo risus, porta
+              ac consectetur ac, vestibulum at eros.
+            </p>
+            <p>
+              Praesent commodo cursus magna, vel scelerisque nisl consectetur
+              et. Vivamus sagittis lacus vel augue laoreet rutrum faucibus dolor
+              auctor.
+            </p>
+            <p>
+              Aenean lacinia bibendum nulla sed consectetur. Praesent commodo
+              cursus magna, vel scelerisque nisl consectetur et. Donec sed odio
+              dui. Donec ullamcorper nulla non metus auctor fringilla.
+            </p>
+            <p>
+              Cras mattis consectetur purus sit amet fermentum. Cras justo odio,
+              dapibus ac facilisis in, egestas eget quam. Morbi leo risus, porta
+              ac consectetur ac, vestibulum at eros.
+            </p>
+            <p>
+              Praesent commodo cursus magna, vel scelerisque nisl consectetur
+              et. Vivamus sagittis lacus vel augue laoreet rutrum faucibus dolor
+              auctor.
+            </p>
+            <p>
+              Aenean lacinia bibendum nulla sed consectetur. Praesent commodo
+              cursus magna, vel scelerisque nisl consectetur et. Donec sed odio
+              dui. Donec ullamcorper nulla non metus auctor fringilla.
+            </p>
+            <p>
+              Cras mattis consectetur purus sit amet fermentum. Cras justo odio,
+              dapibus ac facilisis in, egestas eget quam. Morbi leo risus, porta
+              ac consectetur ac, vestibulum at eros.
+            </p>
+            <p>
+              Praesent commodo cursus magna, vel scelerisque nisl consectetur
+              et. Vivamus sagittis lacus vel augue laoreet rutrum faucibus dolor
+              auctor.
+            </p>
+            <p>
+              Aenean lacinia bibendum nulla sed consectetur. Praesent commodo
+              cursus magna, vel scelerisque nisl consectetur et. Donec sed odio
+              dui. Donec ullamcorper nulla non metus auctor fringilla.
+            </p>
+            <p>
+              Cras mattis consectetur purus sit amet fermentum. Cras justo odio,
+              dapibus ac facilisis in, egestas eget quam. Morbi leo risus, porta
+              ac consectetur ac, vestibulum at eros.
+            </p>
+            <p>
+              Praesent commodo cursus magna, vel scelerisque nisl consectetur
+              et. Vivamus sagittis lacus vel augue laoreet rutrum faucibus dolor
+              auctor.
+            </p>
+            <p>
+              Aenean lacinia bibendum nulla sed consectetur. Praesent commodo
+              cursus magna, vel scelerisque nisl consectetur et. Donec sed odio
+              dui. Donec ullamcorper nulla non metus auctor fringilla.
+            </p>
+            <p>
+              Cras mattis consectetur purus sit amet fermentum. Cras justo odio,
+              dapibus ac facilisis in, egestas eget quam. Morbi leo risus, porta
+              ac consectetur ac, vestibulum at eros.
+            </p>
+            <p>
+              Praesent commodo cursus magna, vel scelerisque nisl consectetur
+              et. Vivamus sagittis lacus vel augue laoreet rutrum faucibus dolor
+              auctor.
+            </p>
+            <p>
+              Aenean lacinia bibendum nulla sed consectetur. Praesent commodo
+              cursus magna, vel scelerisque nisl consectetur et. Donec sed odio
+              dui. Donec ullamcorper nulla non metus auctor fringilla.
+            </p>
+            <p>
+              Cras mattis consectetur purus sit amet fermentum. Cras justo odio,
+              dapibus ac facilisis in, egestas eget quam. Morbi leo risus, porta
+              ac consectetur ac, vestibulum at eros.
+            </p>
+            <p>
+              Praesent commodo cursus magna, vel scelerisque nisl consectetur
+              et. Vivamus sagittis lacus vel augue laoreet rutrum faucibus dolor
+              auctor.
+            </p>
+            <p>
+              Aenean lacinia bibendum nulla sed consectetur. Praesent commodo
+              cursus magna, vel scelerisque nisl consectetur et. Donec sed odio
+              dui. Donec ullamcorper nulla non metus auctor fringilla.
+            </p>
+          </div>
+          <div class="modal-footer">
+            <button
+              type="button"
+              class="btn btn-secondary"
+              (click)="modal.close('Close click')"
+            >
+              Close
+            </button>
+          </div>
+        </ng-template>
+
+        <button
+          class="btn btn-outline-primary mb-2 me-2"
+          (click)="openXl(content)"
+        >
+          Extra large modal
+        </button>
+      </div>
+    </main>
+  </body>
+</html>

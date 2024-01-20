@@ -1,0 +1,259 @@
+{
+    "data": [
+        {
+            "FirstNameFormat": null,
+            "IsHoldAllowedWithSSR": false,
+            "IsUpsellAllowed": false,
+            "LastNameFormat": null,
+            "ResultIndex": "OB1",
+            "Source": 4,
+            "IsLCC": false,
+            "IsRefundable": true,
+            "IsPanRequiredAtBook": false,
+            "IsPanRequiredAtTicket": false,
+            "IsPassportRequiredAtBook": false,
+            "IsPassportRequiredAtTicket": false,
+            "GSTAllowed": true,
+            "IsCouponAppilcable": true,
+            "IsGSTMandatory": false,
+            "AirlineRemark": null,
+            "IsPassportFullDetailRequiredAtBook": false,
+            "ResultFareType": "RegularFare",
+            "Fare": {
+                "Currency": "INR",
+                "BaseFare": 72050,
+                "Tax": 99664,
+                "TaxBreakup": [
+                    {
+                        "key": "K3",
+                        "value": 0
+                    },
+                    {
+                        "key": "YQTax",
+                        "value": 3828
+                    },
+                    {
+                        "key": "YR",
+                        "value": 80034
+                    },
+                    {
+                        "key": "PSF",
+                        "value": 0
+                    },
+                    {
+                        "key": "UDF",
+                        "value": 0
+                    },
+                    {
+                        "key": "INTax",
+                        "value": 0
+                    },
+                    {
+                        "key": "TransactionFee",
+                        "value": 0
+                    },
+                    {
+                        "key": "OtherTaxes",
+                        "value": 15802
+                    }
+                ],
+                "YQTax": 3828,
+                "AdditionalTxnFeeOfrd": 0,
+                "AdditionalTxnFeePub": 0,
+                "PGCharge": 0,
+                "OtherCharges": 0,
+                "ChargeBU": [
+                    {
+                        "key": "TBOMARKUP",
+                        "value": 0
+                    },
+                    {
+                        "key": "GLOBALPROCUREMENTCHARGE",
+                        "value": 0
+                    },
+                    {
+                        "key": "CONVENIENCECHARGE",
+                        "value": 0
+                    },
+                    {
+                        "key": "OTHERCHARGE",
+                        "value": 0
+                    }
+                ],
+                "Discount": 0,
+                "PublishedFare": 171714,
+                "CommissionEarned": 0,
+                "PLBEarned": 0,
+                "IncentiveEarned": 0,
+                "OfferedFare": 171714,
+                "TdsOnCommission": 0,
+                "TdsOnPLB": 0,
+                "TdsOnIncentive": 0,
+                "ServiceFee": 0,
+                "TotalBaggageCharges": 0,
+                "TotalMealCharges": 0,
+                "TotalSeatCharges": 0,
+                "TotalSpecialServiceCharges": 0
+            },
+            "FareBreakdown": [
+                {
+                    "Currency": "INR",
+                    "PassengerType": 1,
+                    "PassengerCount": 4,
+                    "BaseFare": 52400,
+                    "Tax": 66660,
+                    "TaxBreakUp": [
+                        {
+                            "key": "YQTax",
+                            "value": 2552
+                        },
+                        {
+                            "key": "YR",
+                            "value": 53356
+                        },
+                        {
+                            "key": "OtherTaxes",
+                            "value": 10752
+                        }
+                    ],
+                    "YQTax": 2552,
+                    "AdditionalTxnFeeOfrd": 0,
+                    "AdditionalTxnFeePub": 0,
+                    "PGCharge": 0,
+                    "SupplierReissueCharges": 0
+                },
+                {
+                    "Currency": "INR",
+                    "PassengerType": 2,
+                    "PassengerCount": 2,
+                    "BaseFare": 19650,
+                    "Tax": 33004,
+                    "TaxBreakUp": [
+                        {
+                            "key": "YQTax",
+                            "value": 1276
+                        },
+                        {
+                            "key": "YR",
+                            "value": 26678
+                        },
+                        {
+                            "key": "OtherTaxes",
+                            "value": 5050
+                        }
+                    ],
+                    "YQTax": 1276,
+                    "AdditionalTxnFeeOfrd": 0,
+                    "AdditionalTxnFeePub": 0,
+                    "PGCharge": 0,
+                    "SupplierReissueCharges": 0
+                }
+            ],
+            "Segments": [
+                [
+                    {
+                        "Baggage": "1 PC(s)",
+                        "CabinBaggage": "Included",
+                        "CabinClass": 2,
+                        "SupplierFareClass": null,
+                        "TripIndicator": 1,
+                        "SegmentIndicator": 1,
+                        "Airline": {
+                            "AirlineCode": "AZ",
+                            "AirlineName": "ITA Airways",
+                            "FlightNumber": "769",
+                            "FareClass": "L",
+                            "OperatingCarrier": "AZ"
+                        },
+                        "NoOfSeatAvailable": 9,
+                        "Origin": {
+                            "Airport": {
+                                "AirportCode": "DEL",
+                                "AirportName": "Indira Gandhi Airport",
+                                "Terminal": "3",
+                                "CityCode": "DEL",
+                                "CityName": "Delhi",
+                                "CountryCode": "IN",
+                                "CountryName": "India"
+                            },
+                            "DepTime": "2023-12-15T03:50:00"
+                        },
+                        "Destination": {
+                            "Airport": {
+                                "AirportCode": "FCO",
+                                "AirportName": "Fiumicino",
+                                "Terminal": "3",
+                                "CityCode": "ROM",
+                                "CityName": "Rome",
+                                "CountryCode": "IT",
+                                "CountryName": "Italy"
+                            },
+                            "ArrTime": "2023-12-15T08:10:00"
+                        },
+                        "AccumulatedDuration": 530,
+                        "Duration": 530,
+                        "GroundTime": 0,
+                        "Mile": 0,
+                        "StopOver": false,
+                        "FlightInfoIndex": "",
+                        "StopPoint": "",
+                        "StopPointArrivalTime": null,
+                        "StopPointDepartureTime": null,
+                        "Craft": "330",
+                        "Remark": null,
+                        "IsETicketEligible": true,
+                        "FlightStatus": "Confirmed",
+                        "Status": "",
+                        "FareClassification": {
+                            "Type": ""
+                        }
+                    }
+                ]
+            ],
+            "LastTicketDate": "15DEC23",
+            "TicketAdvisory": "TICKETS ARE NON-REFUNDABLE \nLAST TKT DTE 15DEC23  - DATE OF ORIGIN \n",
+            "FareRules": [
+                {
+                    "Origin": "DEL",
+                    "Destination": "FCO",
+                    "Airline": "AZ",
+                    "FareBasisCode": "LCLOWIA",
+                    "FareRuleDetail": "",
+                    "FareRestriction": "Y",
+                    "FareFamilyCode": "",
+                    "FareRuleIndex": ""
+                }
+            ],
+            "PenaltyCharges": {
+                "ReissueCharge": "INR 8000",
+                "CancellationCharge": "INR 12000"
+            },
+            "AirlineCode": "AZ",
+            "MiniFareRules": [
+                [
+                    {
+                        "JourneyPoints": "DEL-FCO",
+                        "Type": "Reissue",
+                        "From": null,
+                        "To": null,
+                        "Unit": null,
+                        "Details": "INR 8000"
+                    },
+                    {
+                        "JourneyPoints": "DEL-FCO",
+                        "Type": "Cancellation",
+                        "From": null,
+                        "To": null,
+                        "Unit": null,
+                        "Details": "INR 12000"
+                    }
+                ]
+            ],
+            "ValidatingAirline": "AZ",
+            "FareClassification": {
+                "Color": "lightBlue",
+                "Type": "Publish"
+            }
+        }
+    ]
+}

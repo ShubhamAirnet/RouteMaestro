@@ -1,0 +1,138 @@
+h2,h3,h4,h5,h6{
+    margin: 0;
+    padding: 0;
+}
+h2{
+    font-size: 17px;
+}
+h3{
+    font-size: 15px;
+}
+
+h4{
+    font-size: 10px;
+}
+h5{
+    font-size: 9px;
+}
+
+.alternate-flightSet-Btn{
+    padding: 0;
+    margin: 0;
+    height: auto;
+    width: 95%;
+    border-radius: 10px;
+}
+
+.normal-main{
+     background-color: #fff;
+     display: flex;
+     border-radius: 10px;
+     border: 2px solid darkslategrey;
+     box-shadow: 2px 3px 10px 0 grey;
+
+}
+
+.hightlighted-main{
+    background-color: bisque;
+    display: flex;
+    border-radius: 10px;
+    border: 2px solid darkslategrey;
+    box-shadow: 9px 12px 10px 0 lightseagreen;
+}
+
+.airline-section{
+    width: 15%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.flights-section{
+    width: 70%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    align-items: center; 
+}
+.flights-section-one-complete-flight{
+        width: 100%;
+        display: flex;
+}
+
+.flights-section-one-complete-flight-origin-destination-block{
+    width: 33%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    border: 1px solid grey;
+}
+
+.origin-destination-block-timings{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+}
+.origin-destination-block-timings h3{
+   
+    margin: 0;
+    padding: 0;
+    font-size: 16px;
+}
+.origin-destination-block-location{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+.origin-destination-block-location div{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 3px;
+}
+
+.origin-destination-block-location h4{
+    font-size: 0.9375rem;
+    margin: 0;
+    padding: 0;
+    font-size: 10px;
+}
+
+
+.flights-section-one-complete-flight-duration{
+    background-color: rgb(242 247 255);
+    width: 34%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    align-items: center;
+    border: 1px solid grey;
+}
+
+.fare-section{
+    width: 15%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 11px; 
+}
+
+.published-fare-diff{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.incentive-earned{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+}

@@ -1,0 +1,45 @@
+<!-- Dialog Box  to show alternate Flight Sets  -->
+<!-- USEFULL IN CASE OF FILTERING -->
+
+<div class="modal" [ngClass]="{'open': isOpen}">
+    <div class="modal-overlay" (click)="closeModal()"></div>
+    
+    <div class="modal-content">
+
+      <div class="modal-header">
+        <h2>Alternate Flight Options</h2>
+        <span class="close" (click)="closeModal()">&times;</span>
+      </div>
+
+      <div class="modal-body" style="display: flex;">
+
+        <div class="modal-body-filters-sections">
+
+        </div>
+
+        <div class="modal-body-flight-sets-section"   >
+          
+          <!-- <div *ngFor="let pair of allFlightSets | keyvalue">
+            <app-flight-set-card [similarFlightSetsPowerArray]="pair.value" [key]="pair.key" [defaultFlightSetKey]="currentFlightSetKey" ></app-flight-set-card>
+
+          </div> -->
+
+          <button *ngFor="let flightSet of allFlightSets"  [ngClass]="{'normal-flightSet': !flightSet.isSelected, 'highlighted-flightSet': flightSet.isSelected}"    (click)="showValue(flightSet)" >
+
+            <app-flight-set-card [flightSet]="flightSet" [currentFlightSetResultIdx]="currentFlightSetResultIdx" ></app-flight-set-card>
+
+          </button>
+
+        </div>
+
+      </div>
+
+      <div class="modal-footer">
+        <button class="btn btn-danger" (click)="sendHighlightedFlightSetIdx()" >Add To Itinerary</button>
+        <button class="btn btn-secondary" (click)="closeModal()">Close</button>
+      </div>
+
+    </div>
+
+</div>
+  

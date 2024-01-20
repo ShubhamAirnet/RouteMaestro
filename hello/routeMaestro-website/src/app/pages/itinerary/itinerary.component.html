@@ -1,0 +1,103 @@
+<main>
+  <p>itinerary works!</p>
+
+  <!-- fare summary for the current Itinerary  -->
+  <div
+    style="
+      display: flex;
+      justify-content: space-evenly;
+      align-items: center;
+      width: 100%;
+    "
+  >
+    <div
+      *ngIf="isCurrentFlightSetLoaded"
+      class="fare-summary"
+      style="
+        width: 50%;
+        border: 2px solid darkgray;
+        justify-content: space-evenly;
+        padding: 15px;
+        height: 200px;
+        width: 300px;
+        background-color: beige;
+        display: flex;
+        flex-direction: column;
+      "
+    >
+      <div class="flight-summary-header">
+        <h2>Fare Summary</h2>
+      </div>
+      <div class="flight-summary-stats">
+        <div
+          class="flight-summary-stats-inner"
+          style="display: flex; flex-direction: column; gap: 20px"
+        >
+          <div
+            class="flight-summary-stats-inner-flexbox total"
+            style="display: flex; justify-content: space-between"
+          >
+            <h3>Net Payable</h3>
+            <h4>₹ {{ offeredFare }} + GST</h4>
+          </div>
+          <div
+            class="flight-summary-stats-inner-flexbox published"
+            style="display: flex; justify-content: space-between"
+          >
+            <h3>Published Fare (for the end-user )</h3>
+            <h4>₹{{ publishedFare }}</h4>
+          </div>
+          <div
+            class="flight-summary-stats-inner-flexbox Offered"
+            style="display: flex; justify-content: space-between"
+          >
+            <h3>Offered Fare (for the merchant)</h3>
+            <h4>₹{{ offeredFare }}</h4>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Global Edit containing Alternate flight Sets  -->
+  <div>
+    <div *ngIf="isFlightOptionsAvailable">
+
+      <app-alternate-flight-options
+        [allFlightSets]="allFlights"
+        [currentFlightSetResultIdx]="currentFlightSetIndex"
+        (highlightedFlightSetIdxChange)="onHighlightedFlightSetIdxChange($event)"
+      >
+      </app-alternate-flight-options>
+    </div>
+
+    <button *ngIf="isCurrentFlightSetLoaded"
+      class="btn btn-dark"
+      (click)="showFlightOptions()"
+    >
+     Global Edit
+    </button>
+  </div>
+
+  <!-- flight cards for default Itinerary -->
+  <div
+    *ngFor="let flight of currentFlightSetSegmentsArray"
+    style="margin: 10px 300px; width: 100%"
+  >
+  <!-- completeFlight = all flights to reach from a->b  with all layovers   -->
+    <app-flight-card
+      [completeFlight]="flight"
+    ></app-flight-card>
+  </div>
+
+
+  <button class="btn btn-primary" (click)="multiStopSearchFlightsV2()">
+    Multi Stop Search
+  </button>
+  <button class="'btn btn-warning" (click)="authenticateFlightApi()">
+    Authenticate
+  </button>
+  <!-- <button class="'btn btn-dark"  (click)="settingAlternateFlightOptions()" >Alternate Options </button> -->
+
+  <!-- <button (click)="getDetails()" >Getting Details </button> -->
+</main>

@@ -1,0 +1,40 @@
+main{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background-color: #fff;
+    height: 100vh;
+    margin-top: 50px;
+}
+
+.login-form{
+    border: 5px solid rgb(74, 70, 134);
+    padding: 20px;
+    border-radius: 10px;
+}
+
+.input-field{
+
+    border-radius: 10px;
+    padding: 3px 10px;
+
+}
+.input-field  input {
+    border: 1px solid #0000008c;
+}
+.google-login-btn{
+    display: flex;
+    gap: 15px;
+    align-items: center;
+    justify-content: center;
+    background-color: rgb(189, 188, 186);
+    border-radius: 5px;
+    border: 1px solid #000;
+    padding: 8px;
+}
+
+.google-login-btn h3{
+    font-size: 18px;
+    margin: 0!important;
+}
