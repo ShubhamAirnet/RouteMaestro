@@ -181,6 +181,30 @@ router.get('/hotelRoomInfo',async(req,res)=>{
   }
 })
 
+// hotel static data
+router.get('/hotelStaticData',async(req,res)=>{
+  const {tokenId}=req.body;
+
+  const payload ={
+    CityId: "130443",
+  ClientId: "ApiIntegrationNew",
+  EndUserIp: "49.43.88.155",
+  TokenId: tokenId,
+  IsCompactData: "true"
+  }
+
+  try{
+    const {data}=await axios.post('http://api.tektravels.com/SharedServices/StaticData.svc/rest/GetHotelStaticData',payload)
+    console.log(data);
+    res.status(200).json({
+      data:data
+    });
+  }catch(error){
+    console.log("here is the error in last catch");
+    res.status(400).json(error);
+  }
+})
+
 
 
 module.exports = router;
