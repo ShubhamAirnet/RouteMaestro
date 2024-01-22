@@ -113,7 +113,6 @@ router.get("/topDestinations",async(req,res)=>{
 
 })
 
-router.get("/hotelInfo",async(req,res)=>{
 
 // hotel search
 router.get('/hotelSearch',async(req,res)=>{
@@ -156,12 +155,9 @@ router.get('/hotelSearch',async(req,res)=>{
 
 })
 
-  const payload={
-    
-  }
+  
 
 
-})
 
 
 module.exports = router;
