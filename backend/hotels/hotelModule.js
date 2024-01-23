@@ -155,6 +155,30 @@ router.get('/hotelSearch',async(req,res)=>{
 
 })
 
+// hotel Info data
+router.get('/hotelInfo',async(req,res)=>{
+  const {tokenId,traceId,hotelCode,resultIndex}=req.body;
+
+  const payload ={
+  
+  EndUserIp: "49.43.88.155",
+  TokenId: tokenId,
+  ResultIndex: resultIndex,
+  HotelCode: hotelCode,
+  TraceId:traceId
+  }
+
+  try{
+    const {data}=await axios.post('http://api.tektravels.com/BookingEngineService_Hotel/hotelservice.svc/rest/GetHotelInfo',payload)
+    console.log(data);
+    res.status(200).json({
+      data:data
+    });
+  }catch(error){
+    console.log("There is the error in last catch");
+    res.status(400).json(error);
+  }
+})
 
 // hotel room info
 
@@ -190,7 +214,8 @@ router.get('/hotelStaticData',async(req,res)=>{
   ClientId: "ApiIntegrationNew",
   EndUserIp: "49.43.88.155",
   TokenId: tokenId,
-  IsCompactData: "true"
+  IsCompactData: "true",
+  HotelId: "1011671",
   }
 
   try{
@@ -204,6 +229,70 @@ router.get('/hotelStaticData',async(req,res)=>{
     res.status(400).json(error);
   }
 })
+
+// hotel block room
+
+router.get('/hotelBlockRoom',async(req,res)=>{
+  const {tokenId,resultIndex,hotelCode,hotelName,guestNationality,noOfRooms,isVoucherBooking,hotelRoomsDetails,traceId}=req.body;
+  console.log(req.body)
+
+  const payload ={
+    ResultIndex: resultIndex,
+  HotelCode: hotelCode,
+  HotelName: hotelName,
+  GuestNationality: guestNationality,
+  NoOfRooms: noOfRooms,
+  
+  IsVoucherBooking: isVoucherBooking,
+  HotelRoomsDetails:hotelRoomsDetails,
+  EndUserIp: "49.43.88.155",
+  TokenId: tokenId,
+  TraceId: traceId
+  }
+
+  try{
+    const {data}=await axios.post('http://api.tektravels.com/BookingEngineService_Hotel/hotelservice.svc/rest/BlockRoom',payload)
+    console.log(data);
+    res.status(200).json({
+      data:data
+    });
+  }catch(error){
+    console.log("here is the error in last catch",error.message);
+    res.status(400).json(error);
+  }
+})
+// hotel book room
+
+router.get('/hotelBlockRoom',async(req,res)=>{
+  const {tokenId,resultIndex,hotelCode,hotelName,guestNationality,noOfRooms,isVoucherBooking,hotelRoomsDetails,traceId}=req.body;
+  console.log(req.body)
+
+  const payload ={
+    ResultIndex: resultIndex,
+  HotelCode: hotelCode,
+  HotelName: hotelName,
+  GuestNationality: guestNationality,
+  NoOfRooms: noOfRooms,
+  
+  IsVoucherBooking: isVoucherBooking,
+  HotelRoomsDetails:hotelRoomsDetails,
+  EndUserIp: "49.43.88.155",
+  TokenId: tokenId,
+  TraceId: traceId
+  }
+
+  try{
+    const {data}=await axios.post('http://api.tektravels.com/BookingEngineService_Hotel/hotelservice.svc/rest/Book',payload)
+    console.log(data);
+    res.status(200).json({
+      data:data
+    });
+  }catch(error){
+    console.log("here is the error in last catch",error.message);
+    res.status(400).json(error);
+  }
+})
+
 
 
 
