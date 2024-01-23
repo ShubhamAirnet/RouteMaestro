@@ -155,11 +155,6 @@ router.get('/hotelSearch',async(req,res)=>{
 
 })
 
-  
-
-
-
-
 // hotel room info
 
 router.get('/hotelRoomInfo',async(req,res)=>{
@@ -184,6 +179,9 @@ router.get('/hotelRoomInfo',async(req,res)=>{
     res.status(400).json(error);
   }
 })
+
+
+            
 
 // hotel static data
 router.get('/hotelStaticData',async(req,res)=>{
