@@ -8,7 +8,7 @@ router.get("/authenticate", async (req, res) => {
     ClientId: "ApiIntegrationNew",
     UserName: "Airnet",
     Password: " Airnet@1234",
-    EndUserIp: "49.43.88.177",
+    EndUserIp: "49.43.88.155",
   };
 
   try {
