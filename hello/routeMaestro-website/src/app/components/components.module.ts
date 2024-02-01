@@ -10,14 +10,22 @@ import { FlightDetailsComponent } from './flight-details/flight-details.componen
 import { FlightSetCardComponent } from './flight-set-card/flight-set-card.component';
 import { AlternateFlightOptionsComponent } from './alternate-flight-options/alternate-flight-options.component';
 import { AdminNavbarComponent } from './admin-navbar/admin-navbar.component';
+
+import { HotelCardsComponent } from './hotel-cards/hotel-cards.component';
+import { TravellerCardComponent } from './traveller-card/traveller-card.component';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+
 import { HotelInfoComponent } from './hotel-info/hotel-info.component';
 import { CityScheduleComponent } from './city-schedule/city-schedule.component';
+
 
 @NgModule({
   imports: [
     CommonModule,
     RouterModule,
-    NgbModule
+    NgbModule,
+    FormsModule,
+    ReactiveFormsModule
   ],
   declarations: [
     FooterComponent,
@@ -28,8 +36,13 @@ import { CityScheduleComponent } from './city-schedule/city-schedule.component';
     FlightSetCardComponent,
     AlternateFlightOptionsComponent,
     AdminNavbarComponent,
+
+    HotelCardsComponent,
+    TravellerCardComponent,
+
     HotelInfoComponent,
     CityScheduleComponent,
+
   ],
   exports: [
     FooterComponent,
@@ -40,8 +53,13 @@ import { CityScheduleComponent } from './city-schedule/city-schedule.component';
     FlightSetCardComponent,
     AlternateFlightOptionsComponent,
     AdminNavbarComponent,
+
+    HotelCardsComponent,
+    TravellerCardComponent
+
     HotelInfoComponent,
     CityScheduleComponent,
+
   ]
 })
 export class ComponentsModule { }

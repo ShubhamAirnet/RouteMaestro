@@ -3,6 +3,9 @@ const router = express.Router();
 const db = require("../firebaseConfig");
 const axios = require("axios");
 
+let hotelData=[]
+let i=0;
+
 router.get("/authenticate", async (req, res) => {
   const payload = {
     ClientId: "ApiIntegrationNew",
@@ -114,29 +117,161 @@ router.get("/topDestinations",async(req,res)=>{
 })
 
 
-// hotel search
-router.get('/hotelSearch',async(req,res)=>{
-  const {tokenId}=req.body;
+router.post('/getIternary', async (req, res) => {
+  hotelData=[];
+      i=0;
+  try {
+    const itineraryRef = db.collection("Demo_Itinerary").doc('updated_Itinerary');
+    const itinerary = await itineraryRef.get();
+    const resultCount=req.body.resultCount;
+    
+
+    if (itinerary.exists) {
+      const cities = itinerary.data().cities;
+      const trip = itinerary.data().trip;
+      const NoOfRooms = trip.RoomGuests.length;
+    
+          // Use Promise.all to wait for all asynchronous operations to complete
+      await Promise.all(cities.map(async (city) => {
+        i++;
+        console.log(i);
+        await getHotelSearchData(city, NoOfRooms, resultCount, trip.RoomGuests);
+      }));
+    
+
+      return res.status(200).json({ success: true, message: 'Data fetched successfully', data: hotelData, count: i });
+    }
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ success: false, message: 'Something went wrong' });
+  }
+});
+
+
+
+
+async function getHotelSearchData(city, NoOfRooms, resultCount, RoomGuests) {
 
   const payload = {
     EndUserIp:"49.43.88.155",
-    TokenId:tokenId,
-    CheckInDate:"22/01/2024",
-    NoOfNights:2,
-    CountryCode:"IN",
-    CityId:125928,
-    IsTBOMapped:"false",
-    Radius:"5",
+    TokenId:"93f7a941-4602-4533-83ad-59a57fbfb23a",
+    CheckInDate: city.checkInDate,
+    NoOfNights: city.noOfNights,
+    CountryCode:city.countryCode,
+    CityId: city.cityId,
     PreferredCurrency:"INR",
     GuestNationality:"IN",
-    NoOfRooms:1,
-    RoomGuests:[{
-        NoOfAdults:2,
-        NoOfChild:0
-    }],
-    MaxRating:4,
-    MinRating:1,
+    NoOfRooms: NoOfRooms,
+    RoomGuests:RoomGuests,
+    MaxRating:5,
+    MinRating:3,
+    ResultCount:resultCount
   };
+  try {
+    const { data } = await axios.post("http://api.tektravels.com/BookingEngineService_Hotel/hotelservice.svc/rest/GetHotelResult/", payload);
+
+    // console.log('data1',data);
+
+    const hotelSearchData = data.HotelSearchResult;
+    hotelSearchData.CityName = city.cityName;
+
+    const cityData=await getAllData(hotelSearchData,city)
+    // Return hotelSearchData as an array
+    hotelData.push(cityData);
+    
+    console.log('hotelData ',hotelData)
+    return hotelData;
+  } catch (error) {
+    console.log(error);
+    // Return an empty array or handle the error as needed
+    return [];
+  }
+}
+
+
+
+async function getAllData(hotelSearchData,city) {
+  
+  let cityData = {};
+  let response=[];
+
+  if (hotelSearchData.HotelResults) {
+  await Promise.all(hotelSearchData.HotelResults.map(async (item) => {
+    const infoPromise = getHotelInfoData(item.ResultIndex, item.HotelCode, hotelSearchData.TraceId);
+    const roomPromise = getHotelRoomInfoData(item.ResultIndex, item.HotelCode, hotelSearchData.TraceId);
+
+    const [info, room] = await Promise.all([infoPromise, roomPromise]);
+
+    response.push({ search: item, info: info, room: room });
+  }));
+}
+  cityData["cityName"]=city.cityName;
+  cityData["Response"]=response;
+  if (hotelSearchData.HotelResults && hotelSearchData.HotelResults.length > 0) {
+    cityData["ResultIndex"] = hotelSearchData.HotelResults[0].ResultIndex;
+  }
+
+  return cityData;
+
+}
+
+
+async function getHotelInfoData(resultIndex,hotelCode,traceId){
+  const payload ={
+  
+    EndUserIp: "49.43.88.155",
+    TokenId: "93f7a941-4602-4533-83ad-59a57fbfb23a",
+    ResultIndex: resultIndex,
+    HotelCode: hotelCode,
+    TraceId:traceId
+    }
+  try{
+    const {data}=await axios.post('http://api.tektravels.com/BookingEngineService_Hotel/hotelservice.svc/rest/GetHotelInfo',payload);
+    return data;
+
+  }catch(error){
+    console.log(error)
+  }
+}
+async function getHotelRoomInfoData(resultIndex,hotelCode,traceId){
+  const payload ={
+  
+    EndUserIp: "49.43.88.155",
+    TokenId: "93f7a941-4602-4533-83ad-59a57fbfb23a",
+    ResultIndex: resultIndex,
+    HotelCode: hotelCode,
+    TraceId:traceId
+    }
+  try{
+    const {data}=await axios.post('http://api.tektravels.com/BookingEngineService_Hotel/hotelservice.svc/rest/GetHotelRoom',payload);
+    return data;
+
+  }catch(error){
+    console.log(error)
+  }
+}
+
+
+// hotel search
+router.post('/hotelSearch',async(req,res)=>{
+  
+
+  const payload = {
+    EndUserIp:"49.43.88.155",
+    TokenId:req.body.tokenId,
+    CheckInDate:req.body.checkInDate,
+    NoOfNights:req.body.noOfNights,
+    CountryCode:req.body.countryCode,
+    CityId:req.body.cityId,
+    PreferredCurrency:"INR",
+    GuestNationality:"IN",
+    NoOfRooms:req.body.noOfRooms,
+    RoomGuests:req.body.RoomGuests,
+    MaxRating:5,
+    MinRating:3,
+    ResultCount:req.body.resultCount
+  };
+  console.log(payload)
 
   try {
     const { data } = await axios.post(
@@ -156,7 +291,7 @@ router.get('/hotelSearch',async(req,res)=>{
 })
 
 // hotel Info data
-router.get('/hotelInfo',async(req,res)=>{
+router.post('/hotelInfo',async(req,res)=>{
   const {tokenId,traceId,hotelCode,resultIndex}=req.body;
 
   const payload ={
@@ -182,7 +317,7 @@ router.get('/hotelInfo',async(req,res)=>{
 
 // hotel room info
 
-router.get('/hotelRoomInfo',async(req,res)=>{
+router.post('/hotelRoomInfo',async(req,res)=>{
   const {tokenId,traceId,resultIndex,hotelCode}=req.body;
 
   const payload ={
@@ -241,16 +376,16 @@ router.get('/hotelBlockRoom',async(req,res)=>{
 
   const payload ={
     ResultIndex: resultIndex,
-  HotelCode: hotelCode,
-  HotelName: hotelName,
-  GuestNationality: guestNationality,
-  NoOfRooms: noOfRooms,
-  
-  IsVoucherBooking: isVoucherBooking,
-  HotelRoomsDetails:hotelRoomsDetails,
-  EndUserIp: "49.43.88.155",
-  TokenId: tokenId,
-  TraceId: traceId
+    HotelCode: hotelCode,
+    HotelName: hotelName,
+    GuestNationality: guestNationality,
+    NoOfRooms: noOfRooms,
+    
+    IsVoucherBooking: isVoucherBooking,
+    HotelRoomsDetails:hotelRoomsDetails,
+    EndUserIp: "49.43.88.155",
+    TokenId: tokenId,
+    TraceId: traceId
   }
 
   try{
@@ -264,9 +399,10 @@ router.get('/hotelBlockRoom',async(req,res)=>{
     res.status(400).json(error);
   }
 })
+
 // hotel book room
 
-router.get('/hotelBlockRoom',async(req,res)=>{
+router.get('/hotelBookRoom',async(req,res)=>{
   const {tokenId,resultIndex,hotelCode,hotelName,guestNationality,noOfRooms,isVoucherBooking,hotelRoomsDetails,traceId}=req.body;
   console.log(req.body)
 
@@ -276,7 +412,7 @@ router.get('/hotelBlockRoom',async(req,res)=>{
   HotelName: hotelName,
   GuestNationality: guestNationality,
   NoOfRooms: noOfRooms,
-  
+  Ispackagefare:true,
   IsVoucherBooking: isVoucherBooking,
   HotelRoomsDetails:hotelRoomsDetails,
   EndUserIp: "49.43.88.155",
@@ -293,6 +429,26 @@ router.get('/hotelBlockRoom',async(req,res)=>{
   }catch(error){
     console.log("here is the error in last catch",error.message);
     res.status(400).json(error);
+  }
+})
+
+// get voucher 
+router.get('/getVoucher',async(req,res)=>{
+
+  const {tokenId,bookingId}=req.body;
+  const payload={
+    TokenId:tokenId,
+    BookingId:bookingId,
+    EndUserIp:"49.43.88.155"
+  }
+
+  try{
+    const {data}=await axios.post('http://api.tektravels.com/BookingEngineService_Hotel/hotelservice.svc/rest/GenerateVoucher',payload);
+    console.log(data)
+    return res.status(200).send({
+      data:data})
+  }catch(error){
+    console.log(error);
   }
 })
 

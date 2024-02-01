@@ -30,7 +30,7 @@ import { ContactUsComponent } from './pages/contact-us/contact-us.component';
 import { PricingComponent } from './pages/pricing/pricing.component';
 import { HomeComponent } from './pages/home/home.component';
 import { FaqComponent } from './components/faq/faq.component';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
 import { ItineraryComponent } from './pages/itinerary/itinerary.component';
 import { NgxSpinner, NgxSpinnerModule } from 'ngx-spinner';
@@ -40,6 +40,7 @@ import { MerchantComponent } from './pages/merchant/merchant.component';
 import { SuccessComponent } from './pages/success/success.component';
 import { UserListComponent } from './pages/user-list/user-list.component';
 import { UserViewComponent } from './pages/user-view/user-view.component';
+import { PackageCheckoutComponent } from './pages/package-checkout/package-checkout.component';
 
 
 
@@ -53,6 +54,7 @@ import { UserViewComponent } from './pages/user-view/user-view.component';
     HttpClientModule,
     MatSnackBarModule,
     FormsModule,
+    ReactiveFormsModule,
     // NgOtpInputModule,
     NgxSpinnerModule,
     ComponentsModule,
@@ -86,6 +88,7 @@ import { UserViewComponent } from './pages/user-view/user-view.component';
     SuccessComponent,
     UserListComponent,
     UserViewComponent,
+    PackageCheckoutComponent,
     
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA], 
