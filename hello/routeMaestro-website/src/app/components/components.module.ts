@@ -10,12 +10,17 @@ import { FlightDetailsComponent } from './flight-details/flight-details.componen
 import { FlightSetCardComponent } from './flight-set-card/flight-set-card.component';
 import { AlternateFlightOptionsComponent } from './alternate-flight-options/alternate-flight-options.component';
 import { AdminNavbarComponent } from './admin-navbar/admin-navbar.component';
+import { HotelCardsComponent } from './hotel-cards/hotel-cards.component';
+import { TravellerCardComponent } from './traveller-card/traveller-card.component';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
   imports: [
     CommonModule,
     RouterModule,
-    NgbModule
+    NgbModule,
+    FormsModule,
+    ReactiveFormsModule
   ],
   declarations: [
     FooterComponent,
@@ -26,6 +31,8 @@ import { AdminNavbarComponent } from './admin-navbar/admin-navbar.component';
     FlightSetCardComponent,
     AlternateFlightOptionsComponent,
     AdminNavbarComponent,
+    HotelCardsComponent,
+    TravellerCardComponent,
   ],
   exports: [
     FooterComponent,
@@ -35,7 +42,9 @@ import { AdminNavbarComponent } from './admin-navbar/admin-navbar.component';
     FlightDetailsComponent,
     FlightSetCardComponent,
     AlternateFlightOptionsComponent,
-    AdminNavbarComponent
+    AdminNavbarComponent,
+    HotelCardsComponent,
+    TravellerCardComponent
   ]
 })
 export class ComponentsModule { }

@@ -1,0 +1,265 @@
+<app-traveller-card *ngIf="dialog" (closeDialog)="dialogbox()" [dialog]="dialog"  style="width: 100%;"></app-traveller-card>
+<body>
+    
+    <div class="headers">
+        <div style="display: flex; gap: 20px;">
+        <h1>4Days/5Nights</h1>
+        <h1>Dubai,</h1>
+        <h1>Abu Dhabhi</h1>
+        <h1>Package</h1>
+        </div>
+        <button class="btns"><span class="span">See Package</span></button>
+       
+
+    </div>
+
+    <div class="main-containers">
+        <div style="width: 100%;">
+        <div class="sub-headers">
+            <p>Day Wise Iternary</p>
+            <p>-</p>
+            <p>Flights</p>
+            <p>-</p>
+            <p>Accomodations</p>
+            <p>-</p>
+            <p>Get-payment</p>
+        </div>
+    
+        <div class="containers" id="dynamicContainer">
+            <div class="titles">
+                Traveller Details
+            </div>
+    
+            <div class="boxes">
+                <div style="width: 100%; display: flex; justify-content: flex-start; align-items: center; border-bottom: 1px solid white;  gap: 5px;">
+                    <h2 style="color: white; padding-left: 10px; margin-top: 5px;">{{NoOfAdults+NoOfChild}} Traveller - </h2>
+                    <span style="color: white; padding-left: 10px;"> {{NoOfRooms}} Rooms | {{NoOfAdults}} Adult {{NoOfChild}} Child</span>
+                </div>
+                <ng-container *ngIf="!Travellers">
+                    <ng-container *ngFor="let star of getArray(NoOfAdults+NoOfChild); let i=index;">
+                        <div class="box1">
+                            <div style="width: 200px;">
+                                <small>Traveller {{i+1}}</small>
+                                <a class="p" (click)="dialogbox()">Add Traveller </a>
+                            </div>
+                            <!-- <small style="font-size: 0.7rem;">* Adult age should be more than 18 </small> -->
+                        </div>
+                    </ng-container>
+                </ng-container>
+                <ng-container *ngIf="Travellers">
+                    <ng-container *ngFor="let star of getArray(2); let i=index;">
+                        <div class="box1">
+                            <div style="width: 200px;">
+                                <small>Traveller {{i+1}}</small>
+                                <a class="p" (click)="dialogbox()">Add Traveller </a>
+                            </div>
+                            <!-- <small style="font-size: 0.7rem;">* Adult age should be more than 18 </small> -->
+                        </div>
+                    </ng-container>
+                </ng-container>
+                
+                
+            </div>
+    
+            <ng-container *ngIf="Travellers">
+                <div class="btn-containers">
+                    <button class="btns" (click)="addBox()"><span style="color: white; font-weight: 600;">See more</span></button>
+                </div>
+            </ng-container>
+            <ng-container *ngIf="!Travellers">
+                <div class="btn-containers">
+                    <button class="btns" (click)="addBox()"><span style="color: white; font-weight: 600;">See less</span></button>
+                </div>
+            </ng-container>
+        </div>
+        <form [formGroup]="contactForm" (ngSubmit)="submit()">
+            <div class="primary-details">
+              <h2 style="width: 100%; display: flex; justify-content: center; align-items: center; padding-bottom: 10px;">
+                Primary Contact Details
+              </h2>
+              <div class="details">
+                <div>
+                  <label>Name</label>
+                  <input type="text" formControlName="name" placeholder="eg. JohnDoe" />
+                </div>
+                <div>
+                  <label>Phone</label>
+                  <input type="text" formControlName="phone" placeholder="eg. 8766876878" />
+                </div>
+                <div>
+                  <label>Email</label>
+                  <input type="email" formControlName="email" placeholder="eg. JohnDoe@gmail.com" />
+                </div>
+                <div>
+                  <label>Address</label>
+                  <input type="text" formControlName="address" placeholder="eg. Ludhiana" />
+                </div>
+              </div>
+              <div class="payee-details">
+                <h2 style="width: 100%; display: flex; justify-content: center; align-items: center; padding-bottom: 10px; padding-top: 10px;">
+                  Payee Details
+                </h2>
+                <div class="details">
+                  <div>
+                    <label>GST</label>
+                    <input type="text" formControlName="gst" />
+                  </div>
+                  <div>
+                    <label>PAN</label>
+                    <input type="text" formControlName="pan" placeholder="eg. CHJPCK7865H" />
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- Add your form submission button or any other controls here -->
+            <div class="btnss" style="justify-content: center;">
+                <button type="submit" style="height: 40px; width: 100px; display: flex; justify-content: center;"><span>Submit</span></button>
+            </div>
+          </form>
+          
+
+        <div class="terms">
+            <h2 id="termsHeader" (click)="toggleTerms()">
+              Terms & Conditions
+              <div id="arrowDown" class="v-arrow"></div>
+              <div id="arrowUp" class="v-arrow-up arrow-hidden"></div>
+            </h2>
+        
+            <div class="terms-details">
+              <div>
+                <input type="checkbox"/>
+                <span>By Clicking the above checkbox, I accept the <a href="" target="_blank">T&C</a></span>
+              </div>
+              <div>
+                <input type="checkbox"/>
+                <span>By Clicking the above checkbox, I accept the <a href="" target="_blank">T&C</a></span>
+              </div>
+              <div>
+                <input type="checkbox"/>
+                <span>By Clicking the above checkbox, I accept the <a href="" target="_blank">T&C</a></span>
+              </div>
+              <div>
+                <input type="checkbox"/>
+                <span>By Clicking the above checkbox, I accept the <a href="" target="_blank">T&C</a></span>
+              </div>
+            </div>
+          </div>
+
+        <div class="btnss">
+            <button><span>Get Payment Link</span></button>
+            <button><span>Pay Now</span></button>
+        </div>
+        </div>
+
+        <div class="sidebars">
+            <div style="width: 100%; height: 300px; border: 1px solid white; border-radius: 20px; background-color: #03254A;">
+                <div class="first">
+                    <div class="person">
+                        <small>Price for 1 person</small>
+                        <small>₹ 1678900</small>
+                    </div>
+                    <button style="background-color: #e24729;"><span style="color: white; font-weight: 600;">Book Now</span></button>
+                </div>
+    
+                <div class="second">
+                    <div class="price-details">
+                        <div style="width: 120px;">
+                            <small>Hotel Cost</small>
+                        </div>
+                        
+                        <div style="width: fit-content;">
+                            <small>₹ 178888</small>
+                        </div>
+                    </div>
+                    <div class="price-details">
+                        <div style="width: 120px;">
+                            <small>Flight Cost</small>
+                        </div>
+                        
+                        <div style="width: fit-content;">
+                            <small>₹ 178888</small>
+                        </div>
+                    </div>
+                    <div class="price-details">
+                        <div style="width: 120px;">
+                            <small>Merchant Share</small>
+                        </div>
+                        
+                        <div style="width: fit-content;">
+                            <small>₹ 178888</small>
+                        </div>
+                    </div>
+                    <div class="price-details">
+                        <div style="width: 120px;">
+                            <small>Taxes</small>
+                        </div>
+                        
+                        <div style="width: fit-content;">
+                            <small>₹ 178888</small>
+                        </div>
+                    </div>
+                   
+                </div>
+    
+                <div class="third">
+                    <div class="total">
+                        <div style="width: 140px;">
+                            <p>Payable Amount</p>
+                        </div>
+                        <div style="width: fit-content;">
+                            <p>₹ 789989</p>
+                        </div>
+                    </div>
+                </div>
+    
+                <div class="fourth">
+                    <div style="width: 33.33%; display: flex; justify-content: center; align-items: center;" class="options">
+                        <small style="width: 100%; display: flex; justify-content: center; align-items: center; padding-left: 15px
+                        ;">Request Call Back</small>
+                    </div>
+                    <div style="width: 33.33%;" class="options">
+                        <small>Cancellation</small>
+                    </div>
+                    <div style="width: 33.33%;" class="options">
+                        <small>Mail this Bill</small>
+                    </div>
+                </div>
+
+            </div>
+
+            <div style="width: 100%; ">
+                <div class="route">
+                    <h3 style="padding-bottom:20px ;">Route Overview</h3>
+                    <div class="path">
+                        <span style="font-weight:600 ;">Delhi</span>
+                        <div class="big-dot">•</div>
+                        <div class="vertical-line"></div>
+                        <i class="fa-solid fa-plane plane-icon"></i>
+                        <div class="vertical-line"></div>
+                        <div class="big-dot">•</div>
+                        <span style="font-weight:600 ;">Dubai</span>
+                        <div class="big-dot">•</div>
+                        <div class="vertical-line"></div>
+                        <i class="fa-solid fa-car car-icon"></i>
+                        <div class="vertical-line"></div>
+                        <div class="big-dot">•</div>
+                        <span style="font-weight:600 ;">Abu Dhabhi</span>
+                        <div class="big-dot">•</div>
+                        <div class="vertical-line"></div>
+                        <i class="fa-solid fa-plane plane-icon"></i>
+                        <div class="vertical-line"></div>
+                        <div class="big-dot">•</div>
+                        <span style="font-weight:600 ;">Delhi</span>
+                    </div>
+
+                </div>
+
+            </div>
+            
+            
+        </div>
+
+    </div>
+    
+    
+</body>

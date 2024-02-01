@@ -26,6 +26,7 @@ import { AddUserComponent } from './pages/add-user/add-user.component';
 import { MerchantComponent } from './pages/merchant/merchant.component';
 import { UserViewComponent } from './pages/user-view/user-view.component';
 import { SuccessComponent } from './pages/success/success.component';
+import { PackageCheckoutComponent } from './pages/package-checkout/package-checkout.component';
 
 const routes: Routes = [
   {
@@ -71,6 +72,7 @@ const routes: Routes = [
   {path:"merchant" , component:MerchantComponent},
   {path:"user-view/:id" , component:UserViewComponent},
   {path:"success/:id" , component:SuccessComponent},
+  {path:"package-checkout" , component:PackageCheckoutComponent},
   {
     path: '**',
     redirectTo: 'home'
