@@ -10,6 +10,8 @@ import { FlightDetailsComponent } from './flight-details/flight-details.componen
 import { FlightSetCardComponent } from './flight-set-card/flight-set-card.component';
 import { AlternateFlightOptionsComponent } from './alternate-flight-options/alternate-flight-options.component';
 import { AdminNavbarComponent } from './admin-navbar/admin-navbar.component';
+import { HotelInfoComponent } from './hotel-info/hotel-info.component';
+import { CityScheduleComponent } from './city-schedule/city-schedule.component';
 
 @NgModule({
   imports: [
@@ -26,6 +28,8 @@ import { AdminNavbarComponent } from './admin-navbar/admin-navbar.component';
     FlightSetCardComponent,
     AlternateFlightOptionsComponent,
     AdminNavbarComponent,
+    HotelInfoComponent,
+    CityScheduleComponent,
   ],
   exports: [
     FooterComponent,
@@ -35,7 +39,9 @@ import { AdminNavbarComponent } from './admin-navbar/admin-navbar.component';
     FlightDetailsComponent,
     FlightSetCardComponent,
     AlternateFlightOptionsComponent,
-    AdminNavbarComponent
+    AdminNavbarComponent,
+    HotelInfoComponent,
+    CityScheduleComponent,
   ]
 })
 export class ComponentsModule { }

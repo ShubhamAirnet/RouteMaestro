@@ -31,9 +31,6 @@ export class ItineraryComponent implements OnInit {
 
 
 
-
-
-
   // // powerSet which contains all the similar kinda flightSets
   // currentFlightPowerSetArray = [];
   // currentFlightPowerSetKey: string;
@@ -72,7 +69,10 @@ export class ItineraryComponent implements OnInit {
     return;
   }
 
-
+  // isHotelInfo=false;
+  // toShowHotelInfo(value:string){
+  //     this.isHotelInfo=!this.isHotelInfo;
+  // }
 
   constructor(private flightApiService: FlightsService) {}
 

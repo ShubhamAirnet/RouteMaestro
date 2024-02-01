@@ -1,0 +1,215 @@
+<!-- whole card for a city -->
+<div
+  style="
+    width: 53%;
+    background-color: #fff;
+    border: 1px solid grey;
+    border-radius: 20px;
+  "
+>
+  <!-- cit heading strip -->
+  <div
+    style="
+      border-radius: 20px 20px 0 0;
+      border-bottom: 2px solid #000;
+      height: 34px;
+      width: 100%;
+      background-color: #2f3268;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      color: #fff;
+    "
+  >
+    <h2
+      style="
+        margin: 0;
+        margin-left: 10px;
+        font-size: 19px;
+        color: #fff;
+        text-align: center;
+      "
+    >
+      10 Days in Dubai
+    </h2>
+  </div>
+
+  <!-- city body -->
+  <div
+    style="
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 20px;
+      border-radius: 0 0 20px 20px;
+    "
+  >
+    <!-- particular property itinerary -->
+    <div
+      style="
+        width: 100%;
+        background-color: white;
+
+        border-radius: 20px;
+      "
+    >
+      <!-- heading for the property -->
+      <div
+        style="
+          border-radius: 8px;
+          height: 34px;
+          width: 100%;
+          display: flex;
+          align-items: center;
+          position: relative;
+        "
+      >
+        <h1
+          style="
+            margin: 0;
+            margin-left: 20px;
+            font-size: 18px;
+            position: absolute;
+            left: 241px;
+            font-weight: 700;
+            color: #ff4040;
+          "
+        >
+          3 Nights @  <span style="text-decoration: underline;" > JW Marriott </span> 
+        </h1>
+
+        <!-- butttons -->
+        <div style="display: flex;
+        gap: 10px;
+        position: absolute;
+        right: 5px;">
+          
+          <button
+            style="
+                    background-color: rgba(228, 228, 228, 0.658);
+    color: #000;
+    border: 1px solid #000;
+    border-radius: 4px;
+    /* padding: 3px 8px; */
+    font-size: 12px;
+    height: 21px;
+            "
+            (click)="showHotelInfo()"
+          >
+            Choose Rooms
+          </button>
+        </div>
+
+      </div>
+
+      <!-- itinerary when staying in particular property -->
+      <div>
+        <!-- row 1 -->
+        <div
+          style="
+            height: 65px;
+            width: 100%;
+            display: flex;
+            border-top: 1px solid grey;
+            border-bottom: 1px solid grey;
+          "
+        >
+          <!-- date -->
+          <div
+            style="
+              display: flex;
+              align-items: center;
+              width: 20%;
+              height: 100%;
+              justify-content: center;
+              border-right: 1px solid grey;
+            "
+          >
+            <h2 style="margin: 0; font-size: 20px; color: #ff4040">15Jan</h2>
+          </div>
+
+          <!-- morning -->
+          <div
+            style="
+              width: 20%;
+              display: flex;
+              flex-direction: column;
+              height: 100%;
+              align-items: center;
+              justify-content: space-evenly;
+              border-right: 2px solid #000;
+              border-right: 1px solid grey;
+            "
+          >
+            <h2 style="margin: 0; font-size: 17px; color: #ff4040">Morning</h2>
+            <p style="margin: 0; font-weight: 600; font-size: 15px">
+              Thing to Do
+            </p>
+          </div>
+
+          <!-- afternoon -->
+          <div
+            style="
+              width: 20%;
+              display: flex;
+              flex-direction: column;
+              height: 100%;
+              align-items: center;
+              justify-content: space-evenly;
+              border-right: 2px solid #000;
+              border-right: 1px solid grey;
+            "
+          >
+            <h2 style="margin: 0; font-size: 17px; color: #ff4040">Morning</h2>
+            <p style="margin: 0; font-weight: 600; font-size: 15px">
+              Thing to Do
+            </p>
+          </div>
+
+          <!-- evening -->
+          <div
+            style="
+              width: 20%;
+              display: flex;
+              flex-direction: column;
+              height: 100%;
+              align-items: center;
+              justify-content: space-evenly;
+              border-right: 2px solid #000;
+              border-right: 1px solid grey;
+            "
+          >
+            <h2 style="margin: 0; font-size: 17px; color: #ff4040">Morning</h2>
+            <p style="margin: 0; font-weight: 600; font-size: 15px">
+              Thing to Do
+            </p>
+          </div>
+
+          <!-- night -->
+          <div
+            style="
+              width: 20%;
+              display: flex;
+              flex-direction: column;
+              height: 100%;
+              align-items: center;
+              justify-content: space-evenly;
+              border-right: 2px solid #000;
+              border-right: 1px solid grey;
+            "
+          >
+            <h2 style="margin: 0; font-size: 17px; color: #ff4040">Morning</h2>
+            <p style="margin: 0; font-weight: 600; font-size: 15px">
+              Thing to Do
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div *ngIf="isHotelInfo">
+  <app-hotel-info></app-hotel-info>
+</div>
