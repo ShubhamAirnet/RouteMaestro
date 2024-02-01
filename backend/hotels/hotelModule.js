@@ -340,6 +340,9 @@ router.post('/hotelRoomInfo',async(req,res)=>{
   }
 })
 
+
+            
+
 // hotel static data
 router.get('/hotelStaticData',async(req,res)=>{
   const {tokenId}=req.body;

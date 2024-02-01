@@ -1,0 +1,1132 @@
+<div class="modal" [ngClass]="{ open: isOpen }">
+  <div class="modal-overlay" (click)="closeModal()"></div>
+
+  <div class="modal-content">
+    <div class="modal-header">
+      <h2>Hotel Info</h2>
+      <span class="close" (click)="closeModal()">&times;</span>
+    </div>
+
+    <div class="modal-body" style="display: flex">
+      <main style="margin: 10px 15px; box-sizing: border-box; overflow-y: auto">
+        <!-- navbar -->
+        <section
+          style="
+            /* height: 60px; */
+            /* background-color: rgb(255, 255, 255); */
+            margin-bottom: 5px;
+            /* box-shadow: 6px 6px 10px 0 grey; */
+            position: fixed;
+            /* top: 0px; */
+            width: 1125px;
+            /* border: 1px solid red; */
+          "
+        >
+          <div
+            style="
+              display: flex;
+              border: 2px solid rgb(10, 110, 224);
+              justify-content: space-evenly;
+              align-items: center;
+              height: 52px;
+              background-color: rgb(218, 241, 250);
+              border-radius: 4px 4px 4px 4px;
+              box-shadow: 4px 4px 10px 0 grey;
+            "
+          >
+            <h2> <a (click)="scrollToSection('overview')" style="cursor: pointer;" >Overview</a></h2>
+            <h2><a (click)="scrollToSection('rooms')" style="cursor: pointer;" >Rooms</a></h2>
+            <h2><a (click)="scrollToSection('description')" style="cursor: pointer;" >Description</a></h2>
+            <h2><a (click)="scrollToSection('location')" style="cursor: pointer;" >Location</a></h2>
+            <h2><a (click)="scrollToSection('hotelPolicies')" style="cursor: pointer;" >Hotel Policy</a></h2>
+          </div>
+        </section>
+
+      <section style="height: 95%; width: 100%;">
+
+
+        <!-- overview -->
+        <section id="overview"
+          style="
+            margin: 72px 10px 0 10px;
+            /* padding: 10px; */
+            display: flex;
+            /* gap: 7px; */
+            background-color: rgb(243 245 245);
+            height: 50vh;
+            width: 98%;
+            box-sizing: border-box;
+            box-shadow: 6px 6px 10px 0 grey, -1px -1px 10px 0 grey;
+            border-radius: 20px;
+            padding: 5px;
+          "
+        >
+          <!-- images section -->
+          <section
+            style="
+              width: 42%;
+              height: 100%;
+              /* border: 1px solid #000; */
+              /* box-shadow: 5px 5px 10px 0 grey; */
+              box-sizing: border-box;
+              padding: 2px;
+            "
+          >
+            <div style="height: 100%; display: flex; flex-direction: column">
+              <!-- img 1 -->
+              <div style="width: 100%; height: 45%">
+                <img
+                  src="https://a0.muscache.com/im/pictures/miso/Hosting-698346642348031619/original/ef7f90aa-7f76-4a16-8d8e-cd8aae07bcb0.jpeg?im_w=960"
+                  alt=""
+                  style="height: 100%; width: 100%; border-radius: 8px"
+                />
+              </div>
+
+              <div
+                style="
+                  display: flex;
+                  width: 100%;
+                  height: 55%;
+                  flex-direction: column;
+                  align-items: center;
+                  justify-content: center;
+                "
+              >
+                <!-- row 1 -->
+                <div style="display: flex; width: 100%; height: 100%">
+                  <!-- img 2 -->
+                  <div style="width: 50%; margin: 5px 2px 2px 2px">
+                    <img
+                      src="https://a0.muscache.com/im/pictures/miso/Hosting-698346642348031619/original/ef7f90aa-7f76-4a16-8d8e-cd8aae07bcb0.jpeg?im_w=960"
+                      alt=""
+                      style="height: 100%; width: 100%; border-radius: 8px"
+                    />
+                  </div>
+
+                  <!-- img 3 -->
+                  <div style="width: 50%; margin: 5px 2px 2px 2px">
+                    <img
+                      src="https://a0.muscache.com/im/pictures/miso/Hosting-698346642348031619/original/ef7f90aa-7f76-4a16-8d8e-cd8aae07bcb0.jpeg?im_w=960"
+                      alt=""
+                      style="height: 100%; width: 100%; border-radius: 8px"
+                    />
+                  </div>
+                </div>
+
+                <!-- row 2 -->
+                <!-- <div style="display: flex; width: 100%; height: 50%">
+                        img 4
+                        <div style="width: 50%; margin: 2px 2px 5px 2px">
+                          <img
+                            src="https://a0.muscache.com/im/pictures/miso/Hosting-698346642348031619/original/ef7f90aa-7f76-4a16-8d8e-cd8aae07bcb0.jpeg?im_w=960"
+                            alt=""
+                            style="height: 100%; width: 100%"
+                          />
+                        </div>
+        
+                        img 5
+                        <div style="width: 50%; margin: 2px 2px 5px 2px">
+                          <img
+                            src="https://a0.muscache.com/im/pictures/miso/Hosting-698346642348031619/original/ef7f90aa-7f76-4a16-8d8e-cd8aae07bcb0.jpeg?im_w=960"
+                            alt=""
+                            style="height: 100%; width: 100%"
+                          />
+                        </div>
+                      </div> -->
+              </div>
+            </div>
+          </section>
+
+          <section
+            style="
+              width: 58%;
+              height: 100%;
+              /* border: 2px solid blue; */
+              box-sizing: border-box;
+              padding: 15px 45px;
+              /* margin-left: 15px; */
+            "
+          >
+            <div style="height: 100%">
+              <!-- first section -->
+
+              <!-- hotel name and start rating  -->
+              <div
+                style="
+                  display: flex;
+                  /* border: 1px solid #000; */
+                  align-items: center;
+                  justify-content: flex-start;
+                  gap: 20px;
+                  height: 40px;
+                "
+              >
+                <div style="display: flex; align-items: center">
+                  <h1 style="font-size: 35px">Rosa Grand Milano</h1>
+                </div>
+                <div style="display: flex; align-items: center">
+                  <p style="font-size: 25px">★★★</p>
+                </div>
+              </div>
+
+              <!-- minor description -->
+              <div style="display: flex; align-items: center; margin: 10px 2px">
+                <p style="font-size: 17px; margin: 0">
+                  Art Deco hotel connected to the convention centre in Milan
+                  Centre
+                  <button
+                    style="
+                      border: none;
+                      background-color: #ffffff00;
+                      text-decoration: underline;
+                      color: rgb(123, 123, 218);
+                      font-size: 12px;
+                    "
+                  >
+                    Read more
+                  </button>
+                </p>
+              </div>
+
+              <!-- amenities  & locations -->
+              <div style="display: flex; height: 69%">
+                <div style="width: 50%">
+                  <h2>Popular Amenities</h2>
+                  <ul>
+                    <li>24-hour front desk</li>
+                    <li>Breakfast available</li>
+                    <li>Business center</li>
+                    <li>Dry cleaning/laundry service</li>
+                    <li>Free WiFi</li>
+                  </ul>
+                </div>
+                <div style="width: 50%">
+                  <!-- address -->
+                  <div
+                    style="
+                      display: flex;
+                      flex-direction: column;
+                      align-items: flex-start;
+                      justify-content: space-evenly;
+                      gap: 6px;
+                    "
+                  >
+                    <h2>Location</h2>
+                    <div
+                      style="height: 50%; display: flex; align-items: center"
+                    >
+                      <p
+                        style="
+                          font-size: 15px;
+                          font-weight: 600;
+                          color: rgb(59, 59, 59);
+                          line-height: 22px;
+                        "
+                      >
+                        <b
+                          >Mahal Industrial Estate,Mahakali Caves Road, Andheri
+                          East,Mumbai,IN</b
+                        >
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </section>
+        </section>
+
+        <!-- room combinations -->
+        <section id="rooms" style="margin: 60px 0;
+        display: flex;
+        justify-content: center;">
+          <div
+            style="
+              width: 96%;
+              background-color: #e9e9e9;
+              border: 2px solid #000;
+              border-radius: 10px;
+            "
+          >
+            <!-- combo name -->
+            <div
+              style="
+                height: 50px;
+                background-color: #ede6f7;
+                display: flex;
+                align-items: center;
+                padding: 4px 30px;
+                border-bottom: 2px solid #000;
+              "
+            >
+              <h2 style="margin: 0">4 Rooms Combo</h2>
+            </div>
+
+            <!-- combo body -->
+            <div
+              style="
+                display: flex;
+                justify-content: space-evenly;
+                align-items: center;
+              "
+            >
+              <div style="display: flex; flex-direction: column; width: 60%">
+                <!-- the below div will be dynamic based on the room combinations -->
+                <div style="display: flex; width: 100%; height: 80px">
+                  <!-- room name -->
+                  <div
+                    style="
+                      width: 50%;
+                      border: 1px solid #000;
+                      display: flex;
+                      align-items: center;
+                      justify-content: center;
+                      height: 100%;
+                    "
+                  >
+                    <h2>Room Info/Name</h2>
+                  </div>
+                  <!-- room options -->
+                  <div
+                    style="
+                      width: 50%;
+                      display: flex;
+                      border: 1px solid #000;
+                      align-items: center;
+                      justify-content: center;
+                      height: 100%;
+                    "
+                  >
+                    <h2>Room Options</h2>
+                  </div>
+                </div>
+
+                <!-- the below div will be dynamic based on the room combinations -->
+                <div style="display: flex; width: 100%; height: 80px">
+                  <!-- room name -->
+                  <div
+                    style="
+                      width: 50%;
+                      border: 1px solid #000;
+                      display: flex;
+                      align-items: center;
+                      justify-content: center;
+                      height: 100%;
+                    "
+                  >
+                    <h2>Room Info/Name</h2>
+                  </div>
+                  <!-- room options -->
+                  <div
+                    style="
+                      width: 50%;
+                      border: 1px solid #000;
+                      display: flex;
+                      align-items: center;
+                      justify-content: center;
+                      height: 100%;
+                    "
+                  >
+                    <h2>Room Options</h2>
+                  </div>
+                </div>
+
+                <!-- the below div will be dynamic based on the room combinations -->
+                <div style="display: flex; width: 100%; height: 80px">
+                  <!-- room name -->
+                  <div
+                    style="
+                      width: 50%;
+                      border: 1px solid #000;
+                      display: flex;
+                      align-items: center;
+                      justify-content: center;
+                      height: 100%;
+                    "
+                  >
+                    <h2>Room Info/Name</h2>
+                  </div>
+                  <!-- room options -->
+                  <div
+                    style="
+                      width: 50%;
+                      border: 1px solid #000;
+                      display: flex;
+                      align-items: center;
+                      justify-content: center;
+                      height: 100%;
+                    "
+                  >
+                    <h2>Room Options</h2>
+                  </div>
+                </div>
+
+                <!-- the below div will be dynamic based on the room combinations -->
+                <div style="display: flex; width: 100%; height: 80px">
+                  <!-- room name -->
+                  <div
+                    style="
+                      width: 50%;
+                      border: 1px solid #000;
+                      display: flex;
+                      align-items: center;
+                      justify-content: center;
+                      height: 100%;
+                    "
+                  >
+                    <h2>Room Info/Name</h2>
+                  </div>
+                  <!-- room options -->
+                  <div
+                    style="
+                      width: 50%;
+                      border: 1px solid #000;
+                      display: flex;
+                      align-items: center;
+                      justify-content: center;
+                      height: 100%;
+                    "
+                  >
+                    <h2>Room Options</h2>
+                  </div>
+                </div>
+              </div>
+
+              <!-- combo price -->
+              <div
+                style="
+                  width: 20%;
+                  display: flex;
+                  align-items: center;
+                  justify-content: center;
+                  height: 100%;
+                "
+              >
+                <h2>₹ 1,20,000</h2>
+              </div>
+
+              <!-- select combo -->
+              <div
+                style="
+                  width: 20%;
+                  display: flex;
+                  align-items: center;
+                  justify-content: center;
+                  height: 100%;
+                "
+              >
+                <button
+                  style="
+                    border: none;
+                    background-color: rgb(61, 64, 194);
+                    padding: 8px 22px;
+                    border-radius: 16px;
+                    box-shadow: 4px 4px 10px 0 #000;
+                    font-size: 15px;
+                    font-weight: 600;
+                    color: #fff;
+                    letter-spacing: 0.5px;
+                    cursor: pointer;
+                  "
+                >
+                  Select Combo
+                </button>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!--single room selection -->
+        <section style="padding: 10px">
+          <div
+            style="
+              display: flex;
+              border-radius: 10px;
+              box-shadow: 8px 8px 10px 0 grey;
+              background-color: #ddedf3;
+              border: 2px solid grey;
+            "
+          >
+            <div
+              style="
+                width: 80%;
+                background-color: #dfdfdf;
+                display: flex;
+                flex-direction: column;
+              "
+            >
+              <!-- heading -->
+              <div
+                style="
+                  display: flex;
+                  width: 100%;
+                  justify-content: space-evenly;
+                  height: 60px;
+                "
+              >
+                <div
+                  style="
+                    width: 25%;
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    border: 1px solid #000;
+                    height: 100%;
+                    font-size: 22px;
+                    font-weight: 600;
+                  "
+                >
+                  Room Type
+                </div>
+                <div
+                  style="
+                    width: 30%;
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    border: 1px solid #000;
+                    height: 100%;
+                    font-size: 22px;
+                    font-weight: 600;
+                  "
+                >
+                  Options
+                </div>
+                <div
+                  style="
+                    width: 25%;
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    border: 1px solid #000;
+                    height: 100%;
+                    font-size: 22px;
+                    font-weight: 600;
+                  "
+                >
+                  Price
+                </div>
+                <div
+                  style="
+                    width: 20%;
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    border: 1px solid #000;
+                    height: 100%;
+                    font-size: 22px;
+                    font-weight: 600;
+                  "
+                >
+                  Select Room
+                </div>
+              </div>
+
+              <!-- row 1 -->
+              <div
+                style="
+                  display: flex;
+                  align-items: center;
+                  justify-content: space-evenly;
+                  width: 100%;
+                  height: 130px;
+                "
+              >
+                <!-- room type -->
+                <div
+                  style="
+                    width: 25%;
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    border: 1px solid rgb(0, 0, 0);
+                    height: 100%;
+                    text-align: center;
+                  "
+                >
+                  <h3>1 King Bed Standard (roomTypeName)</h3>
+                </div>
+
+                <!-- options -->
+                <div
+                  style="
+                    width: 30%;
+                    /* display: flex; */
+                    /* justify-content: center; */
+                    /* align-items: center; */
+                    border: 1px solid #000;
+                    height: 100%;
+                    padding: 7px 7px;
+                  "
+                >
+                  <div
+                    style="
+                      display: flex;
+                      flex-direction: column;
+                      align-items: flex-start;
+                      justify-content: space-evenly;
+                      height: 100%;
+                    "
+                  >
+                    <h3 style="margin: 0; font-size: 17px">
+                      Room Only | Free Cancellation
+                    </h3>
+                    <h5
+                      style="
+                        margin: 0;
+                        font-size: 11px;
+                        text-transform: capitalize;
+                      "
+                    >
+                      ✔ Free Cancellation before 30 Jan 11:00 PM
+                    </h5>
+                    <h5
+                      style="
+                        margin: 0;
+                        font-size: 11px;
+                        text-transform: capitalize;
+                      "
+                    >
+                      ✘ No meals included
+                    </h5>
+                  </div>
+                </div>
+
+                <!-- price -->
+                <div
+                  style="
+                    width: 25%;
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    border: 1px solid #000;
+                    height: 100%;
+                  "
+                >
+                  <h3 style="font-size: 32px">₹ 20,000</h3>
+                </div>
+
+                <!-- Selection btn -->
+                <div
+                  style="
+                    width: 20%;
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    border: 1px solid #000;
+                    height: 100%;
+                  "
+                >
+                  <button
+                    style="
+                      border: none;
+                      background-color: rgb(61, 64, 194);
+                      padding: 8px 22px;
+                      border-radius: 16px;
+                      box-shadow: 4px 4px 10px 0 #000;
+                      font-size: 15px;
+                      font-weight: 600;
+                      color: #fff;
+                      letter-spacing: 0.5px;
+                      cursor: pointer;
+                    "
+                  >
+                    Select Room
+                  </button>
+                </div>
+              </div>
+
+              <div
+              style="
+                display: flex;
+                align-items: center;
+                justify-content: space-evenly;
+                width: 100%;
+                height: 130px;
+              "
+            >
+              <!-- room type -->
+              <div
+                style="
+                  width: 25%;
+                  display: flex;
+                  justify-content: center;
+                  align-items: center;
+                  border: 1px solid rgb(0, 0, 0);
+                  height: 100%;
+                  text-align: center;
+                "
+              >
+                <h3>1 King Bed Standard (roomTypeName)</h3>
+              </div>
+
+              <!-- options -->
+              <div
+                style="
+                  width: 30%;
+                  /* display: flex; */
+                  /* justify-content: center; */
+                  /* align-items: center; */
+                  border: 1px solid #000;
+                  height: 100%;
+                  padding: 7px 7px;
+                "
+              >
+                <div
+                  style="
+                    display: flex;
+                    flex-direction: column;
+                    align-items: flex-start;
+                    justify-content: space-evenly;
+                    height: 100%;
+                  "
+                >
+                  <h3 style="margin: 0; font-size: 17px">
+                    Room Only | Free Cancellation
+                  </h3>
+                  <h5
+                    style="
+                      margin: 0;
+                      font-size: 11px;
+                      text-transform: capitalize;
+                    "
+                  >
+                    ✔ Free Cancellation before 30 Jan 11:00 PM
+                  </h5>
+                  <h5
+                    style="
+                      margin: 0;
+                      font-size: 11px;
+                      text-transform: capitalize;
+                    "
+                  >
+                    ✘ No meals included
+                  </h5>
+                </div>
+              </div>
+
+              <!-- price -->
+              <div
+                style="
+                  width: 25%;
+                  display: flex;
+                  justify-content: center;
+                  align-items: center;
+                  border: 1px solid #000;
+                  height: 100%;
+                "
+              >
+                <h3 style="font-size: 32px">₹ 20,000</h3>
+              </div>
+
+              <!-- Selection btn -->
+              <div
+                style="
+                  width: 20%;
+                  display: flex;
+                  justify-content: center;
+                  align-items: center;
+                  border: 1px solid #000;
+                  height: 100%;
+                "
+              >
+                <button
+                  style="
+                    border: none;
+                    background-color: rgb(61, 64, 194);
+                    padding: 8px 22px;
+                    border-radius: 16px;
+                    box-shadow: 4px 4px 10px 0 #000;
+                    font-size: 15px;
+                    font-weight: 600;
+                    color: #fff;
+                    letter-spacing: 0.5px;
+                    cursor: pointer;
+                  "
+                >
+                  Select Room
+                </button>
+              </div>
+              </div>
+
+              <div
+                style="
+                  display: flex;
+                  align-items: center;
+                  justify-content: space-evenly;
+                  width: 100%;
+                  height: 130px;
+                "
+              >
+                <!-- room type -->
+                <div
+                  style="
+                    width: 25%;
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    border: 1px solid rgb(0, 0, 0);
+                    height: 100%;
+                    text-align: center;
+                  "
+                >
+                  <h3>1 King Bed Standard (roomTypeName)</h3>
+                </div>
+
+                <!-- options -->
+                <div
+                  style="
+                    width: 30%;
+                    /* display: flex; */
+                    /* justify-content: center; */
+                    /* align-items: center; */
+                    border: 1px solid #000;
+                    height: 100%;
+                    padding: 7px 7px;
+                  "
+                >
+                  <div
+                    style="
+                      display: flex;
+                      flex-direction: column;
+                      align-items: flex-start;
+                      justify-content: space-evenly;
+                      height: 100%;
+                    "
+                  >
+                    <h3 style="margin: 0; font-size: 17px">
+                      Room Only | Free Cancellation
+                    </h3>
+                    <h5
+                      style="
+                        margin: 0;
+                        font-size: 11px;
+                        text-transform: capitalize;
+                      "
+                    >
+                      ✔ Free Cancellation before 30 Jan 11:00 PM
+                    </h5>
+                    <h5
+                      style="
+                        margin: 0;
+                        font-size: 11px;
+                        text-transform: capitalize;
+                      "
+                    >
+                      ✘ No meals included
+                    </h5>
+                  </div>
+                </div>
+
+                <!-- price -->
+                <div
+                  style="
+                    width: 25%;
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    border: 1px solid #000;
+                    height: 100%;
+                  "
+                >
+                  <h3 style="font-size: 32px">₹ 20,000</h3>
+                </div>
+
+                <!-- Selection btn -->
+                <div
+                  style="
+                    width: 20%;
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    border: 1px solid #000;
+                    height: 100%;
+                  "
+                >
+                  <button
+                    style="
+                      border: none;
+                      background-color: rgb(61, 64, 194);
+                      padding: 8px 22px;
+                      border-radius: 16px;
+                      box-shadow: 4px 4px 10px 0 #000;
+                      font-size: 15px;
+                      font-weight: 600;
+                      color: #fff;
+                      letter-spacing: 0.5px;
+                      cursor: pointer;
+                    "
+                  >
+                    Select Room
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            <div
+              style="
+                width: 20%;
+                background-color: rgb(214, 233, 255);
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                gap: 20px;
+                align-items: center;
+              "
+            >
+              <button
+                style="
+                  border-radius: 10px;
+                  width: 70%;
+                  padding: 12px;
+                  border: 2px dashed rgb(12, 12, 29);
+                  font-size: 15px;
+                  font-weight: 600;
+                  background-color: rgb(129, 104, 170);
+                  color: #fff;
+                "
+              >
+                Select Room 1
+              </button>
+              <button
+                style="
+                  border-radius: 10px;
+                  width: 70%;
+                  padding: 12px;
+                  border: 2px dashed rgb(12, 12, 29);
+                  font-size: 15px;
+                  font-weight: 600;
+                  background-color: rgb(129, 104, 170);
+                  color: #fff;
+                "
+              >
+                Select Room 2
+              </button>
+
+              <button
+                style="
+                  border-radius: 10px;
+                  width: 70%;
+                  padding: 12px;
+                  border: 2px dashed rgb(12, 12, 29);
+                  font-size: 15px;
+                  font-weight: 600;
+                  background-color: rgb(129, 104, 170);
+                  color: #fff;
+                "
+              >
+                Select Room 3
+              </button>
+
+              <button
+                style="
+                  border-radius: 10px;
+                  width: 70%;
+                  padding: 12px;
+                  border: 2px dashed rgb(12, 12, 29);
+                  font-size: 15px;
+                  font-weight: 600;
+                  background-color: rgb(129, 104, 170);
+                  color: #fff;
+                "
+              >
+                Select Room 4
+              </button>
+            </div>
+          </div>
+        </section>
+
+        <!-- Info -->
+        <section id="description">
+          <div
+            style="
+              display: flex;
+              flex-direction: column;
+              margin-top: 30px;
+              background-color: rgb(247, 247, 238);
+              box-shadow: 8px 8px 10px 0 grey;
+              padding: 10px 35px;
+              gap: 10px;
+            "
+          >
+            <div>
+              <h1 style="font-size: 35px">Hotel Info</h1>
+            </div>
+            <div
+              style="
+                display: flex;
+                flex-direction: column;
+                gap: 5px;
+                font-size: 18px;
+              "
+            >
+              <p>HeadLine : Near Inorbit Mall</p>
+              <p>
+                Location : With a stay at Hotel Indiana Inn in Navi Mumbai, you
+                ll be within a 15-minute drive of U.S. Consulate General and
+                Inorbit Mall. This hotel is 15.1 mi (24.2 km) from Juhu Beach
+                and 4 mi (6.5 km) from Reliance Corporate Park.
+              </p>
+              <p>
+                Rooms : Make yourself at home in one of the 20 air-conditioned
+                rooms featuring flat-screen televisions. Complimentary wireless
+                Internet access keeps you connected, and satellite programming
+                is available for your entertainment. Bathrooms have showers and
+                complimentary toiletries. Conveniences include desks and
+                complimentary bottled water, and housekeeping is provided daily.
+              </p>
+              <p>
+                Dining : Take advantage of the hotel s 24-hour room service.
+                Cooked-to-order breakfasts are available daily from 7 AM to
+                10:30 AM for a fee.
+              </p>
+              <p>CheckIn Instructions :</p>
+              <ul>
+                <li>
+                  Extra-person charges may apply and vary depending on property
+                  policy
+                </li>
+                <li>
+                  Government-issued photo identification and a credit card,
+                  debit card, or cash deposit may be required at check-in for
+                  incidental charges
+                </li>
+                <li>
+                  Special requests are subject to availability upon check-in and
+                  may incur additional charges; special requests cannot be
+                  guaranteed
+                </li>
+                <li>This property accepts credit cards</li>
+                <li>
+                  Safety features at this property include a fire extinguisher,
+                  a security system, and a first aid kit
+                </li>
+              </ul>
+
+              <p>
+                Special Instructions : Front desk staff will greet guests on
+                arrival.
+              </p>
+
+              <br />
+
+              <b
+                >Disclaimer notification: Amenities are subject to availability
+                and may be chargeable as per the hotel policy.</b
+              >
+              <br />
+            </div>
+          </div>
+        </section>
+
+        <!-- locations and attractions -->
+        <section id="location">
+          <div
+            style="
+              width: 100%;
+              height: 500px;
+              display: flex;
+              border: 2px solid #000;
+              margin: 30px 0;
+            "
+          >
+            <div style="width: 50%; background-color: red; height: 100%">
+              <h2>Attractions</h2>
+            </div>
+            <div style="width: 50%; background-color: blue; height: 100%">
+              <h2>Location</h2>
+            </div>
+          </div>
+        </section>
+
+        <!-- Policy  -->
+        <section id="hotelPolicies">
+          <div
+            style="
+              display: flex;
+              flex-direction: column;
+              margin-top: 30px;
+              background-color: rgb(240, 158, 158);
+              box-shadow: 8px 8px 10px 0 grey;
+              padding: 10px 35px;
+              gap: 10px;
+            "
+          >
+            <div>
+              <h1 style="font-size: 35px">Hotel policy</h1>
+            </div>
+            <div
+              style="
+                display: flex;
+                flex-direction: column;
+                gap: 5px;
+                font-size: 18px;
+              "
+            >
+              CheckIn Time-Begin: 12:00 PM|CheckOut Time: 12:00 PM|CheckIn
+              Instructions:
+              <ul>
+                <li>
+                  Extra-person charges may apply and vary depending on property
+                  policy
+                </li>
+                <li>
+                  Government-issued photo identification and a credit card,
+                  debit card, or cash deposit may be required at check-in for
+                  incidental charges
+                </li>
+                <li>
+                  Special requests are subject to availability upon check-in and
+                  may incur additional charges; special requests cannot be
+                  guaranteed
+                </li>
+                <li>
+                  This property accepts credit cards; cash is not accepted
+                </li>
+                <li>
+                  Only bookings from non-local guests are accepted; guests whose
+                  residence is within the same city as the property will not be
+                  allowed to check in
+                </li>
+                <li>
+                  Please note that cultural norms and guest policies may differ
+                  by country and by property; the policies listed are provided
+                  by the property
+                </li>
+              </ul>
+              | Special Instructions : Front desk staff will greet guests on
+              arrival. For more details, please contact the property using the
+              information on the booking confirmation. |Minimum CheckIn Age :
+              18| Optional Fees:
+              <ul>
+                <li>Rollaway bed fee: INR 350 per night</li>
+              </ul>
+              <p>
+                The above list may not be comprehensive. Fees and deposits may
+                not include tax and are subject to change.
+              </p>
+              |Cards Accepted: Visa,Debit cards not accepted,Cash not
+              accepted,Mastercard|
+              <ul>
+                <li>
+                  Local laws may restrict unmarried guests from sharing rooms.
+                  Guests are responsible for providing proof of marriage, if
+                  requested by the property.
+                </li>
+                <li>Only registered guests are allowed in the guestrooms.</li>
+              </ul>
+              , Pets not allowed,Professional property host/manager| | |
+            </div>
+          </div>
+        </section>
+
+      </section>
+
+      </main>
+    </div>
+
+    <div class="modal-footer">
+      <button class="btn btn-secondary" (click)="closeModal()">Close</button>
+    </div>
+  </div>
+</div>
