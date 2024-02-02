@@ -99,28 +99,16 @@
           </button>
         </div>
 
-        <!-- flight cards for default Itinerary -->
-        <div
-          *ngFor="let flight of currentFlightSetSegmentsArray"
-          style="
-            width: 100%;
-            margin: 14px 0 20px 442px;
-            display: flex;
-            flex-direction: column;
-            gap: 21px;
-          "
-        >
-            <!-- completeFlight = all flights to reach from a->b  with all layovers   -->
-            <app-flight-card [completeFlight]="flight"></app-flight-card>
 
-            <app-city-schedule></app-city-schedule>
-        </div>
+        <app-combined-itinerary></app-combined-itinerary>
+        
 
          
       </div>
 
 
     </div>
+
   </section>
 
   <button class="btn btn-primary" (click)="multiStopSearchFlightsV2()">
@@ -129,6 +117,10 @@
   <button class="'btn btn-warning" (click)="authenticateFlightApi()">
     Authenticate
   </button>
+
+  <button class="btn btn-dark" (click)="getHotels()"  >Get Hotels</button>
+
+  <button class="btn btn-secondary" (click)="getSchedule()" >Get Schedule </button>
 
   <!-- <button class="btn btn-dark" (click)="showHotelInfo()">Hotel Info</button> -->
 

@@ -1,6 +1,7 @@
 import { Component, OnInit, TemplateRef, inject,SimpleChanges } from "@angular/core";
 import { FlightsService } from "src/app/Services/flights_api/flights.service";
 import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
+import { HotelsService } from "src/app/Services/hotels_api/hotels.service";
 
 @Component({
   selector: "app-itinerary",
@@ -74,7 +75,7 @@ export class ItineraryComponent implements OnInit {
   //     this.isHotelInfo=!this.isHotelInfo;
   // }
 
-  constructor(private flightApiService: FlightsService) {}
+  constructor(private flightApiService: FlightsService, private hotelApiService:HotelsService) {}
 
   ngOnInit(): void {}
 
@@ -147,10 +148,33 @@ export class ItineraryComponent implements OnInit {
     console.log(this.currentFlightSetIndex)
   }
 
+  // =====================================================================================================================
+  // =====================================================================================================================
+  // =====================================================================================================================
 
 
+  async getHotels(){
+
+  try {
+    
+    const data= await this.hotelApiService.getAllDetails(10);
+
+    if(data){
+      console.log(data);
+    }
+
+  } catch (error) {
+    console.log("error in fetching the hotel search");
+    console.log(error);
+  }
+  }
 
 
+  async getSchedule(){
+
+    console.log("will be getting schedule here")
+
+  }
 
 
   // async multiStopSearchFlights() {

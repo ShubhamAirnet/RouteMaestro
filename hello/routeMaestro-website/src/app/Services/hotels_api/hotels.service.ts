@@ -1,19 +1,6 @@
 import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
-import {
-  Firestore,
-  collection,
-  getDocs,
-  query,
-  where,
-  getDoc,
-  doc,
-  Timestamp,
-  setDoc,
-  onSnapshot,
-  DocumentData,
-  QuerySnapshot
-} from "@angular/fire/firestore";
+import {Firestore,doc,setDoc,} from "@angular/fire/firestore";
 
 @Injectable({
   providedIn: 'root'
@@ -25,35 +12,6 @@ export class HotelsService {
   authenticate(){
     return this.http.get("http://localhost:4000/flight/authenticate");
   }
-
-  async getSearchInfo() {
-    console.log("fetching");
-  
-    const searchDocRef = doc(this.firestore, "Demo_Itinerary", "updated_Itinerary");
-  
-    return new Promise((resolve, reject) => {
-      const unsubscribe = onSnapshot(
-        searchDocRef,
-        (data) => {
-          if (data.exists()) {
-            unsubscribe();
-            console.log(data.data());
-            resolve(data.data());
-          } else {
-            unsubscribe();
-            console.log("data not present");
-            reject("data not present");
-          }
-        },
-        (error) => {
-          unsubscribe();
-          console.error("Error fetching data:", error);
-          reject(error);
-        }
-      );
-    });
-  }
-
   async updatePrimaryContact(form: any) {
     console.log("fetching");
   
@@ -78,5 +36,45 @@ export class HotelsService {
       console.error("Error updating document:", error);
     }
   }
+
+  // ===============================================================================================================
+
+  async getAllDetails(resultCount){
+    try{
+
+      const payload={
+        authenticateToken:localStorage.getItem("authenticateToken"),
+        resultCount
+      }
+
+      console.log(payload,"from front end")
+     
+      
+      return new Promise((resolve, reject) => {
+        this.http.post('http://localhost:4000/hotel/getIternary', payload).subscribe(
+          (data) => {
+            
+            console.log(data);
+            resolve(data);
+          },
+          (err) => {
+            console.log("not able to fetch the details", err);
+            reject("No data available");
+          }
+        );
+      });
+      
+    }catch(error){
+      console.log(error)
+    }
+
+   }
+
+
+
+
+
+
+
 
 }

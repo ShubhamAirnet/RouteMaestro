@@ -118,24 +118,32 @@ router.get("/topDestinations",async(req,res)=>{
 
 
 router.post('/getIternary', async (req, res) => {
+
+  const {authenticateToken,resultCount}=req.body
+
+    console.log(authenticateToken);
+    console.log(resultCount);
+
   hotelData=[];
       i=0;
   try {
     const itineraryRef = db.collection("Demo_Itinerary").doc('updated_Itinerary');
     const itinerary = await itineraryRef.get();
-    const resultCount=req.body.resultCount;
+    // const resultCount=req.body.resultCount;
     
 
     if (itinerary.exists) {
       const cities = itinerary.data().cities;
       const trip = itinerary.data().trip;
       const NoOfRooms = trip.RoomGuests.length;
+
+      // console.log(cities)
     
           // Use Promise.all to wait for all asynchronous operations to complete
       await Promise.all(cities.map(async (city) => {
-        i++;
-        console.log(i);
-        await getHotelSearchData(city, NoOfRooms, resultCount, trip.RoomGuests);
+        // i++;
+        // console.log(i);
+        await getHotelSearchData(city, NoOfRooms, resultCount, trip.RoomGuests,authenticateToken);
       }));
     
 
@@ -150,11 +158,12 @@ router.post('/getIternary', async (req, res) => {
 
 
 
-async function getHotelSearchData(city, NoOfRooms, resultCount, RoomGuests) {
+async function getHotelSearchData(city, NoOfRooms, resultCount, RoomGuests,authenticateToken) {
 
   const payload = {
+    EndUserIp: "49.43.88.155",    
     EndUserIp:"49.43.88.155",
-    TokenId:"93f7a941-4602-4533-83ad-59a57fbfb23a",
+    TokenId:authenticateToken,
     CheckInDate: city.checkInDate,
     NoOfNights: city.noOfNights,
     CountryCode:city.countryCode,
@@ -168,21 +177,25 @@ async function getHotelSearchData(city, NoOfRooms, resultCount, RoomGuests) {
     ResultCount:resultCount
   };
   try {
+
+    console.log(payload)
     const { data } = await axios.post("http://api.tektravels.com/BookingEngineService_Hotel/hotelservice.svc/rest/GetHotelResult/", payload);
 
     // console.log('data1',data);
+    console.log("after the hotel search api call made")
 
     const hotelSearchData = data.HotelSearchResult;
     hotelSearchData.CityName = city.cityName;
 
-    const cityData=await getAllData(hotelSearchData,city)
-    // Return hotelSearchData as an array
-    hotelData.push(cityData);
+    // const cityData=await getAllData(hotelSearchData,city,authenticateToken)
+    // // Return hotelSearchData as an array
+    // hotelData.push(cityData);
     
-    console.log('hotelData ',hotelData)
+    // console.log('hotelData ',hotelData)
     return hotelData;
   } catch (error) {
-    console.log(error);
+    // console.log(error);
+    console.log("error in search hotels")
     // Return an empty array or handle the error as needed
     return [];
   }
@@ -190,15 +203,15 @@ async function getHotelSearchData(city, NoOfRooms, resultCount, RoomGuests) {
 
 
 
-async function getAllData(hotelSearchData,city) {
+async function getAllData(hotelSearchData,city,authenticateToken) {
   
   let cityData = {};
   let response=[];
 
   if (hotelSearchData.HotelResults) {
   await Promise.all(hotelSearchData.HotelResults.map(async (item) => {
-    const infoPromise = getHotelInfoData(item.ResultIndex, item.HotelCode, hotelSearchData.TraceId);
-    const roomPromise = getHotelRoomInfoData(item.ResultIndex, item.HotelCode, hotelSearchData.TraceId);
+    const infoPromise = getHotelInfoData(item.ResultIndex, item.HotelCode, hotelSearchData.TraceId,authenticateToken);
+    const roomPromise = getHotelRoomInfoData(item.ResultIndex, item.HotelCode, hotelSearchData.TraceId,authenticateToken);
 
     const [info, room] = await Promise.all([infoPromise, roomPromise]);
 
@@ -216,11 +229,11 @@ async function getAllData(hotelSearchData,city) {
 }
 
 
-async function getHotelInfoData(resultIndex,hotelCode,traceId){
+async function getHotelInfoData(resultIndex,hotelCode,traceId,authenticateToken){
   const payload ={
   
     EndUserIp: "49.43.88.155",
-    TokenId: "93f7a941-4602-4533-83ad-59a57fbfb23a",
+    TokenId: authenticateToken,
     ResultIndex: resultIndex,
     HotelCode: hotelCode,
     TraceId:traceId
@@ -230,14 +243,15 @@ async function getHotelInfoData(resultIndex,hotelCode,traceId){
     return data;
 
   }catch(error){
-    console.log(error)
+    // console.log(error)
+    console.log("error in gettign teh htoel info")
   }
 }
-async function getHotelRoomInfoData(resultIndex,hotelCode,traceId){
+async function getHotelRoomInfoData(resultIndex,hotelCode,traceId,authenticateToken){
   const payload ={
   
     EndUserIp: "49.43.88.155",
-    TokenId: "93f7a941-4602-4533-83ad-59a57fbfb23a",
+    TokenId: authenticateToken,
     ResultIndex: resultIndex,
     HotelCode: hotelCode,
     TraceId:traceId
@@ -247,7 +261,8 @@ async function getHotelRoomInfoData(resultIndex,hotelCode,traceId){
     return data;
 
   }catch(error){
-    console.log(error)
+    // console.log(error)
+    console.log("error in gettign teh room info")
   }
 }
 

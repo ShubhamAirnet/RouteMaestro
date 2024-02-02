@@ -21,7 +21,7 @@ export class PackageCheckoutComponent implements OnInit {
    }
 
   ngOnInit(): void {
-    this.getData();
+    // this.getData();
     this.initializeForm();
   }
   private initializeForm(): void {
@@ -46,33 +46,33 @@ export class PackageCheckoutComponent implements OnInit {
     await this.auth.updatePrimaryContact(this.contactForm.value)
   }
 
-  async getData() {
-    console.log('fetching');
+  // async getData() {
+  //   console.log('fetching');
     
-    try {
-      const res = await this.auth.getSearchInfo();
-      console.log(res);
+  //   try {
+  //     const res = await this.auth.getSearchInfo();
+  //     console.log(res);
   
-      if (res) {
-        this.travelData = res;
-        this.NoOfRooms = this.travelData.trip.RoomGuests.length;
-        for(let i=0;i<this.travelData.trip.RoomGuests.length;i++){
-          this.NoOfAdults+=this.travelData.trip.RoomGuests[i].NoOfAdults;
-          this.NoOfChild+=this.travelData.trip.RoomGuests[i].NoOfChild;
-        }
+  //     if (res) {
+  //       this.travelData = res;
+  //       this.NoOfRooms = this.travelData.trip.RoomGuests.length;
+  //       for(let i=0;i<this.travelData.trip.RoomGuests.length;i++){
+  //         this.NoOfAdults+=this.travelData.trip.RoomGuests[i].NoOfAdults;
+  //         this.NoOfChild+=this.travelData.trip.RoomGuests[i].NoOfChild;
+  //       }
 
-        console.log(this.NoOfRooms);
-        console.log(this.NoOfAdults);
-        console.log(this.NoOfChild);
-        console.log(this.travelData);
+  //       console.log(this.NoOfRooms);
+  //       console.log(this.NoOfAdults);
+  //       console.log(this.NoOfChild);
+  //       console.log(this.travelData);
         
-      } else {
-        console.log("No data received from getSearchInfo");
-      }
-    } catch (error) {
-      console.log(error);
-    }
-  }
+  //     } else {
+  //       console.log("No data received from getSearchInfo");
+  //     }
+  //   } catch (error) {
+  //     console.log(error);
+  //   }
+  // }
 
   toggleTerms() {
     const termsContainer = document.querySelector('.terms');
