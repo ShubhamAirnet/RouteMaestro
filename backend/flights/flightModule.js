@@ -300,7 +300,7 @@ router.post("/searchMultiStopFlights", async (req, res) => {
         EndUserIp: "49.43.88.177",
         TokenId: flightToken,
         AdultCount: trip.travellers.AdultCount,
-        ChildCount: trip.travellers.ChildCount,
+        ChildCount: trip.travellers.ChildCount.length,
         InfantCount: trip.travellers.InfantCount,
         JourneyType: "3",
         Segments: segmentsArray,

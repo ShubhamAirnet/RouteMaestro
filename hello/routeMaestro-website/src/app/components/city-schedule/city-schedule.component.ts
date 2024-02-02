@@ -1,4 +1,4 @@
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 
 @Component({
   selector: 'app-city-schedule',
@@ -6,6 +6,9 @@ import { Component, EventEmitter, OnInit, Output } from '@angular/core';
   styleUrls: ['./city-schedule.component.scss']
 })
 export class CityScheduleComponent implements OnInit {
+  @Input() cityName;
+  @Input() dialog: boolean;
+  @Output() closeDialog: EventEmitter<void> = new EventEmitter<void>();
 
   constructor() { }
 
@@ -16,5 +19,8 @@ export class CityScheduleComponent implements OnInit {
 
   showHotelInfo(){
     this.isHotelInfo=!this.isHotelInfo;
+  }
+  dialogbox() {
+    this.closeDialog.emit();
   }
 }
