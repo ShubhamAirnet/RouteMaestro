@@ -313,12 +313,14 @@ router.post("/searchMultiStopFlights", async (req, res) => {
         payload
       );
         console.log(data)
+
       if (data.Response.Error.ErrorCode !== 0) {
         res.status(500).json({
           message: ErrorMessage,
         });
       } else {
         const flightArray = await data.Response.Results[0];
+        const traceId = await data.Response.TraceId;
 
         const keyValueArray = [];
 
@@ -347,7 +349,7 @@ router.post("/searchMultiStopFlights", async (req, res) => {
 
         res
           .status(200)
-          .json({flightsData: keyValueArray});
+          .json({TraceId:traceId ,flightsData: keyValueArray});
       }
     } else {
       res.status(500).json({
@@ -421,5 +423,88 @@ x++;
 
   res.send(groups)
 });
+
+
+
+router.post("/fareRule",async(req,res)=>{
+
+  const {traceId,flightToken,resultIndex}=req.body;
+
+  const payload = {
+    EndUserIp: "49.43.88.177",
+    TokenId: flightToken,
+    TraceId: traceId,
+    ResultIndex: resultIndex,
+  };
+
+  try {
+
+    console.log(payload)
+    const { data } = await axios.post(
+      "http://api.tektravels.com/BookingEngineService_Air/AirService.svc/rest/FareRule",
+      payload
+    );
+
+    res.status(200).json({ fareRule: data });
+  } catch (err) {
+    res.status(400).json(err);
+  }
+
+
+
+})
+
+router.post("/fareQuote",async(req,res)=>{
+ 
+  const {flightToken,traceId,resultIndex}=req.body
+ 
+  const payload = {
+    EndUserIp: "49.43.88.177",
+    TokenId: flightToken,
+    TraceId: traceId,
+    ResultIndex: resultIndex,
+  };
+
+  try {
+    const { data } = await axios.post(
+      "http://api.tektravels.com/BookingEngineService_Air/AirService.svc/rest/FareQuote",
+      payload
+    );
+
+    res.status(200).json({fareRule:data});
+
+  } catch (error) {
+    res.status(400).json(error);
+  }
+})
+
+
+router.post("/ssr",async(req,res)=>{
+
+
+  const {flightToken,traceId,resultIndex}=req.body
+ 
+  const payload = {
+    EndUserIp: "49.43.88.177",
+    TokenId: flightToken,
+    TraceId: traceId,
+    ResultIndex: resultIndex,
+  };
+
+  console.log(payload)
+  try {
+    const {data}=await axios.post("http://api.tektravels.com/BookingEngineService_Air/AirService.svc/rest/SSR",payload);
+
+    console.log(data)
+
+    res.status(200).json({ssr:data});
+  } catch (error) {
+    res.status(400).json(error);
+    
+  }
+
+})
+
+
 
 module.exports = router;

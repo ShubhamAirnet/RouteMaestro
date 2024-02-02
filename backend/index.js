@@ -695,45 +695,9 @@ app.post("/createOrder", (req, res) => {
 
 
 
-app.post("/fareRule", async (req, res) => {
-  const payload = {
-    EndUserIp: "49.43.88.177",
-    TokenId: "5c89bbaf-0fb5-4642-803a-5db02a8dc27d",
-    TraceId: "b5607875-c3ce-4cd0-8318-b6f077195f12",
-    ResultIndex: "OB1",
-  };
 
-  try {
-    const { data } = await axios.post(
-      "http://api.tektravels.com/BookingEngineService_Air/AirService.svc/rest/FareRule",
-      payload
-    );
 
-    res.status(200).json({ message: data });
-  } catch (err) {
-    res.status(400).json(err);
-  }
-});
 
-app.post("/fareQuote", async (req, res) => {
-  const payload = {
-    EndUserIp: "49.43.88.177",
-    TokenId: "142d3c88-19ad-4c63-abee-8a0b7109e61b",
-    TraceId: "ccd813cd-b514-48d3-89f1-026b04f35a2c",
-    ResultIndex: "OB1",
-  };
-
-  try {
-    const { data } = await axios.post(
-      "http://api.tektravels.com/BookingEngineService_Air/AirService.svc/rest/FareQuote",
-      payload
-    );
-
-    res.status(200).json(data);
-  } catch (error) {
-    res.status(400).json(error);
-  }
-});
 
 app.listen(4000, (req, res) => {
   console.log("server is connected to port 4000");
