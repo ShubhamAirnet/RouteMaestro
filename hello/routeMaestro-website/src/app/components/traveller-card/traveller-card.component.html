@@ -7,44 +7,45 @@
         </div>
         <div class="travellers">
             <div style="display: flex; justify-content: flex-start; align-items: center;  padding-left:20px;">
-                <h2>Traveller 1 </h2>
+                <h2>Traveller {{currentTravellerCount}} </h2>
                 <span> /{{NoOfTravellers}}</span>
             </div>
            
-            <div *ngIf="RoomGuest && RoomGuest.length > 0" class="container">
-                <div class="boxes" *ngFor="let item of RoomGuest; let i=index;">
-                  <!-- Adult Cards -->
-                  <div *ngIf="item?.NoOfAdults" class="boxes">
-                    <ng-container *ngFor="let star of getArray(item?.NoOfAdults)" class="boxes">
-                      <div class="card" (click)="selectCard(i)" [style.box-shadow]="selectedCard === i ? '0 0 10px 5px #007BFF' : 'none'">
-                        <span style="width: 100%; background-color: black; color:white; display: flex; justify-content: center;">Room -{{i+1}}</span>
-                        <div>
-                          <i class="fa-solid fa-user adult-icon"></i>
-                          <p>Adult</p>
+        
+            <ng-container *ngIf="RoomGuest && RoomGuest.length > 0">
+              <div class="container">
+                <!-- Loop through RoomGuest array -->
+                <div class="boxes">
+                  <ng-container *ngFor="let item of RoomGuest; let i = index">
+                    <!-- Check if NoOfAdults is defined and greater than 0 -->
+                    <ng-container *ngIf="item?.NoOfAdults && item?.NoOfAdults > 0">
+                      <!-- Loop to generate cards for adults -->
+                      <ng-container *ngFor="let star of getArray(item?.NoOfAdults); let j = index">
+                        <div class="card" (click)="selectCard(i, j)" [style.box-shadow]="isSelected(i, j) ? '0 0 10px 5px #007BFF' : 'none'">
+                          <span style="width: 100%; background-color: black; color: white; display: flex; justify-content: center;">Room -{{ i + 1 }}</span>
+                          <div  style="display: flex; flex-direction: column; justify-content: center; align-items: center;">
+                            <i class="fa-solid fa-user adult-icon"></i>
+                            <p>Traveller</p>
+                          </div>
                         </div>
-                      </div>
-                    </ng-container>
-                  </div>
-              
-                  <!-- Child Cards (if any) -->
-                  <div *ngIf="item.NoOfChild" class="boxes">
-                    <ng-container *ngFor="let star of getArray(item?.NoOfChild)" class="boxes">
-                      <div class="card" (click)="selectCard(i)" [style.box-shadow]="selectedCard === i ? '0 0 10px 5px #007BFF' : 'none'">
-                        <span style="width: 100%; background-color: black; color:white; display: flex; justify-content: center;">Room -{{i+1}}</span>
-                        <div>
-                          <i class="fa-solid fa-baby child-icon"></i>
-                          <p>Child</p>
+                      </ng-container>
+                      <ng-container *ngFor="let star of getArray( item?.NoOfChild); let j = index">
+                        <div class="card" (click)="selectCard(i, j)" [style.box-shadow]="isSelected(i, j) ? '0 0 10px 5px #007BFF' : 'none'">
+                          <span style="width: 100%; background-color: black; color: white; display: flex; justify-content: center;">Room -{{ i + 1 }}</span>
+                          <div style="display: flex; flex-direction: column; justify-content: center; align-items: center;">
+                            <i class="fa-solid fa-baby child-icon"></i>
+                            <p>Traveller</p>
+                          </div>
                         </div>
-                      </div>
+                      </ng-container>
                     </ng-container>
-                  </div>
+                  </ng-container>
                 </div>
-              </div>
-              
-              
                 
-                  
-                  
+              </div>
+            </ng-container>
+            
+              
                   
                 <!-- <div class="boxes">
                     <div class="card" >
@@ -148,7 +149,7 @@
                                 </select>
                             </div>
                             <div>
-                                <label><span>Extra Baggage (kgs)</span></label>
+                                <label><span>Meal</span></label>
                                 <select formControlName="extraBaggage2">
                                     <option>Weight 0 (Rs. 0)</option>
                                     <option>Weight 5 (Rs. 2210)</option>

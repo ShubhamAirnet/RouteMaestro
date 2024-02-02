@@ -109,6 +109,7 @@ body{
 }
 .btnss {
     width: 100%;
+    
     display: flex;
     justify-content: space-around;
     align-items: center;
@@ -123,8 +124,11 @@ body{
         padding: 10px 20px;
         cursor: pointer;
         border-radius: 5px;
-        width: 120px;
-        height: 60px;
+        width: 150px;
+        height: 40px;
+        display: flex;
+        justify-content: center;
+        
         span{
             color: white;
             font-weight: 600;

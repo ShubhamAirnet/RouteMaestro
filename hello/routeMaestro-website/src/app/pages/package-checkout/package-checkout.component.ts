@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { HotelsService } from 'src/app/Services/hotels_api/hotels.service';
 
@@ -15,14 +15,26 @@ export class PackageCheckoutComponent implements OnInit {
   dialog:boolean=false;
   contactForm: FormGroup;
   Travellers:boolean=true;
+  merchantShare:number=0;
+  travelers:any;
+  editIndex:number=0;
 
-  constructor(private auth:HotelsService,private fb: FormBuilder) {
+  constructor(private auth:HotelsService,private fb: FormBuilder,private cdr: ChangeDetectorRef) {
     
    }
 
   ngOnInit(): void {
     // this.getData();
     this.initializeForm();
+  }
+
+  handleTravelerArrayChange(travelerArray: any[]): void {
+    // Process the traveler array data received from the child component
+    console.log(travelerArray);
+    this.travelers=travelerArray;
+    console.log(this.travelers)
+    this.cdr.detectChanges();
+    // ... other logic
   }
   private initializeForm(): void {
     this.contactForm = this.fb.group({
@@ -37,8 +49,10 @@ export class PackageCheckoutComponent implements OnInit {
 
  
 
-  dialogbox(){
+  dialogbox(index:number){
+    console.log(index)
     this.dialog=!this.dialog;
+    this.editIndex=index;
   }
 
   async submit(){

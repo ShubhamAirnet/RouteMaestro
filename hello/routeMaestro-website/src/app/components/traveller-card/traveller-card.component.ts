@@ -9,13 +9,16 @@ import { HotelsService } from 'src/app/Services/hotels_api/hotels.service';
 })
 export class TravellerCardComponent implements OnInit {
   @Input() dialog: boolean;
+  @Input() editIndex: number;
   @Output() closeDialog: EventEmitter<void> = new EventEmitter<void>();
+  @Output() travelerArrayChange: EventEmitter<any[]> = new EventEmitter<any[]>();
   travelData:any;
   RoomGuest=[] as any[];
   NoOfTravellers:number=0;
   travelerForm: FormGroup;
   travelers: any[] = [];
   selectedCard: number | null = null;
+  currentTravellerCount = 1;
 
   constructor(private auth:HotelsService,private fb: FormBuilder,private zone: NgZone) {
     // this.getData();
@@ -45,37 +48,63 @@ export class TravellerCardComponent implements OnInit {
     });
   }
  
-  addTraveler() {
-    if (this.travelers.length < this.NoOfTravellers) {
-      const newTraveler = { ...this.travelerForm.value };
+  selectCard(roomIndex: number, cardIndex: number): void {
+  this.selectedCard = roomIndex * 4 + cardIndex;
+}
 
-      // Run the code inside Angular's zone
-      this.zone.run(() => {
-        this.travelers.push(newTraveler);
-        console.log(this.travelers);
-
-        // Clear form fields after adding a traveler
-        this.travelerForm.reset();
-        console.log(this.travelerForm);
-
-        // Check if the array size matches the limit
-        if (this.travelers.length === this.NoOfTravellers) {
-          // Close the dialog if the array size matches the limit
-          this.dialogbox();
-        }
-      });
-    } else {
-      console.warn('Cannot add more travelers. Reached the specified limit.');
-    }
+isSelected(roomIndex: number, cardIndex: number): boolean {
+  return this.selectedCard === roomIndex * 4+ cardIndex;
+}
+addTraveler() {
+  console.log(this.travelers)
+  if (this.currentTravellerCount < this.NoOfTravellers) {
+    this.currentTravellerCount++;
   }
+
+  if (this.travelers.length < this.NoOfTravellers) {
+    const newTraveler = { ...this.travelerForm.value };
+
+    // If there is an editIndex, update the existing traveler data
+    if (this.editIndex !== undefined) {
+      this.travelers[this.editIndex] = newTraveler;
+      this.editIndex = undefined; // Reset editIndex after updating
+
+      // Update the form fields in real time
+      this.travelerForm.patchValue(newTraveler);
+    } else {
+      // If no editIndex, add a new traveler
+      this.travelers.push(newTraveler);
+    }
+
+    // Clear form fields after adding or editing a traveler
+    this.travelerForm.reset();
+
+    // Emit the updated travelers array
+    this.travelerArrayChange.emit(this.travelers);
+
+    // Check if the array size matches the limit
+    if (this.travelers.length === this.NoOfTravellers) {
+      // Close the dialog if the array size matches the limit
+      this.dialogbox();
+    }
+  } else {
+    console.warn('Cannot add more travelers. Reached the specified limit.');
+  }
+}
+
+
+
+
 
 
   ngOnInit(): void {
+    if (this.editIndex !== undefined) {
+      // If editIndex is provided, initialize form values with existing data
+      this.travelerForm.setValue(this.travelers[this.editIndex]);
+    }
     
   }
-  selectCard(index: number): void {
-    this.selectedCard = index;
-  }
+ 
 
   dialogbox() {
     this.closeDialog.emit();

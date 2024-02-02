@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from "@angular/core";
+import { Component, EventEmitter, Input, OnInit, Output } from "@angular/core";
 
 @Component({
   selector: "app-flight-card",
@@ -8,6 +8,7 @@ import { Component, Input, OnInit } from "@angular/core";
 export class FlightCardComponent implements OnInit {
  
   @Input() completeFlight;  
+  @Output() finalDestinationCityEmitter: EventEmitter<string> = new EventEmitter();
   
   constructor() {}
 
@@ -210,15 +211,18 @@ export class FlightCardComponent implements OnInit {
 
 
   getFinalDestinationCity(flightRankInArray: number): string {
+    const finalDestinationCity =
+      this.completeFlight.length === 1
+        ? this.completeFlight[0].Destination.Airport.CityName
+        : this.completeFlight[this.completeFlight.length - 1].Destination.Airport.CityName;
 
-    if(this.completeFlight.length === 1){
-      return this.completeFlight[0].Destination.Airport.CityName;
-    }
-    else{
-      return this.completeFlight[this.completeFlight.length - 1].Destination.Airport.CityName;
-    }
+    // Emit the final destination city
+    this.finalDestinationCityEmitter.emit(finalDestinationCity);
    
-  }
+
+    return finalDestinationCity;
+}
+
   getArrivalTime(flightRankInArray: number): string {
     let arrFlightDateTime: string;
 

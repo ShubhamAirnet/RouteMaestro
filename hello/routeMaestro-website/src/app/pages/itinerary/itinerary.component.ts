@@ -3,6 +3,10 @@ import { FlightsService } from "src/app/Services/flights_api/flights.service";
 import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
 import { HotelsService } from "src/app/Services/hotels_api/hotels.service";
 
+import { ChangeDetectorRef } from "@angular/core";
+
+
+
 @Component({
   selector: "app-itinerary",
   templateUrl: "./itinerary.component.html",
@@ -20,6 +24,7 @@ export class ItineraryComponent implements OnInit {
   allFlights = [];
 
   // V2
+  finalDestinationCity: string;
 
   currentFlightSet;
   currentFlightSetSegmentsArray=[]
@@ -29,7 +34,7 @@ export class ItineraryComponent implements OnInit {
 
   offeredFare;
   publishedFare;
-
+  dialog:boolean=false;
 
 
   // // powerSet which contains all the similar kinda flightSets
@@ -61,8 +66,12 @@ export class ItineraryComponent implements OnInit {
   // currentFlightCombinationArray = [];
 
   // currentFlightSetIndex: number;
+  resultCount:number=10;
 
   isFlightOptionsAvailable: boolean = false;
+  allHotels:any;
+  currentCity: string | undefined;
+  cities:any;
 
   showFlightOptions() {
     this.isFlightOptionsAvailable = !this.isFlightOptionsAvailable;
@@ -75,7 +84,11 @@ export class ItineraryComponent implements OnInit {
   //     this.isHotelInfo=!this.isHotelInfo;
   // }
 
-  constructor(private flightApiService: FlightsService, private hotelApiService:HotelsService) {}
+
+  constructor(private flightApiService: FlightsService,private hotels:HotelsService,private cdr: ChangeDetectorRef ) {
+
+  }
+
 
   ngOnInit(): void {}
 
@@ -86,6 +99,18 @@ export class ItineraryComponent implements OnInit {
   //     this.settingCurrentFlightSetAndSegmentsArr(currentFlightSetIndex);
   //   }
   // }
+
+  async getCityData(){
+    try{
+      const res=await this.hotels.getSearchInfo();
+    
+      this.cities=res;
+      console.log(this.cities.cities)
+      this.cities.cities.map(item=>console.log(item.cityName))
+    }catch(error){
+      console.log(error)
+    }
+  }
 
 
   authenticateFlightApi() {
@@ -101,6 +126,8 @@ export class ItineraryComponent implements OnInit {
   }
 
   async multiStopSearchFlightsV2() {
+    this.getHotelData()
+    this.getCityData()
     try {
 
       const  data: any = await this.flightApiService.multiStopSearchFlights();
@@ -113,6 +140,10 @@ export class ItineraryComponent implements OnInit {
         this.currentFlightSetIndex="OB1";
 
         this.settingCurrentFlightSetAndSegmentsArr(this.currentFlightSetIndex);
+         // Trigger change detection manually
+      this.cdr.detectChanges();
+      
+        
 
        
       }
@@ -122,6 +153,16 @@ export class ItineraryComponent implements OnInit {
   }
 
 
+  async getHotelData(){
+    try{
+      const res=await this.hotels.getAllDetails(this.resultCount);
+      console.log(res);
+      this.allHotels=res.data.data;
+      
+    }catch(error){
+      console.log(error)
+    }
+  }
    settingCurrentFlightSetAndSegmentsArr(resultIndex:string){
 
      this.currentFlightSet=this.allFlights.filter(flightSet=>(flightSet.resultIndex===resultIndex));
@@ -152,12 +193,15 @@ export class ItineraryComponent implements OnInit {
   // =====================================================================================================================
   // =====================================================================================================================
 
+  selectCity(city: string) {
+    this.currentCity = city;
+  }
 
   async getHotels(){
 
   try {
     
-    const data= await this.hotelApiService.getAllDetails(10);
+    const data= await this.hotels.getAllDetails(10);
 
     if(data){
       console.log(data);
@@ -170,10 +214,15 @@ export class ItineraryComponent implements OnInit {
   }
 
 
+
   async getSchedule(){
 
     console.log("will be getting schedule here")
 
+  }
+
+  dialogbox(){
+    this.dialog=!this.dialog;
   }
 
 

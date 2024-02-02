@@ -99,9 +99,36 @@
           </button>
         </div>
 
-
-        <app-combined-itinerary></app-combined-itinerary>
+        <!-- flight cards for default Itinerary -->
         
+          <div
+        *ngFor="let flight of currentFlightSetSegmentsArray; let city of cities;"
+        style="
+          width: 100%;
+          margin: 14px 0 20px 442px;
+          display: flex;
+          flex-direction: column;
+          gap: 21px;
+        "
+      >
+        <!-- completeFlight = all flights to reach from a->b  with all layovers   -->
+        <app-flight-card [completeFlight]="flight"></app-flight-card>
+
+        <app-city-schedule (closeDialog)="dialogbox()" [dialog]="dialog"></app-city-schedule>
+
+        <!-- Access city.cityName inside the ngIf condition -->
+        <app-hotel-cards
+          *ngIf="dialog"
+          (closeDialog)="dialogbox()"
+          [allHotels]="allHotels"
+          [city]="city"
+          [dialog]="dialog"
+          style="width: 100%;"
+        ></app-hotel-cards>
+          </div>
+       
+
+>>>>>>> d0f1f9edd7e30234bc8467c91c1b869a42bf0718
 
          
       </div>
