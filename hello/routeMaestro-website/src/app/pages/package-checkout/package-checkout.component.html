@@ -1,4 +1,4 @@
-<app-traveller-card *ngIf="dialog" (closeDialog)="dialogbox()" [dialog]="dialog"  style="width: 100%;"></app-traveller-card>
+<app-traveller-card *ngIf="dialog" (closeDialog)="dialogbox()"  [dialog]="dialog" [editIndex]="editIndex"  (travelerArrayChange)="handleTravelerArrayChange($event)" style="width: 100%;"></app-traveller-card>
 <body>
     
     <div class="headers">
@@ -35,24 +35,51 @@
                     <h2 style="color: white; padding-left: 10px; margin-top: 5px;">{{NoOfAdults+NoOfChild}} Traveller - </h2>
                     <span style="color: white; padding-left: 10px;"> {{NoOfRooms}} Rooms | {{NoOfAdults}} Adult {{NoOfChild}} Child</span>
                 </div>
-                <ng-container *ngIf="!Travellers">
+                <ng-container *ngIf="!Travellers && !travelers">
                     <ng-container *ngFor="let star of getArray(NoOfAdults+NoOfChild); let i=index;">
                         <div class="box1">
                             <div style="width: 200px;">
                                 <small>Traveller {{i+1}}</small>
-                                <a class="p" (click)="dialogbox()">Add Traveller </a>
-                            </div>
+                               
+                                    <a class="p" (click)="dialogbox(i)"><span>Add Traveller</span></a>
+                                  
+                                  </div>
                             <!-- <small style="font-size: 0.7rem;">* Adult age should be more than 18 </small> -->
                         </div>
                     </ng-container>
                 </ng-container>
-                <ng-container *ngIf="Travellers">
+                <ng-container *ngIf="Travellers && !travelers">
                     <ng-container *ngFor="let star of getArray(2); let i=index;">
                         <div class="box1">
                             <div style="width: 200px;">
                                 <small>Traveller {{i+1}}</small>
-                                <a class="p" (click)="dialogbox()">Add Traveller </a>
-                            </div>
+                                <a class="p" (click)="dialogbox(i)"><span>Add Traveller</span></a>
+                                  </div>
+                            <!-- <small style="font-size: 0.7rem;">* Adult age should be more than 18 </small> -->
+                        </div>
+                    </ng-container>
+                </ng-container>
+                <ng-container *ngIf="!Travellers && travelers">
+                    <ng-container *ngFor="let star of getArray(NoOfAdults+NoOfChild); let i=index;">
+                        <div class="box1">
+                            <div style="width: 200px;">
+                                <small>Traveller {{i+1}}</small>
+                                <a class="p" (click)="dialogbox()">
+                                    {{ travelers[i]?.personalInfo?.firstName || "Add Traveller" }}
+                                  </a>
+                                  </div>
+                            <!-- <small style="font-size: 0.7rem;">* Adult age should be more than 18 </small> -->
+                        </div>
+                    </ng-container>
+                </ng-container>
+                <ng-container *ngIf="Travellers && travelers">
+                    <ng-container *ngFor="let star of getArray(2); let i=index;">
+                        <div class="box1">
+                            <div style="width: 200px;">
+                                <small>Traveller {{i+1}}</small>
+                                <a class="p" (click)="dialogbox()">
+                                    {{ travelers[i]?.personalInfo?.firstName || "Add Traveller" }}</a>
+                                  </div>
                             <!-- <small style="font-size: 0.7rem;">* Adult age should be more than 18 </small> -->
                         </div>
                     </ng-container>
@@ -182,15 +209,6 @@
                     </div>
                     <div class="price-details">
                         <div style="width: 120px;">
-                            <small>Merchant Share</small>
-                        </div>
-                        
-                        <div style="width: fit-content;">
-                            <small>₹ 178888</small>
-                        </div>
-                    </div>
-                    <div class="price-details">
-                        <div style="width: 120px;">
                             <small>Taxes</small>
                         </div>
                         
@@ -199,6 +217,15 @@
                         </div>
                     </div>
                    
+                    <div class="price-details" style="background-color: #e24729; padding-bottom: 5px;">
+                        <div style="width: 120px;">
+                            <small>Merchant Share</small>
+                        </div>
+                        
+                        <div style="width: fit-content;">
+                            <input type="number" [(ngModel)]="merchantShare" style="width: 80px; height: 15px; font-size: 0.8rem;" />
+                        </div>
+                    </div>
                 </div>
     
                 <div class="third">
@@ -231,25 +258,25 @@
                 <div class="route">
                     <h3 style="padding-bottom:20px ;">Route Overview</h3>
                     <div class="path">
-                        <span style="font-weight:600 ;">Delhi</span>
-                        <div class="big-dot">•</div>
-                        <div class="vertical-line"></div>
-                        <i class="fa-solid fa-plane plane-icon"></i>
-                        <div class="vertical-line"></div>
-                        <div class="big-dot">•</div>
-                        <span style="font-weight:600 ;">Dubai</span>
-                        <div class="big-dot">•</div>
-                        <div class="vertical-line"></div>
-                        <i class="fa-solid fa-car car-icon"></i>
-                        <div class="vertical-line"></div>
-                        <div class="big-dot">•</div>
-                        <span style="font-weight:600 ;">Abu Dhabhi</span>
-                        <div class="big-dot">•</div>
-                        <div class="vertical-line"></div>
-                        <i class="fa-solid fa-plane plane-icon"></i>
-                        <div class="vertical-line"></div>
-                        <div class="big-dot">•</div>
-                        <span style="font-weight:600 ;">Delhi</span>
+                        <span style="font-weight:600 ;">{{travelData?.trip?.departureCity}}</span>
+                        <ng-container *ngFor="let city of travelData?.cities">
+                            <div class="big-dot">•</div>
+                            <div class="vertical-line"></div>
+                            <ng-container *ngIf="next_city_transport===flight">
+                                <i class="fa-solid fa-plane plane-icon"></i>
+                            </ng-container>
+                            <ng-container *ngIf="next_city_transport===road">
+                                <i class="fa-solid fa-car car-icon"></i>
+                            </ng-container>
+                            
+                            <div class="vertical-line"></div>
+                            <div class="big-dot">•</div>
+                            <span style="font-weight:600 ;">{{city?.cityName}}</span>
+                           
+                            
+                        </ng-container>
+                        
+                        <span style="font-weight:600 ;">{{travelData?.trip?.departureCity}}</span>
                     </div>
 
                 </div>

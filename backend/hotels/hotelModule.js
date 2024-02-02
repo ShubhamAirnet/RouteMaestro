@@ -3,8 +3,7 @@ const router = express.Router();
 const db = require("../firebaseConfig");
 const axios = require("axios");
 
-let hotelData=[]
-let i=0;
+
 
 router.get("/authenticate", async (req, res) => {
   const payload = {
@@ -117,13 +116,15 @@ router.get("/topDestinations",async(req,res)=>{
 })
 
 
+
 router.post('/getIternary', async (req, res) => {
-  hotelData=[];
-      i=0;
+  let hotelData=[]
+  let i=0;
+      const {resultCount,token}=req.body;
   try {
     const itineraryRef = db.collection("Demo_Itinerary").doc('updated_Itinerary');
     const itinerary = await itineraryRef.get();
-    const resultCount=req.body.resultCount;
+
     
 
     if (itinerary.exists) {
@@ -135,7 +136,7 @@ router.post('/getIternary', async (req, res) => {
       await Promise.all(cities.map(async (city) => {
         i++;
         console.log(i);
-        await getHotelSearchData(city, NoOfRooms, resultCount, trip.RoomGuests);
+        await getHotelSearchData(city, NoOfRooms, resultCount, trip.RoomGuests,token,hotelData);
       }));
     
 
@@ -150,11 +151,11 @@ router.post('/getIternary', async (req, res) => {
 
 
 
-async function getHotelSearchData(city, NoOfRooms, resultCount, RoomGuests) {
+async function getHotelSearchData(city, NoOfRooms, resultCount, RoomGuests,token,hotelData) {
 
   const payload = {
     EndUserIp:"49.43.88.155",
-    TokenId:"93f7a941-4602-4533-83ad-59a57fbfb23a",
+    TokenId:token,
     CheckInDate: city.checkInDate,
     NoOfNights: city.noOfNights,
     CountryCode:city.countryCode,
@@ -175,7 +176,7 @@ async function getHotelSearchData(city, NoOfRooms, resultCount, RoomGuests) {
     const hotelSearchData = data.HotelSearchResult;
     hotelSearchData.CityName = city.cityName;
 
-    const cityData=await getAllData(hotelSearchData,city)
+    const cityData=await getAllData(hotelSearchData,city,token)
     // Return hotelSearchData as an array
     hotelData.push(cityData);
     
@@ -190,37 +191,35 @@ async function getHotelSearchData(city, NoOfRooms, resultCount, RoomGuests) {
 
 
 
-async function getAllData(hotelSearchData,city) {
+async function getAllData(hotelSearchData,city,token) {
   
   let cityData = {};
   let response=[];
 
   if (hotelSearchData.HotelResults) {
   await Promise.all(hotelSearchData.HotelResults.map(async (item) => {
-    const infoPromise = getHotelInfoData(item.ResultIndex, item.HotelCode, hotelSearchData.TraceId);
-    const roomPromise = getHotelRoomInfoData(item.ResultIndex, item.HotelCode, hotelSearchData.TraceId);
+    const infoPromise = getHotelInfoData(item.ResultIndex, item.HotelCode, hotelSearchData.TraceId,token);
+    const roomPromise = getHotelRoomInfoData(item.ResultIndex, item.HotelCode, hotelSearchData.TraceId,token);
 
     const [info, room] = await Promise.all([infoPromise, roomPromise]);
 
-    response.push({ search: item, info: info, room: room });
+    response.push({ search: item, info: info, room: room,resultIndex:item.ResultIndex });
   }));
 }
   cityData["cityName"]=city.cityName;
   cityData["Response"]=response;
-  if (hotelSearchData.HotelResults && hotelSearchData.HotelResults.length > 0) {
-    cityData["ResultIndex"] = hotelSearchData.HotelResults[0].ResultIndex;
-  }
+ 
 
   return cityData;
 
 }
 
 
-async function getHotelInfoData(resultIndex,hotelCode,traceId){
+async function getHotelInfoData(resultIndex,hotelCode,traceId,token){
   const payload ={
   
     EndUserIp: "49.43.88.155",
-    TokenId: "93f7a941-4602-4533-83ad-59a57fbfb23a",
+    TokenId: token,
     ResultIndex: resultIndex,
     HotelCode: hotelCode,
     TraceId:traceId
@@ -233,11 +232,11 @@ async function getHotelInfoData(resultIndex,hotelCode,traceId){
     console.log(error)
   }
 }
-async function getHotelRoomInfoData(resultIndex,hotelCode,traceId){
+async function getHotelRoomInfoData(resultIndex,hotelCode,traceId,token){
   const payload ={
   
     EndUserIp: "49.43.88.155",
-    TokenId: "93f7a941-4602-4533-83ad-59a57fbfb23a",
+    TokenId:token,
     ResultIndex: resultIndex,
     HotelCode: hotelCode,
     TraceId:traceId
