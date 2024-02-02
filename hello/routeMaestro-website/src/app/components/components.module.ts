@@ -55,7 +55,7 @@ import { CityScheduleComponent } from './city-schedule/city-schedule.component';
     AdminNavbarComponent,
 
     HotelCardsComponent,
-    TravellerCardComponent
+    TravellerCardComponent,
 
     HotelInfoComponent,
     CityScheduleComponent,

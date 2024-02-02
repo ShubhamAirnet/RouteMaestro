@@ -1,5 +1,6 @@
 import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
+import axios from 'axios';
 import {
   Firestore,
   collection,
@@ -79,4 +80,14 @@ export class HotelsService {
     }
   }
 
+  async getAllDetails(resultCount) {
+    const token=localStorage.getItem("authenticateToken")
+    try {
+      const res = await axios.post('http://localhost:4000/hotel/getIternary', { resultCount: resultCount,token:token });
+     
+      return res;
+    } catch (error) {
+      console.log(error);
+    }
+  }
 }
