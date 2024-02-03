@@ -1,5 +1,6 @@
 import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
+
 import axios from 'axios';
 import {
   Firestore,
@@ -16,6 +17,7 @@ import {
   QuerySnapshot
 } from "@angular/fire/firestore";
 
+
 @Injectable({
   providedIn: 'root'
 })
@@ -26,35 +28,6 @@ export class HotelsService {
   authenticate(){
     return this.http.get("http://localhost:4000/flight/authenticate");
   }
-
-  async getSearchInfo() {
-    console.log("fetching");
-  
-    const searchDocRef = doc(this.firestore, "Demo_Itinerary", "updated_Itinerary");
-  
-    return new Promise((resolve, reject) => {
-      const unsubscribe = onSnapshot(
-        searchDocRef,
-        (data) => {
-          if (data.exists()) {
-            unsubscribe();
-            console.log(data.data());
-            resolve(data.data());
-          } else {
-            unsubscribe();
-            console.log("data not present");
-            reject("data not present");
-          }
-        },
-        (error) => {
-          unsubscribe();
-          console.error("Error fetching data:", error);
-          reject(error);
-        }
-      );
-    });
-  }
-
   async updatePrimaryContact(form: any) {
     console.log("fetching");
   
@@ -83,11 +56,38 @@ export class HotelsService {
   async getAllDetails(resultCount) {
     const token=localStorage.getItem("authenticateToken")
     try {
-      const res = await axios.post('http://localhost:4000/hotel/getIternary', { resultCount: resultCount,token:token });
-     
-      return res;
+      const {data} = await axios.post('http://localhost:4000/hotel/getIternary', { resultCount: resultCount,token:token });
+      console.log(data);
+      return data;
     } catch (error) {
       console.log(error);
     }
   }
+
+  async getSearchInfo() {
+    console.log("fetching");
+    const searchDocRef = doc(this.firestore, "Demo_Itinerary", "updated_Itinerary");
+    return new Promise((resolve, reject) => {
+      const unsubscribe = onSnapshot(
+        searchDocRef,
+        (data) => {
+          if (data.exists()) {
+            unsubscribe();
+            console.log(data.data());
+            resolve(data.data());
+          } else {
+            unsubscribe();
+            console.log("data not present");
+            reject("data not present");
+          }
+        },
+        (error) => {
+          unsubscribe();
+          console.error("Error fetching data:", error);
+          reject(error);
+        }
+      );
+    });
+  }
+
 }

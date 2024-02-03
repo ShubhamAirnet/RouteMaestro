@@ -9,7 +9,7 @@ const db = require("./firebaseConfig");
 var bodyParser = require("body-parser");
 const hotelModule = require("./hotels/hotelModule");
 const flightModule = require("./flights/flightModule");
-
+const scheduleModule=require("./schedule/schedule")
 
 
 app.use(bodyParser.json({ limit: "50mb" }));
@@ -21,6 +21,7 @@ app.use(cors());
 
 app.use("/hotel" ,hotelModule)
 app.use("/flight" ,flightModule)
+app.use("/schedule", scheduleModule)
 
 
 

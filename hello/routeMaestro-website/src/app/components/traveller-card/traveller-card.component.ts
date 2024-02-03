@@ -21,7 +21,7 @@ export class TravellerCardComponent implements OnInit {
   currentTravellerCount = 1;
 
   constructor(private auth:HotelsService,private fb: FormBuilder,private zone: NgZone) {
-    this.getData();
+    // this.getData();
     this.initializeForm();
    }
 
@@ -113,29 +113,29 @@ addTraveler() {
     return new Array(length);
   }
 
-  async getData() {
-    console.log('fetching');
+  // async getData() {
+  //   console.log('fetching');
     
-    try {
-      const res = await this.auth.getSearchInfo();
-      console.log(res);
+  //   try {
+  //     const res = await this.auth.getSearchInfo();
+  //     console.log(res);
   
-      if (res) {
-        this.travelData = res;
-        this.RoomGuest = this.travelData.trip.RoomGuests;
-        for(let i=0;i<this.travelData.trip.RoomGuests.length;i++){
-          this.NoOfTravellers+=this.travelData.trip.RoomGuests[i].NoOfAdults;
-          this.NoOfTravellers+=this.travelData.trip.RoomGuests[i].NoOfChild;
-        }
-        console.log(this.RoomGuest)
-        console.log(this.NoOfTravellers)
+  //     if (res) {
+  //       this.travelData = res;
+  //       this.RoomGuest = this.travelData.trip.RoomGuests;
+  //       for(let i=0;i<this.travelData.trip.RoomGuests.length;i++){
+  //         this.NoOfTravellers+=this.travelData.trip.RoomGuests[i].NoOfAdults;
+  //         this.NoOfTravellers+=this.travelData.trip.RoomGuests[i].NoOfChild;
+  //       }
+  //       console.log(this.RoomGuest)
+  //       console.log(this.NoOfTravellers)
         
-      } else {
-        console.log("No data received from getSearchInfo");
-      }
-    } catch (error) {
-      console.log(error);
-    }
-  }
+  //     } else {
+  //       console.log("No data received from getSearchInfo");
+  //     }
+  //   } catch (error) {
+  //     console.log(error);
+  //   }
+  // }
 
 }

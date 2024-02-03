@@ -9,6 +9,7 @@ import { HotelsService } from 'src/app/Services/hotels_api/hotels.service';
 })
 export class HotelCardsComponent implements OnInit {
  
+
   resultCount:number=10;
   @Input() dialog: boolean;
   @Input() allHotels: any; 
@@ -22,6 +23,7 @@ export class HotelCardsComponent implements OnInit {
     // this.getData()
     
     
+
    }
    ngOnChanges(changes: SimpleChanges): void {
     console.log("HotelCardsComponent ngOnChanges", changes);
@@ -30,25 +32,12 @@ export class HotelCardsComponent implements OnInit {
     // You can add logic here to handle input changes if needed
   }
 
-  //  async getAllDetails() {
-  //   try {
-  //     const res = await axios.post('http://localhost:4000/hotel/getIternary', { resultCount: this.resultCount });
-  //     console.log(res.data);
-  //     this.hotels = res.data.data;
-  
-  //     // Trigger change detection manually
-  //     this.cdr.detectChanges();
-  //   } catch (error) {
-  //     console.log(error);
-  //   }
-  // }
-  ngOnInit(): void {
-    // this.getData()
-    
-  }
+
+  ngOnInit(): void {      }
   getStarArray(rating: number): any[] {
     return Array(rating).fill(0);
   }
+
 
   async getData(){
     console.log('fetching')
