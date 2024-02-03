@@ -43,7 +43,7 @@ export class TravellerCardComponent implements OnInit {
         extraBaggage2: [''],
         companyName: [''],
         gstNumber: [''],
-        companyEmail: ['', Validators.email],
+        
       }),
     });
   }

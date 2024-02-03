@@ -92,19 +92,19 @@
                           <legend>Personal Info</legend>
                           <div>
                             <label><span>First Name</span></label>
-                            <input type="text" formControlName="firstName" />
+                            <input type="text" formControlName="firstName" required />
                           </div>
                           <div>
                             <label><span>Last Name</span></label>
-                            <input type="text" formControlName="lastName" />
+                            <input type="text" formControlName="lastName" required/>
                           </div>
                           <div>
                             <label><span>Date of Birth</span></label>
-                            <input type="date" formControlName="dateOfBirth" />
+                            <input type="date" formControlName="dateOfBirth" required/>
                           </div>
                           <div>
                             <label><span>Gender</span></label>
-                            <select formControlName="gender">
+                            <select formControlName="gender" required>
                               <option></option>
                               <option>Male</option>
                               <option>Female</option>
@@ -112,7 +112,7 @@
                           </div>
                           <div>
                             <label><span>Nationality</span></label>
-                            <select formControlName="nationality">
+                            <select formControlName="nationality" required>
                               <option></option>
                               <option>India</option>
                               <option>United States</option>
@@ -120,19 +120,19 @@
                           </div>
                           <div>
                             <label><span>PAN</span></label>
-                            <input type="text" formControlName="pan" />
+                            <input type="text" formControlName="pan" required/>
                           </div>
                           <div>
                             <label><span>Passport No.</span></label>
-                            <input type="text" formControlName="passportNo" />
+                            <input type="text" formControlName="passportNo" required />
                           </div>
                           <div>
                             <label><span>Passport Issue Date</span></label>
-                            <input type="date" formControlName="passportIssueDate" />
+                            <input type="date" formControlName="passportIssueDate" required/>
                           </div>
                           <div>
                             <label><span>Passport Expiry Date</span></label>
-                            <input type="date" formControlName="passportExpiryDate" />
+                            <input type="date" formControlName="passportExpiryDate" required/>
                           </div>
                         </fieldset>
 
@@ -175,16 +175,17 @@
                         
                             
                         </fieldset>
-                        <ng-container *ngIf="travelers.length+1!==NoOfTravellers">
-                            <div class="btn">
-                                <button type="submit"><span>Add Traveler</span></button>
-                              </div>
+                        <ng-container *ngIf="travelers.length + 1 !== NoOfTravellers">
+                          <div class="btn" *ngIf="travelerForm.valid">
+                            <button type="submit"><span>Add Traveler</span></button>
+                          </div>
                         </ng-container>
-                        <ng-container *ngIf="travelers.length+1===NoOfTravellers">
-                            <div class="btn">
-                                <button type="submit"><span>Submit</span></button>
-                              </div>
+                        <ng-container *ngIf="travelers.length + 1 === NoOfTravellers">
+                          <div class="btn" *ngIf="travelerForm.valid">
+                            <button type="submit"><span>Submit</span></button>
+                          </div>
                         </ng-container>
+                        
                       </div>
                     </div>
                   </form>

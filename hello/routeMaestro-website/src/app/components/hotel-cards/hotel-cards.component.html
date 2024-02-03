@@ -10,7 +10,7 @@
             <div class="box2">
                 <div class="box-containers">
                     <div *ngIf="allHotels">
-                      <ng-container *ngFor="let hotels of allHotels;"> 
+                      <ng-container *ngFor="let hotels of allHotels | async;"> 
                         <ng-container *ngIf="hotels.cityName===city" >
                           <div  class="cards" *ngFor="let hotel of hotels?.Response; let i = index">
                         

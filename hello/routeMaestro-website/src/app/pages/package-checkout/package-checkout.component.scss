@@ -108,7 +108,7 @@ body{
     width: 100px;
 }
 .btnss {
-    width: 100%;
+    width: 84%;
     
     display: flex;
     justify-content: space-around;
@@ -126,6 +126,7 @@ body{
         border-radius: 5px;
         width: 150px;
         height: 40px;
+        border-radius: 20px;
         display: flex;
         justify-content: center;
         
@@ -142,7 +143,7 @@ body{
     margin-top: 20px;
     margin-left: 20px;
     width: 80%;
-    height: 200px;
+    height: 300px;
     background-color: gainsboro;
     border-radius: 10px;
 }
@@ -155,6 +156,12 @@ body{
     gap:30px;
     input{
         border: 1px solid;
+        width: 160px;
+        border-radius: 5px;
+    }
+    div{
+        display: flex;
+        gap: 5px;
     }
 }
 

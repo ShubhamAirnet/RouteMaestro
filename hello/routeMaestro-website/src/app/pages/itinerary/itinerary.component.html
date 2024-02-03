@@ -102,7 +102,7 @@
         <!-- flight cards for default Itinerary -->
         
           <div
-        *ngFor="let flight of currentFlightSetSegmentsArray; let city of cities;"
+        *ngFor="let flight of currentFlightSetSegmentsArray; let i=index"
         style="
           width: 100%;
           margin: 14px 0 20px 442px;
@@ -111,9 +111,11 @@
           gap: 21px;
         "
       >
+      <p>{{i}}</p>
         <!-- completeFlight = all flights to reach from a->b  with all layovers   -->
         <app-flight-card [completeFlight]="flight"></app-flight-card>
 
+       <ng-container *ngIf="i<cities.cities.length">
         <app-city-schedule (closeDialog)="dialogbox()" [dialog]="dialog"></app-city-schedule>
 
         <!-- Access city.cityName inside the ngIf condition -->
@@ -121,10 +123,11 @@
           *ngIf="dialog"
           (closeDialog)="dialogbox()"
           [allHotels]="allHotels"
-          [city]="city"
+          [city]="cities.cities[i].cityName"
           [dialog]="dialog"
           style="width: 100%;"
         ></app-hotel-cards>
+       </ng-container>
           </div>
        
 

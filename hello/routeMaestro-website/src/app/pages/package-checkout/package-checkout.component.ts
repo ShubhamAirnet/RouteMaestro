@@ -43,7 +43,9 @@ export class PackageCheckoutComponent implements OnInit {
       email: ['', [Validators.required, Validators.email]],
       address: [''],
       gst: [''],
-      pan: [''],
+      companyName: [''],
+      companyNumber: [''],
+      companyAddress: [''],
     });
   }
 
@@ -57,7 +59,9 @@ export class PackageCheckoutComponent implements OnInit {
 
   async submit(){
     console.log(this.contactForm.value)
+    console.log(this.travelers)
     await this.auth.updatePrimaryContact(this.contactForm.value)
+    // await this.auth.updatePassengers(this.travelers)
   }
 
   async getData() {
