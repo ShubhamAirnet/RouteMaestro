@@ -1,0 +1,39 @@
+<main >
+  
+    <!-- flight cards for default Itinerary -->
+  <!-- <div
+    *ngFor="let flight of currentFlightSetSegmentsArray"
+    style="
+      width: 100%;
+      margin: 14px 0 20px 442px;
+      display: flex;
+      flex-direction: column;
+      gap: 21px;
+    "
+  >
+   completeFlight = all flights to reach from a->b  with all layovers   
+    <app-flight-card [completeFlight]="flight"></app-flight-card>
+          
+  </div> -->
+  <div
+    *ngFor="let city of cities.cities"
+    style="
+      width: 100%;
+      margin: 14px 0 20px 442px;
+      display: flex;
+      flex-direction: column;
+      gap: 21px;
+    "
+  >
+    <!-- completeFlight = all flights to reach from a->b  with all layovers   -->
+    <app-city-schedule [city]="city" [allHotels]="allHotels"></app-city-schedule>
+          
+  </div>
+  
+  <!-- NEED TO CALL FOR HOTELS AND SCHEDULES -->
+
+    <div>
+        
+    </div>
+
+</main>

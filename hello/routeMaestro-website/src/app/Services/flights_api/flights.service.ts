@@ -1,14 +1,12 @@
 import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
-import { Firestore,doc } from "@angular/fire/firestore";
-import { getDoc } from "firebase/firestore";
 
 
 @Injectable({
   providedIn: "root",
 })
 export class FlightsService {
-  constructor(private http: HttpClient, private firestore:Firestore) {}
+  constructor(private http: HttpClient) {}
 
   authenticate(){
     return this.http.get("http://localhost:4000/flight/authenticate");

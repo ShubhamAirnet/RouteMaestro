@@ -1,4 +1,4 @@
-<app-traveller-card *ngIf="dialog" (closeDialog)="dialogbox()"  [dialog]="dialog" [editIndex]="editIndex"  (travelerArrayChange)="handleTravelerArrayChange($event)" style="width: 100%;"></app-traveller-card>
+<app-traveller-card *ngIf="dialog" (closeDialog)="dialogbox()"  [dialog]="dialog" [editIndex]="editIndex" [traceId]="TraceId" [resultIndex]="ResultIndex" (travelerArrayChange)="handleTravelerArrayChange($event)" style="width: 100%;"></app-traveller-card>
 <body>
     
     <div class="headers">
@@ -40,6 +40,7 @@
                         <div class="box1">
                             <div style="width: 200px;">
                                 <small>Traveller {{i+1}}</small>
+                              
                                
                                     <a class="p" (click)="dialogbox(i)"><span>Add Traveller</span></a>
                                   
@@ -53,6 +54,7 @@
                         <div class="box1">
                             <div style="width: 200px;">
                                 <small>Traveller {{i+1}}</small>
+                             
                                 <a class="p" (click)="dialogbox(i)"><span>Add Traveller</span></a>
                                   </div>
                             <!-- <small style="font-size: 0.7rem;">* Adult age should be more than 18 </small> -->
@@ -64,7 +66,8 @@
                         <div class="box1">
                             <div style="width: 200px;">
                                 <small>Traveller {{i+1}}</small>
-                                <a class="p" (click)="dialogbox()">
+                                
+                                <a class="p" (click)="dialogbox(i)">
                                     {{ travelers[i]?.personalInfo?.firstName || "Add Traveller" }}
                                   </a>
                                   </div>
@@ -77,7 +80,8 @@
                         <div class="box1">
                             <div style="width: 200px;">
                                 <small>Traveller {{i+1}}</small>
-                                <a class="p" (click)="dialogbox()">
+                             
+                                <a class="p" (click)="dialogbox(i)">
                                     {{ travelers[i]?.personalInfo?.firstName || "Add Traveller" }}</a>
                                   </div>
                             <!-- <small style="font-size: 0.7rem;">* Adult age should be more than 18 </small> -->
@@ -147,10 +151,7 @@
               </div>
             </div>
             <!-- Add your form submission button or any other controls here -->
-            <div class="btnss" style="justify-content: center;" 
-            
-            
-            >
+            <div class="btnss" style="justify-content: center;"  *ngIf="contactForm.valid">
                 <button type="submit" style="height: 40px; width: 100px; display: flex; justify-content: center;"><span>Submit</span></button>
             </div>
           </form>
@@ -183,9 +184,9 @@
             </div>
           </div>
 
-        <div class="btnss">
-            <button><span>Get Payment Link</span></button>
-            <button><span>Pay Now</span></button>
+        <div class="btnss" *ngIf="pay" >
+            <button (click)="generatePaymentLink()"><span>Get Payment Link</span></button>
+            <button (click)="getPaymentLink()"><span>Pay Now</span></button>
         </div>
         </div>
 
@@ -233,7 +234,7 @@
                         </div>
                         
                         <div style="width: fit-content;">
-                            <small>₹ 5667543</small>
+                            <small>₹ {{transactionFee}}</small>
                         </div>
                     </div>
                    
@@ -243,7 +244,7 @@
                         </div>
                         
                         <div style="width: fit-content;">
-                            <input type="number" [(ngModel)]="merchantShare" style="width: 80px; height: 15px; font-size: 0.8rem;" />
+                            <input type="number" [(ngModel)]="merchantShare"  (ngModelChange)="onMerchantShareChange()" style="width: 80px; height: 15px; font-size: 0.8rem;" />
                         </div>
                     </div>
                 </div>
@@ -254,7 +255,7 @@
                             <p>Payable Amount</p>
                         </div>
                         <div style="width: fit-content;">
-                            <p>₹ 789989</p>
+                            <p>₹ {{totalCost}}</p>
                         </div>
                     </div>
                 </div>

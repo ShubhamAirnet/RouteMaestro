@@ -9,7 +9,7 @@ const db = require("./firebaseConfig");
 var bodyParser = require("body-parser");
 const hotelModule = require("./hotels/hotelModule");
 const flightModule = require("./flights/flightModule");
-
+const scheduleModule=require("./schedule/schedule")
 
 
 app.use(bodyParser.json({ limit: "50mb" }));
@@ -21,6 +21,7 @@ app.use(cors());
 
 app.use("/hotel" ,hotelModule)
 app.use("/flight" ,flightModule)
+app.use("/schedule", scheduleModule)
 
 
 
@@ -636,7 +637,7 @@ app.post('/sendMsg',async(req,res)=>{
 
 app.post("/createOrder", (req, res) => {
   console.log(req.body)
-  const {form} = req.body;
+  const {form,order_id} = req.body;
 
   const date = Date.now();
 
@@ -664,10 +665,10 @@ app.post("/createOrder", (req, res) => {
         customer_name:form.name,
       },
       order_meta: {
-        return_url:`http://localhost:4200/success/${form.order_id}`,
+        return_url:`http://localhost:4200/success/${order_id}`,
         payment_methods: "cc,dc,nb,upi,paypal,banktransfer",
       },
-      order_id:form.order_id,
+      order_id:order_id,
       order_amount:form.totalCost,
       order_currency:'INR',
       order_expiry_time, //this is from backend itself
@@ -694,46 +695,54 @@ app.post("/createOrder", (req, res) => {
 });
 
 
+app.post('/getPaymentLink',async(req,res)=>{
+  console.log(req.body)
+  const {form}=req.body
+  
 
-app.post("/fareRule", async (req, res) => {
-  const payload = {
-    EndUserIp: "49.43.88.177",
-    TokenId: "5c89bbaf-0fb5-4642-803a-5db02a8dc27d",
-    TraceId: "b5607875-c3ce-4cd0-8318-b6f077195f12",
-    ResultIndex: "OB1",
-  };
+const options = {
+method: 'POST',
+url: 'https://sandbox.cashfree.com/pg/links',
+headers: {
+  accept: 'application/json',
+  'x-api-version': '2022-09-01',
+  'content-type': 'application/json',
+  'x-client-id': '28085b84a33b52aabe2231d8058082',
+  'x-client-secret': '0b9580593f3dd2488da565ba283f94fe13c4ea4c'
+},
+data: {
+  customer_details: {
+    customer_phone: form.phone,
+    customer_email: form.email,
+    customer_name: form.name
+  },
+  link_notify: {send_sms: true, send_email: true},
+  link_id: 'juiuic44'+Date.now(),
+  link_currency: 'INR',
+  link_amount: form.totalCost,
+  link_purpose: 'PAYE'
+}
+};
 
-  try {
-    const { data } = await axios.post(
-      "http://api.tektravels.com/BookingEngineService_Air/AirService.svc/rest/FareRule",
-      payload
-    );
-
-    res.status(200).json({ message: data });
-  } catch (err) {
-    res.status(400).json(err);
-  }
+axios
+.request(options)
+.then(function (response) {
+  console.log(response.data);
+  return res.status(200).send({
+      success:true,
+      message:'Link generated',
+      data:response.data
+  })
+})
+.catch(function (error) {
+  console.error(error);
 });
+})
 
-app.post("/fareQuote", async (req, res) => {
-  const payload = {
-    EndUserIp: "49.43.88.177",
-    TokenId: "142d3c88-19ad-4c63-abee-8a0b7109e61b",
-    TraceId: "ccd813cd-b514-48d3-89f1-026b04f35a2c",
-    ResultIndex: "OB1",
-  };
 
-  try {
-    const { data } = await axios.post(
-      "http://api.tektravels.com/BookingEngineService_Air/AirService.svc/rest/FareQuote",
-      payload
-    );
 
-    res.status(200).json(data);
-  } catch (error) {
-    res.status(400).json(error);
-  }
-});
+
+
 
 app.listen(4000, (req, res) => {
   console.log("server is connected to port 4000");
