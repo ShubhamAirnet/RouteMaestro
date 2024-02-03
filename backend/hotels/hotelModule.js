@@ -146,8 +146,8 @@ router.post('/getIternary', async (req, res) => {
 
       }));
     
-
-      return res.status(200).json({ success: true, message: 'Data fetched successfully', data: hotelData, count: i });
+      console.log(hotelData)
+      return res.status(200).json({ success: true, message: 'Data fetched successfully', fullJourneyHotels: hotelData, count: i });
     }
   } catch (error) {
     console.log(error);

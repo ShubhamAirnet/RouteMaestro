@@ -3,11 +3,13 @@
 
   <section style="width: 100%">
 
+  
+
+
+
     <div style="display: flex; position: relative; width: 100%">
-
-
       <!-- fare summary for the current Itinerary  -->
-      <div
+      <!-- <div
         style="
           border: 1px solid #000;
           display: flex;
@@ -65,10 +67,10 @@
             </div>
           </div>
         </div>
-      </div>
+      </div> -->
 
       <!-- itinerary body -->
-      <div
+      <div *ngIf="gotAllFlights && gotAllHotels"
         style="
           width: 100%;
           display: flex;
@@ -78,7 +80,7 @@
         "
       >
         <!-- Global Edit containing Alternate flight Sets  -->
-        <div>
+        <!-- <div>
           <div *ngIf="isFlightOptionsAvailable">
             <app-alternate-flight-options
               [allFlightSets]="allFlights"
@@ -97,57 +99,32 @@
           >
             Global Edit
           </button>
-        </div>
+        </div> -->
 
-        <!-- flight cards for default Itinerary -->
-        
-          <div
-        *ngFor="let flight of currentFlightSetSegmentsArray; let city of cities;"
-        style="
-          width: 100%;
-          margin: 14px 0 20px 442px;
-          display: flex;
-          flex-direction: column;
-          gap: 21px;
-        "
-      >
-        <!-- completeFlight = all flights to reach from a->b  with all layovers   -->
-        <app-flight-card [completeFlight]="flight"></app-flight-card>
+       <app-combined-itinerary [allFlights]="allFlights" [currentFlightSetIndex]="currentFlightSetIndex" [allHotels]="allHotels" ></app-combined-itinerary>
 
-        <app-city-schedule (closeDialog)="dialogbox()" [dialog]="dialog"></app-city-schedule>
-
-        <!-- Access city.cityName inside the ngIf condition -->
-        <app-hotel-cards
-          *ngIf="dialog"
-          (closeDialog)="dialogbox()"
-          [allHotels]="allHotels"
-          [city]="city"
-          [dialog]="dialog"
-          style="width: 100%;"
-        ></app-hotel-cards>
-          </div>
-       
-
->>>>>>> d0f1f9edd7e30234bc8467c91c1b869a42bf0718
-
-         
       </div>
 
 
     </div>
-
   </section>
 
-  <button class="btn btn-primary" (click)="multiStopSearchFlightsV2()">
-    Multi Stop Search
+  <button class="btn btn-dark" (click)="getFlightsHotels()">
+    Get Flights & Hotels
   </button>
+
+  <!-- <button class="btn btn-primary" (click)="multiStopSearchFlightsV2()">
+    Multi Stop Search
+  </button> -->
   <button class="'btn btn-warning" (click)="authenticateFlightApi()">
     Authenticate
   </button>
 
-  <button class="btn btn-dark" (click)="getHotels()"  >Get Hotels</button>
+  <!-- <button class="btn btn-dark" (click)="getHotels()">Get Hotels</button> -->
 
-  <button class="btn btn-secondary" (click)="getSchedule()" >Get Schedule </button>
+  <!-- <button class="btn btn-secondary" (click)="getSchedule()">
+    Get Schedule
+  </button> -->
 
   <!-- <button class="btn btn-dark" (click)="showHotelInfo()">Hotel Info</button> -->
 

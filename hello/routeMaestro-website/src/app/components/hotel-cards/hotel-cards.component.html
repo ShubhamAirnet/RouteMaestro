@@ -1,4 +1,4 @@
-
+<!-- 
   <div class="containers" *ngIf="dialog" >
     <div class="sub-container" (click)="close()"></div>
     <div class="card-bodys" style="z-index: 99999999999;">
@@ -51,10 +51,12 @@
                                   
                                   
                                 <div style="padding: 0; padding-left: 10px;">
+
+                                  next three lines comment -->
                                     <!-- <div class="d-flex" style="justify-content: flex-start; padding: 0; width: 100%; font-weight: bold;" *ngIf="hotelInfoData[i]?.data?.HotelInfoResult?.HotelDetails?.HotelFacilities?.length > 2; else lessThanThreeFacilities">
                                         <p style="font-size: 0.7rem;">{{hotel?.HotelInfoResult?.HotelDetails?.HotelFacilities[0]}} |</p>
                                         <p style="font-size: 0.7rem;">{{hotel?.HotelInfoResult?.HotelDetails?.HotelFacilities[1]}}</p>
-                                    </div> -->
+                                    </div> 
                                     <ng-template #lessThanThreeFacilities>
                                         <p style="font-size: 0.7rem;">
                                           {{hotel?.info?.HotelInfoResult?.HotelDetails?.HotelFacilities?.[0]?.substring(0, 20)}}
@@ -65,12 +67,15 @@
                                     
                                     <small>
                                         <span *ngIf="hotel?.search?.StarRating; else noStars">
-                                            <!-- <span>{{hotel?.StarRating}}</span> -->
+
+                                         next one line comment -->
+                                            <!-- <span>{{hotel?.StarRating}}</span> 
                                           <span *ngFor="let star of getStarArray(hotel?.StarRating)" class="star">&#9733;</span>
                                         </span>
                                         <ng-template #noStars>
-                                            <!-- <span>{{hotelInfoData[i]?.data?.HotelInfoResult?.HotelDetails?.StarRating}}</span> -->
-    
+
+                                         next one line comment
+                                         <span>{{hotelInfoData[i]?.data?.HotelInfoResult?.HotelDetails?.StarRating}}</span> 
                                           No star rating available
                                         </ng-template>
                                       </small>
@@ -125,4 +130,9 @@
     
 </div>
 
+ -->
 
+
+ <main>
+    {{city}}
+ </main>

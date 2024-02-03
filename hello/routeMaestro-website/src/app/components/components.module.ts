@@ -61,6 +61,8 @@ import { CombinedItineraryComponent } from './combined-itinerary/combined-itiner
 
     HotelInfoComponent,
     CityScheduleComponent,
+    CombinedItineraryComponent,
+
 
   ]
 })
