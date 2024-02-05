@@ -1,5 +1,7 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit ,TemplateRef, inject} from '@angular/core';
 import { ScheduleService } from 'src/app/Services/schedule_api/schedule.service';
+import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
+
 
 @Component({
   selector: 'app-combined-itinerary',
@@ -23,7 +25,22 @@ export class CombinedItineraryComponent implements OnInit {
   // hotel variables
   @Input()allHotels;
 
+
+  // schedule variables
+
+  allSchedules=[]
+
+
+
+  // dialog box
+  isFlightOptionsAvailable:boolean=false;
+
+
+
+
+
   cities:any;
+
 
   // will be calling flights and hotels from the itinerary page itself coz they are global(impacting fare Summary).
   // and will be calling schedules here coz they are already finalized in the first phase.
@@ -39,7 +56,6 @@ export class CombinedItineraryComponent implements OnInit {
   }
 
   // flights functions
-
   settingCurrentFlightSetAndSegmentsArr(resultIndex:string){
 
     this.currentFlightSet=this.allFlights.filter(flightSet=>(flightSet.resultIndex===resultIndex));
@@ -75,9 +91,15 @@ export class CombinedItineraryComponent implements OnInit {
 async getAllSchedules(){
 
   try {
+
+    const data:any = await this.scheduleService.getSchedules();
+    console.log(data.cities, "In component");
+    this.allSchedules=data.cities;
+
     const data = await this.scheduleService.getSchedules();
     console.log(data, "In component");
     this.cities=data
+
 
   } catch (error) {
     console.log(error);
@@ -86,7 +108,23 @@ async getAllSchedules(){
 }
 
 
+// dialog box
+showFlightOptions( toshowDialog:boolean ){
+ this. isFlightOptionsAvailable=!this.isFlightOptionsAvailable;
+}
 
+// private modalService = inject(NgbModal);
 
+// openXl(content: TemplateRef<any>) {
+//   this.modalService.open(content, { size: "xl" });
+// }
+
+// dismissModal(modal: any) {
+//   modal.dismiss("Cross click");
+// }
+
+// closeModal(modal: any) {
+//   modal.close("Close click");
+// }
 
 }

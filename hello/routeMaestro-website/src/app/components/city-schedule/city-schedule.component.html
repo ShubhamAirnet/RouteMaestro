@@ -1,14 +1,28 @@
+
+<main>
+
+
+
+
+
+
+<div *ngFor="let citySchedule of allSchedules">
+
+
+
 <!-- whole card for a city -->
 <app-hotel-cards *ngIf="dialog" [dialog]="dialog" [hotelName]="hotelName"  (hotelNameChange)="handleHotelNameChange($event)" [checkInDate]="checkInDate" (closeDialog)="dialogbox()" [city]="city" (addToItineraryEvent)="handleAddToItinerary($event)" [allHotels]="allHotels"></app-hotel-cards>
 <div
   style="
-    width: 53%;
+   
     background-color: #fff;
     border: 1px solid grey;
     border-radius: 20px;
   "
 >
-  <!-- cit heading strip -->
+
+
+  <!-- city heading strip -->
   <div
     style="
       border-radius: 20px 20px 0 0;
@@ -31,7 +45,11 @@
         text-align: center;
       "
     >
+
+<!--       {{getNumberOfDaysInCity(citySchedule)}} Days in {{getCityName(citySchedule)}} -->
+
       {{city.noOfDays}} Days in {{city.cityName}}
+
     </h2>
   </div>
 
@@ -46,6 +64,7 @@
       border-radius: 0 0 20px 20px;
     "
   >
+
     <!-- particular property itinerary -->
     <div
       style="
@@ -129,10 +148,11 @@
 
       </div>
 
+
       <!-- itinerary when staying in particular property -->
       <div>
         <!-- row 1 -->
-        <div
+        <div *ngFor="let oneDaySchedule of daysScheduleInCity"
           style="
             height: 65px;
             width: 100%;
@@ -168,9 +188,9 @@
               border-right: 1px solid grey;
             "
           >
-            <h2 style="margin: 0; font-size: 17px; color: #ff4040">Morning</h2>
-            <p style="margin: 0; font-weight: 600; font-size: 15px">
-              Thing to Do
+            <h2 style="margin: 0; font-size: 15px; color: #ff4040">Morning</h2>
+            <p style="margin: 0; font-weight: 600; font-size: 12px ;text-align: center;">
+              {{getMorningActivity(oneDaySchedule)}}
             </p>
           </div>
 
@@ -187,9 +207,9 @@
               border-right: 1px solid grey;
             "
           >
-            <h2 style="margin: 0; font-size: 17px; color: #ff4040">Morning</h2>
-            <p style="margin: 0; font-weight: 600; font-size: 15px">
-              Thing to Do
+            <h2 style="margin: 0; font-size: 15px; color: #ff4040">Afternoon</h2>
+            <p style="margin: 0; font-weight: 600; font-size: 12px;text-align: center;">
+              {{getAfternoonActivity(oneDaySchedule)}}
             </p>
           </div>
 
@@ -206,9 +226,9 @@
               border-right: 1px solid grey;
             "
           >
-            <h2 style="margin: 0; font-size: 17px; color: #ff4040">Morning</h2>
-            <p style="margin: 0; font-weight: 600; font-size: 15px">
-              Thing to Do
+            <h2 style="margin: 0; font-size: 15px; color: #ff4040">Evening</h2>
+            <p style="margin: 0; font-weight: 600; font-size: 12px;text-align: center;">
+              {{getEveningActivity(oneDaySchedule)}}
             </p>
           </div>
 
@@ -225,17 +245,36 @@
               border-right: 1px solid grey;
             "
           >
-            <h2 style="margin: 0; font-size: 17px; color: #ff4040">Morning</h2>
-            <p style="margin: 0; font-weight: 600; font-size: 15px">
-              Thing to Do
+            <h2 style="margin: 0; font-size: 15px; color: #ff4040">Night</h2>
+            <p style="margin: 0; font-weight: 600; font-size: 12px;text-align: center;">
+              {{getNightActivity(oneDaySchedule)}}
             </p>
           </div>
         </div>
       </div>
+
+
     </div>
+
+
+
   </div>
+
+
 </div>
+
+
+</div>
+
+
+
+
+
+
 
 <div *ngIf="isHotelInfo">
   <app-hotel-info></app-hotel-info>
 </div>
+
+
+</main>

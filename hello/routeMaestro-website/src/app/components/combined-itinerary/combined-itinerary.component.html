@@ -4,13 +4,42 @@
   <!-- <div
     *ngFor="let flight of currentFlightSetSegmentsArray"
     style="
-      width: 100%;
-      margin: 14px 0 20px 442px;
-      display: flex;
-      flex-direction: column;
-      gap: 21px;
+    width: 550px;
+    display: flex;
+    flex-direction: column;
+    gap: 21px;
     "
   >
+
+    <!-- completeFlight = all flights to reach from a->b  with all layovers   -->
+    <app-flight-card [completeFlight]="flight" (triggerAlternateFlightSetsDialog)=" showFlightOptions($event)"></app-flight-card>
+  
+    
+     <!--  containing Alternate flight Sets  -->
+     <div>
+      <div *ngIf="isFlightOptionsAvailable">
+        
+        <app-alternate-flight-options
+          [allFlightSets]="allFlights"
+          [currentFlightSetResultIdx]="currentFlightSetIndex"
+          (highlightedFlightSetIdxChange)="
+            onHighlightedFlightSetIdxChange($event)
+          "
+        >
+        </app-alternate-flight-options>
+      </div>
+
+      <!-- <button
+    
+        class="btn btn-dark"
+        (click)="showFlightOptions()"
+      >
+        Global Edit
+      </button> -->
+    </div>
+
+  </div>
+
    completeFlight = all flights to reach from a->b  with all layovers   
     <app-flight-card [completeFlight]="flight"></app-flight-card>
           
@@ -30,13 +59,14 @@
       <p>{{item?.date[0]}}</p>
       <app-city-schedule [city]="city" [allHotels]="allHotels" [checkInDate]="item?.date[0]"></app-city-schedule>
 
+
     </ng-container>          
   </div>
   
   <!-- NEED TO CALL FOR HOTELS AND SCHEDULES -->
 
-    <div>
-        
-    </div>
+
+  <app-city-schedule [allSchedules]="allSchedules" [currentFlightSet]="currentFlightSet" ></app-city-schedule>
+
 
 </main>

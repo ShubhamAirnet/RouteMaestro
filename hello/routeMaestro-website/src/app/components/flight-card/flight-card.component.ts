@@ -10,6 +10,11 @@ export class FlightCardComponent implements OnInit {
   @Input() completeFlight;  
   @Output() finalDestinationCityEmitter: EventEmitter<string> = new EventEmitter();
   
+
+  @Output() triggerAlternateFlightSetsDialog:EventEmitter<boolean> = new EventEmitter();
+
+  toOpenDialogBox:boolean=false;
+  
   constructor() {}
 
   ngOnInit(): void {
@@ -21,6 +26,15 @@ export class FlightCardComponent implements OnInit {
   showFlightDetails() {
     this.isflightDetails = !this.isflightDetails;
     return;
+  }
+
+  toTriggerAlternateFlightsetDialogBox(){
+
+    this.toOpenDialogBox=true;
+    
+    this.triggerAlternateFlightSetsDialog.emit(this.toOpenDialogBox);
+
+
   }
 
   // =====================================================================================

@@ -3,13 +3,12 @@ main {
   flex-direction: column;
   justify-content: space-evenly;
   align-items: flex-start;
-  width: 53%;
   box-shadow: 0px 6px 10px 0 grey;
 }
 .flightCard {
   display: flex;
   height: 82px;
-  width: 712px;
+  width: 100%;
   padding: 4px;
 }
 
@@ -140,6 +139,7 @@ main {
   display: flex;
   flex-direction: column;
   justify-content: space-evenly;
+  align-items: center;
 }
 .pricing-head-btns {
   display: flex;
