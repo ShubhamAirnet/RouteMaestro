@@ -1,4 +1,4 @@
-<app-traveller-card *ngIf="dialog" (closeDialog)="dialogbox()"  [dialog]="dialog" [editIndex]="editIndex"  (travelerArrayChange)="handleTravelerArrayChange($event)" style="width: 100%;"></app-traveller-card>
+<app-traveller-card *ngIf="dialog" (closeDialog)="dialogbox()"  [dialog]="dialog" [editIndex]="editIndex" [traceId]="TraceId" [resultIndex]="ResultIndex" (travelerArrayChange)="handleTravelerArrayChange($event)" style="width: 100%;"></app-traveller-card>
 <body>
     
     <div class="headers">
@@ -40,6 +40,7 @@
                         <div class="box1">
                             <div style="width: 200px;">
                                 <small>Traveller {{i+1}}</small>
+                              
                                
                                     <a class="p" (click)="dialogbox(i)"><span>Add Traveller</span></a>
                                   
@@ -53,6 +54,7 @@
                         <div class="box1">
                             <div style="width: 200px;">
                                 <small>Traveller {{i+1}}</small>
+                             
                                 <a class="p" (click)="dialogbox(i)"><span>Add Traveller</span></a>
                                   </div>
                             <!-- <small style="font-size: 0.7rem;">* Adult age should be more than 18 </small> -->
@@ -64,7 +66,8 @@
                         <div class="box1">
                             <div style="width: 200px;">
                                 <small>Traveller {{i+1}}</small>
-                                <a class="p" (click)="dialogbox()">
+                                
+                                <a class="p" (click)="dialogbox(i)">
                                     {{ travelers[i]?.personalInfo?.firstName || "Add Traveller" }}
                                   </a>
                                   </div>
@@ -77,7 +80,8 @@
                         <div class="box1">
                             <div style="width: 200px;">
                                 <small>Traveller {{i+1}}</small>
-                                <a class="p" (click)="dialogbox()">
+                             
+                                <a class="p" (click)="dialogbox(i)">
                                     {{ travelers[i]?.personalInfo?.firstName || "Add Traveller" }}</a>
                                   </div>
                             <!-- <small style="font-size: 0.7rem;">* Adult age should be more than 18 </small> -->
@@ -107,19 +111,19 @@
               <div class="details">
                 <div>
                   <label>Name</label>
-                  <input type="text" formControlName="name" placeholder="eg. JohnDoe" />
+                  <input type="text" formControlName="name" placeholder="eg. JohnDoe" required/>
                 </div>
                 <div>
                   <label>Phone</label>
-                  <input type="text" formControlName="phone" placeholder="eg. 8766876878" />
+                  <input type="text" formControlName="phone" placeholder="eg. 8766876878" required/>
                 </div>
                 <div>
                   <label>Email</label>
-                  <input type="email" formControlName="email" placeholder="eg. JohnDoe@gmail.com" />
+                  <input type="email" formControlName="email" placeholder="eg. JohnDoe@gmail.com" required/>
                 </div>
                 <div>
                   <label>Address</label>
-                  <input type="text" formControlName="address" placeholder="eg. Ludhiana" />
+                  <input type="text" formControlName="address" placeholder="eg. Ludhiana" required/>
                 </div>
               </div>
               <div class="payee-details">
@@ -132,14 +136,22 @@
                     <input type="text" formControlName="gst" />
                   </div>
                   <div>
-                    <label>PAN</label>
-                    <input type="text" formControlName="pan" placeholder="eg. CHJPCK7865H" />
+                    <label>Company Name</label>
+                    <input type="text" formControlName="companyName" placeholder="eg. CHJPCK7865H" />
+                  </div>
+                  <div>
+                    <label>Address</label>
+                    <input type="text" formControlName="companyAddress" placeholder="eg. CHJPCK7865H" />
+                  </div>
+                  <div>
+                    <label>Company Number</label>
+                    <input type="text" formControlName="companyNumber" placeholder="eg. CHJPCK7865H" />
                   </div>
                 </div>
               </div>
             </div>
             <!-- Add your form submission button or any other controls here -->
-            <div class="btnss" style="justify-content: center;">
+            <div class="btnss" style="justify-content: center;"  *ngIf="contactForm.valid">
                 <button type="submit" style="height: 40px; width: 100px; display: flex; justify-content: center;"><span>Submit</span></button>
             </div>
           </form>
@@ -172,20 +184,20 @@
             </div>
           </div>
 
-        <div class="btnss">
-            <button><span>Get Payment Link</span></button>
-            <button><span>Pay Now</span></button>
+        <div class="btnss" *ngIf="pay" >
+            <button (click)="generatePaymentLink()"><span>Get Payment Link</span></button>
+            <button (click)="getPaymentLink()"><span>Pay Now</span></button>
         </div>
         </div>
 
         <div class="sidebars">
-            <div style="width: 100%; height: 300px; border: 1px solid white; border-radius: 20px; background-color: #03254A;">
+            <div style="width: 100%; height: 350px; border: 1px solid white; border-radius: 20px; background-color: #03254A;">
                 <div class="first">
                     <div class="person">
-                        <small>Price for 1 person</small>
-                        <small>₹ 1678900</small>
+                        <small>Payment Breakdown</small>
+                        
                     </div>
-                    <button style="background-color: #e24729;"><span style="color: white; font-weight: 600;">Book Now</span></button>
+                    <!-- <button style="background-color: #e24729;"><span style="color: white; font-weight: 600;">Book Now</span></button> -->
                 </div>
     
                 <div class="second">
@@ -195,7 +207,7 @@
                         </div>
                         
                         <div style="width: fit-content;">
-                            <small>₹ 178888</small>
+                            <small>₹ {{travelData?.cost?.hotelCost}}</small>
                         </div>
                     </div>
                     <div class="price-details">
@@ -204,7 +216,7 @@
                         </div>
                         
                         <div style="width: fit-content;">
-                            <small>₹ 178888</small>
+                            <small>₹ {{travelData?.cost?.flightCost}}</small>
                         </div>
                     </div>
                     <div class="price-details">
@@ -213,7 +225,16 @@
                         </div>
                         
                         <div style="width: fit-content;">
-                            <small>₹ 178888</small>
+                            <small>₹ {{travelData?.cost?.taxes}}</small>
+                        </div>
+                    </div>
+                    <div class="price-details">
+                        <div style="width: 120px;">
+                            <small>Transaction Fee(1.75%)</small>
+                        </div>
+                        
+                        <div style="width: fit-content;">
+                            <small>₹ {{transactionFee}}</small>
                         </div>
                     </div>
                    
@@ -223,7 +244,7 @@
                         </div>
                         
                         <div style="width: fit-content;">
-                            <input type="number" [(ngModel)]="merchantShare" style="width: 80px; height: 15px; font-size: 0.8rem;" />
+                            <input type="number" [(ngModel)]="merchantShare"  (ngModelChange)="onMerchantShareChange()" style="width: 80px; height: 15px; font-size: 0.8rem;" />
                         </div>
                     </div>
                 </div>
@@ -234,7 +255,7 @@
                             <p>Payable Amount</p>
                         </div>
                         <div style="width: fit-content;">
-                            <p>₹ 789989</p>
+                            <p>₹ {{totalCost}}</p>
                         </div>
                     </div>
                 </div>
@@ -259,22 +280,40 @@
                     <h3 style="padding-bottom:20px ;">Route Overview</h3>
                     <div class="path">
                         <span style="font-weight:600 ;">{{travelData?.trip?.departureCity}}</span>
-                        <ng-container *ngFor="let city of travelData?.cities">
-                            <div class="big-dot">•</div>
-                            <div class="vertical-line"></div>
-                            <ng-container *ngIf="next_city_transport===flight">
-                                <i class="fa-solid fa-plane plane-icon"></i>
-                            </ng-container>
-                            <ng-container *ngIf="next_city_transport===road">
-                                <i class="fa-solid fa-car car-icon"></i>
-                            </ng-container>
-                            
-                            <div class="vertical-line"></div>
-                            <div class="big-dot">•</div>
-                            <span style="font-weight:600 ;">{{city?.cityName}}</span>
-                           
-                            
+                        <div class="big-dot">•</div>
+                        <div class="vertical-line"></div>
+                      
+                        <ng-container *ngIf="travelData?.trip?.next_city_transport==='flight'">
+                          <i class="fa-solid fa-plane plane-icon"></i>
                         </ng-container>
+                      
+                        <ng-container *ngIf="travelData?.trip?.next_city_transport==='road'">
+                          <i class="fa-solid fa-car car-icon"></i>
+                        </ng-container>
+                      
+                        <div class="vertical-line"></div>
+                        <div class="big-dot">•</div>
+                      
+                        <ng-container *ngFor="let city of travelData?.cities">
+                            <span style="font-weight:600 ;">{{city?.cityName}}</span>
+                            <div class="big-dot">•</div>
+                            <div class="vertical-line"></div>
+                          
+                            <ng-container *ngIf="city?.next_city_transport==='flight'">
+                              <i class="fa-solid fa-plane plane-icon"></i>
+                            </ng-container>
+                          
+                            <ng-container *ngIf="city?.next_city_transport==='road'">
+                              <i class="fa-solid fa-car car-icon"></i>
+                            </ng-container>
+                          
+                            <div class="vertical-line"></div>
+                            <div class="big-dot">•</div>
+                          
+                            
+                          </ng-container>
+                          
+                          
                         
                         <span style="font-weight:600 ;">{{travelData?.trip?.departureCity}}</span>
                     </div>

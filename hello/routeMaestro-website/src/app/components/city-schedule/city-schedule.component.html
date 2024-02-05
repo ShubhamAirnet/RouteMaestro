@@ -11,6 +11,7 @@
 
 
 <!-- whole card for a city -->
+<app-hotel-cards *ngIf="dialog" [dialog]="dialog" [hotelName]="hotelName"  (hotelNameChange)="handleHotelNameChange($event)" [checkInDate]="checkInDate" (closeDialog)="dialogbox()" [city]="city" (addToItineraryEvent)="handleAddToItinerary($event)" [allHotels]="allHotels"></app-hotel-cards>
 <div
   style="
    
@@ -44,7 +45,11 @@
         text-align: center;
       "
     >
-      {{getNumberOfDaysInCity(citySchedule)}} Days in {{getCityName(citySchedule)}}
+
+<!--       {{getNumberOfDaysInCity(citySchedule)}} Days in {{getCityName(citySchedule)}} -->
+
+      {{city.noOfDays}} Days in {{city.cityName}}
+
     </h2>
   </div>
 
@@ -86,12 +91,24 @@
             margin-left: 20px;
             font-size: 18px;
             position: absolute;
-            left: 241px;
+            left: 200px;
             font-weight: 700;
             color: #ff4040;
           "
         >
-          3 Nights @  <span style="text-decoration: underline;" > JW Marriott </span> 
+          {{city.noOfNights}} Nights @  
+          <ng-container *ngFor="let hotels of allHotels;let i=index">
+            <ng-container *ngIf="hotels.cityName===city.cityName"> 
+              
+                <span>{{selectedHotel?.search?.HotelName 
+                  ? selectedHotel.search.HotelName 
+                  : cheapestHotel 
+                    ? cheapestHotel
+                    : hotels?.Response[0]?.search?.HotelName}}</span>
+              
+            </ng-container>
+
+          </ng-container>
         </h1>
 
         <!-- butttons -->

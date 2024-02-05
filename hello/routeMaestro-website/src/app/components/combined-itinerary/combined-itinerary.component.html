@@ -1,7 +1,7 @@
 <main >
   
     <!-- flight cards for default Itinerary -->
-  <div
+  <!-- <div
     *ngFor="let flight of currentFlightSetSegmentsArray"
     style="
     width: 550px;
@@ -10,6 +10,7 @@
     gap: 21px;
     "
   >
+
     <!-- completeFlight = all flights to reach from a->b  with all layovers   -->
     <app-flight-card [completeFlight]="flight" (triggerAlternateFlightSetsDialog)=" showFlightOptions($event)"></app-flight-card>
   
@@ -39,6 +40,29 @@
 
   </div>
 
+   completeFlight = all flights to reach from a->b  with all layovers   
+    <app-flight-card [completeFlight]="flight"></app-flight-card>
+          
+  </div> -->
+  <div
+    *ngFor="let city of cities.cities"
+    style="
+      width: 100%;
+      margin: 14px 0 20px 442px;
+      display: flex;
+      flex-direction: column;
+      gap: 21px;
+    "
+  >
+    <!-- completeFlight = all flights to reach from a->b  with all layovers   -->
+    <ng-container *ngFor="let item of city.Properties">
+      <p>{{item?.date[0]}}</p>
+      <app-city-schedule [city]="city" [allHotels]="allHotels" [checkInDate]="item?.date[0]"></app-city-schedule>
+
+
+    </ng-container>          
+  </div>
+  
   <!-- NEED TO CALL FOR HOTELS AND SCHEDULES -->
 
 

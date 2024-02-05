@@ -40,20 +40,76 @@ export class HotelsService {
       console.error("Error updating document:", error);
     }
   }
-  async updatePassengers(form: any) {
+  async savePassengers(form: any) {
     console.log("fetching");
   
     const searchDocRef = doc(this.firestore, "Demo_Itinerary", "updated_Itinerary");
   
     try {
-      await setDoc(searchDocRef, { passenger_details: form }, { merge: true });
-      console.log("Document updated successfully!");
+      const docSnapshot = await getDoc(searchDocRef);
+  
+      if (docSnapshot.exists()) {
+        // If the document exists, update the passenger_details array
+        const existingData = docSnapshot.data();
+        let passengerDetailsArray = existingData.passenger_details || [];
+  
+        // Add the form object to the passenger_details array
+        passengerDetailsArray.push(form);
+  
+        // Update the document with the modified passenger_details array
+        await setDoc(searchDocRef, { passenger_details: passengerDetailsArray }, { merge: true });
+  
+        console.log("Document updated successfully!");
+      } else {
+        // If the document doesn't exist, create a new document with the passenger_details array
+        await setDoc(searchDocRef, { passenger_details: [form] });
+  
+        console.log("Document created successfully!");
+      }
     } catch (error) {
-      console.error("Error updating document:", error);
+      console.error("Error updating/creating document:", error);
     }
   }
+  async updatePassengers(form: any, index: number) {
+    console.log("fetching");
+  
+    const searchDocRef = doc(this.firestore, "Demo_Itinerary", "updated_Itinerary");
+  
+    try {
+      const docSnapshot = await getDoc(searchDocRef);
+  
+      if (docSnapshot.exists()) {
+        // If the document exists, update the passenger_details array
+        const existingData = docSnapshot.data();
+        let passengerDetailsArray = existingData.passenger_details || [];
+  
+        // Check if the index is within bounds
+        if (index >= 0 && index < passengerDetailsArray.length) {
+          // Update the specific index with the form values
+          passengerDetailsArray[index] = form;
+  
+          // Update the document with the modified passenger_details array
+          await setDoc(searchDocRef, { passenger_details: passengerDetailsArray }, { merge: true });
+  
+          console.log("Document updated successfully!");
+        } else {
+          console.error("Invalid index provided.");
+        }
+      } else {
+        // If the document doesn't exist, create a new document with the passenger_details array
+        await setDoc(searchDocRef, { passenger_details: [form] });
+  
+        console.log("Document created successfully!");
+      }
+    } catch (error) {
+      console.error("Error updating/creating document:", error);
+    }
+  }
+  
+  
+  
 
-  async getAllDetails(resultCount) {
+  async getAllDetails(resultCount:number) {
     const token=localStorage.getItem("authenticateToken")
     try {
       const {data} = await axios.post('http://localhost:4000/hotel/getIternary', { resultCount: resultCount,token:token });

@@ -637,7 +637,7 @@ app.post('/sendMsg',async(req,res)=>{
 
 app.post("/createOrder", (req, res) => {
   console.log(req.body)
-  const {form} = req.body;
+  const {form,order_id} = req.body;
 
   const date = Date.now();
 
@@ -665,10 +665,10 @@ app.post("/createOrder", (req, res) => {
         customer_name:form.name,
       },
       order_meta: {
-        return_url:`http://localhost:4200/success/${form.order_id}`,
+        return_url:`http://localhost:4200/success/${order_id}`,
         payment_methods: "cc,dc,nb,upi,paypal,banktransfer",
       },
-      order_id:form.order_id,
+      order_id:order_id,
       order_amount:form.totalCost,
       order_currency:'INR',
       order_expiry_time, //this is from backend itself
@@ -694,6 +694,50 @@ app.post("/createOrder", (req, res) => {
     });
 });
 
+
+app.post('/getPaymentLink',async(req,res)=>{
+  console.log(req.body)
+  const {form}=req.body
+  
+
+const options = {
+method: 'POST',
+url: 'https://sandbox.cashfree.com/pg/links',
+headers: {
+  accept: 'application/json',
+  'x-api-version': '2022-09-01',
+  'content-type': 'application/json',
+  'x-client-id': '28085b84a33b52aabe2231d8058082',
+  'x-client-secret': '0b9580593f3dd2488da565ba283f94fe13c4ea4c'
+},
+data: {
+  customer_details: {
+    customer_phone: form.phone,
+    customer_email: form.email,
+    customer_name: form.name
+  },
+  link_notify: {send_sms: true, send_email: true},
+  link_id: 'juiuic44'+Date.now(),
+  link_currency: 'INR',
+  link_amount: form.totalCost,
+  link_purpose: 'PAYE'
+}
+};
+
+axios
+.request(options)
+.then(function (response) {
+  console.log(response.data);
+  return res.status(200).send({
+      success:true,
+      message:'Link generated',
+      data:response.data
+  })
+})
+.catch(function (error) {
+  console.error(error);
+});
+})
 
 
 
