@@ -7,6 +7,8 @@ import { Component, OnInit,Input, Output,EventEmitter } from '@angular/core';
 })
 export class AlternateFlightOptionsComponent implements OnInit {
  
+  isOpen = true;
+
   @Input() allFlightSets :any;
   @Input() currentFlightSetResultIdx :string;
 
@@ -14,9 +16,11 @@ export class AlternateFlightOptionsComponent implements OnInit {
 
   @Output() highlightedFlightSetIdxChange = new EventEmitter<string>();
   hightlightedFlightSetIdx:string;
+
   constructor() { }
 
   ngOnInit(): void {
+    console.log(this.isOpen)
     console.log(this.allFlightSets);
 
     this.settingHighlightedFlightSet(this.currentFlightSetResultIdx);
@@ -59,7 +63,6 @@ export class AlternateFlightOptionsComponent implements OnInit {
 
 
 
-  isOpen = true;
 
   openModal() {
     this.isOpen = true;

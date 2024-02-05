@@ -26,6 +26,8 @@ export class FlightSetCardComponent implements OnInit {
   constructor() {}
 
   ngOnInit(): void {
+
+   
     // console.log(this.key +" this is the key from all flights sets key value pair")
     // console.log(this.defaultFlightSetKey +"this is the key for the current deafult flight Set setted in the itinerary");
 
@@ -69,7 +71,7 @@ export class FlightSetCardComponent implements OnInit {
 
   settingFlightSetSegmentsArray() {
     this.flightSetSegmentsArray = this.flightSet.segments;
-
+   
     return;
   }
 

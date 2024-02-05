@@ -1,4 +1,4 @@
-import { Component, OnInit, TemplateRef, inject } from "@angular/core";
+import { Component, OnInit,  } from "@angular/core";
 import { FlightsService } from "src/app/Services/flights_api/flights.service";
 import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
 import { HotelsService } from "src/app/Services/hotels_api/hotels.service";
@@ -26,13 +26,6 @@ export class ItineraryComponent implements OnInit {
   currentCity: string | undefined;
   cities: any;
 
-  isFlightOptionsAvailable: boolean = false;
-
-  showFlightOptions() {
-    this.isFlightOptionsAvailable = !this.isFlightOptionsAvailable;
-    // this.settingAlternateFlightOptions();
-    return;
-  }
 
   // isHotelInfo=false;
   // toShowHotelInfo(value:string){
@@ -134,17 +127,5 @@ export class ItineraryComponent implements OnInit {
   //   this.dialog=!this.dialog;
   // }
 
-  private modalService = inject(NgbModal);
-
-  openXl(content: TemplateRef<any>) {
-    this.modalService.open(content, { size: "xl" });
-  }
-
-  dismissModal(modal: any) {
-    modal.dismiss("Cross click");
-  }
-
-  closeModal(modal: any) {
-    modal.close("Close click");
-  }
+ 
 }
