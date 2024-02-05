@@ -1,6 +1,7 @@
-import { Component, EventEmitter, Input, NgZone, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, NgZone, OnInit, Output, SimpleChanges } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { HotelsService } from 'src/app/Services/hotels_api/hotels.service';
+
 
 @Component({
   selector: 'app-traveller-card',
@@ -21,9 +22,15 @@ export class TravellerCardComponent implements OnInit {
   currentTravellerCount = 1;
 
   constructor(private auth:HotelsService,private fb: FormBuilder,private zone: NgZone) {
-    // this.getData();
+    this.getData();
     this.initializeForm();
    }
+   ngOnChanges(changes: SimpleChanges): void {
+    console.log("HotelCardsComponent ngOnChanges", changes);
+    console.log(this.editIndex)
+  
+   
+  }
 
    private initializeForm(): void {
     this.travelerForm = this.fb.group({
@@ -43,7 +50,7 @@ export class TravellerCardComponent implements OnInit {
         extraBaggage2: [''],
         companyName: [''],
         gstNumber: [''],
-        companyEmail: ['', Validators.email],
+        
       }),
     });
   }
@@ -63,6 +70,7 @@ addTraveler() {
 
   if (this.travelers.length < this.NoOfTravellers) {
     const newTraveler = { ...this.travelerForm.value };
+    this.savePassengerData(newTraveler)
 
     // If there is an editIndex, update the existing traveler data
     if (this.editIndex !== undefined) {
@@ -94,6 +102,14 @@ addTraveler() {
 
 
 
+  async savePassengerData(form:any){
+    try{
+      const res=await this.auth.savePassengers(form);
+      console.log(res)
+    }catch(error){
+      console.log(error);
+    }
+  }
 
 
 
@@ -106,6 +122,19 @@ addTraveler() {
   }
  
 
+  updateTraveller(){
+    const newTraveler = { ...this.travelerForm.value };
+    this.updatePassengerData(newTraveler)
+  }
+  async updatePassengerData(form:any){
+    try{
+      const res=await this.auth.updatePassengers(form,this.editIndex);
+      console.log(res)
+    }catch(error){
+      console.log(error)
+    }
+  }
+
   dialogbox() {
     this.closeDialog.emit();
   }
@@ -113,29 +142,55 @@ addTraveler() {
     return new Array(length);
   }
 
-  // async getData() {
-  //   console.log('fetching');
+  async getData() {
+    console.log('fetching');
     
-  //   try {
-  //     const res = await this.auth.getSearchInfo();
-  //     console.log(res);
+    try {
+      const res = await this.auth.getSearchInfo();
+      console.log(res);
   
-  //     if (res) {
-  //       this.travelData = res;
-  //       this.RoomGuest = this.travelData.trip.RoomGuests;
-  //       for(let i=0;i<this.travelData.trip.RoomGuests.length;i++){
-  //         this.NoOfTravellers+=this.travelData.trip.RoomGuests[i].NoOfAdults;
-  //         this.NoOfTravellers+=this.travelData.trip.RoomGuests[i].NoOfChild;
-  //       }
-  //       console.log(this.RoomGuest)
-  //       console.log(this.NoOfTravellers)
+      if (res) {
+        this.travelData = res;
+        this.RoomGuest = this.travelData.trip.RoomGuests;
+        for(let i=0;i<this.travelData.trip.RoomGuests.length;i++){
+          this.NoOfTravellers+=this.travelData.trip.RoomGuests[i].NoOfAdults;
+          this.NoOfTravellers+=this.travelData.trip.RoomGuests[i].NoOfChild;
+        }
+        console.log(this.RoomGuest)
+        console.log(this.NoOfTravellers)
+        const travelerData = this.travelData?.passenger_details[this.editIndex];
+        if (travelerData) {
+          this.travelerForm.setValue({
+            personalInfo: {
+              firstName: travelerData?.personalInfo?.firstName || '',
+              lastName: travelerData?.personalInfo?.lastName || '',
+              dateOfBirth: travelerData?.personalInfo?.dateOfBirth || '',
+              gender: travelerData?.personalInfo?.gender || '',
+              nationality: travelerData?.personalInfo?.nationality || '',
+              pan: travelerData?.personalInfo?.pan || '',
+              passportNo: travelerData?.personalInfo?.passportNo || '',
+              passportIssueDate: travelerData?.personalInfo?.passportIssueDate || '',
+              passportExpiryDate: travelerData?.personalInfo?.passportExpiryDate || '',
+            },
+            ssr: {
+              extraBaggage1: travelerData?.ssr?.extraBaggage1 || '',
+              extraBaggage2: travelerData?.ssr?.extraBaggage2 || '',
+              seat: travelerData?.ssr?.seat || '',
+            },
+            // ... other form controls
+          });
         
-  //     } else {
-  //       console.log("No data received from getSearchInfo");
-  //     }
-  //   } catch (error) {
-  //     console.log(error);
-  //   }
-  // }
+      }
+        
+      } else {
+        console.log("No data received from getSearchInfo");
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  }
 
+
+
+  
 }

@@ -23,6 +23,8 @@ export class CombinedItineraryComponent implements OnInit {
   // hotel variables
   @Input()allHotels;
 
+  cities:any;
+
   // will be calling flights and hotels from the itinerary page itself coz they are global(impacting fare Summary).
   // and will be calling schedules here coz they are already finalized in the first phase.
   constructor(private scheduleService: ScheduleService ) {
@@ -75,6 +77,7 @@ async getAllSchedules(){
   try {
     const data = await this.scheduleService.getSchedules();
     console.log(data, "In component");
+    this.cities=data
 
   } catch (error) {
     console.log(error);

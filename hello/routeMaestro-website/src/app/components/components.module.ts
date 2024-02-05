@@ -18,6 +18,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HotelInfoComponent } from './hotel-info/hotel-info.component';
 import { CityScheduleComponent } from './city-schedule/city-schedule.component';
 import { CombinedItineraryComponent } from './combined-itinerary/combined-itinerary.component';
+import { AlternateHotelCardsComponent } from './alternate-hotel-cards/alternate-hotel-cards.component';
 
 
 @NgModule({
@@ -44,6 +45,7 @@ import { CombinedItineraryComponent } from './combined-itinerary/combined-itiner
     HotelInfoComponent,
     CityScheduleComponent,
     CombinedItineraryComponent,
+    AlternateHotelCardsComponent,
 
   ],
   exports: [
@@ -62,6 +64,7 @@ import { CombinedItineraryComponent } from './combined-itinerary/combined-itiner
     HotelInfoComponent,
     CityScheduleComponent,
     CombinedItineraryComponent,
+    AlternateHotelCardsComponent
 
 
   ]

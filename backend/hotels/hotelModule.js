@@ -139,12 +139,17 @@ router.post('/getIternary', async (req, res) => {
       // console.log(cities)
     
           // Use Promise.all to wait for all asynchronous operations to complete
-      await Promise.all(cities.map(async (city) => {
-        i++;
-        console.log(i);
-        await getHotelSearchData(city, NoOfRooms, resultCount, trip.RoomGuests,token,hotelData);
-
-      }));
+          await Promise.all(cities.map(async (city) => {
+            
+              await Promise.all(city.Properties.map(async (item) => {
+                i++;
+                console.log(i);
+                console.log(item);
+                await getHotelSearchData(city, item.date[0], item.date.length, NoOfRooms, resultCount, trip.RoomGuests, token, hotelData);
+              }));
+            
+          }));
+          
     
       console.log(hotelData)
       return res.status(200).json({ success: true, message: 'Data fetched successfully', fullJourneyHotels: hotelData, count: i });
@@ -159,7 +164,7 @@ router.post('/getIternary', async (req, res) => {
 
 
 
-async function getHotelSearchData(city, NoOfRooms, resultCount, RoomGuests,token,hotelData) {
+async function getHotelSearchData(city,checkInDate,NoOfNights, NoOfRooms, resultCount, RoomGuests,token,hotelData) {
 
 
   const payload = {
@@ -168,8 +173,8 @@ async function getHotelSearchData(city, NoOfRooms, resultCount, RoomGuests,token
 
     TokenId:token,
 
-    CheckInDate: city.checkInDate,
-    NoOfNights: city.noOfNights,
+    CheckInDate: checkInDate,
+    NoOfNights: NoOfNights,
     CountryCode:city.countryCode,
     CityId: city.cityId,
     PreferredCurrency:"INR",
@@ -182,7 +187,7 @@ async function getHotelSearchData(city, NoOfRooms, resultCount, RoomGuests,token
   };
   try {
 
-    console.log(payload)
+    // console.log(payload)
     const { data } = await axios.post("http://api.tektravels.com/BookingEngineService_Hotel/hotelservice.svc/rest/GetHotelResult/", payload);
 
     // console.log('data1',data);
@@ -191,7 +196,7 @@ async function getHotelSearchData(city, NoOfRooms, resultCount, RoomGuests,token
     const hotelSearchData = data.HotelSearchResult;
     hotelSearchData.CityName = city.cityName;
 
-    const cityData=await getAllData(hotelSearchData,city,token)
+    const cityData=await getAllData(hotelSearchData,city,token,checkInDate)
     // Return hotelSearchData as an array
     hotelData.push(cityData);
 
@@ -209,7 +214,7 @@ async function getHotelSearchData(city, NoOfRooms, resultCount, RoomGuests,token
 
 
 
-async function getAllData(hotelSearchData,city,token) {
+async function getAllData(hotelSearchData,city,token,checkInDate) {
 
   
   let cityData = {};
@@ -223,12 +228,12 @@ async function getAllData(hotelSearchData,city,token) {
 
     const [info, room] = await Promise.all([infoPromise, roomPromise]);
 
-    response.push({ search: item, info: info, room: room,resultIndex:item.ResultIndex });
+    response.push({ search: item, info: info, room: room,resultIndex:item.ResultIndex,checkInDate:checkInDate });
   }));
 }
   cityData["cityName"]=city.cityName;
   cityData["Response"]=response;
- 
+  cityData["checkInDate"]=checkInDate; 
 
   return cityData;
 
