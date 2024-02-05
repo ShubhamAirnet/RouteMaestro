@@ -26,8 +26,11 @@
     "
   >
     <!-- completeFlight = all flights to reach from a->b  with all layovers   -->
-    <app-city-schedule [city]="city" [allHotels]="allHotels"></app-city-schedule>
-          
+    <ng-container *ngFor="let item of city.Properties">
+      <p>{{item?.date[0]}}</p>
+      <app-city-schedule [city]="city" [allHotels]="allHotels" [checkInDate]="item?.date[0]"></app-city-schedule>
+
+    </ng-container>          
   </div>
   
   <!-- NEED TO CALL FOR HOTELS AND SCHEDULES -->

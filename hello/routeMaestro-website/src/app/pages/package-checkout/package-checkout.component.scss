@@ -158,6 +158,7 @@ body{
         border: 1px solid;
         width: 160px;
         border-radius: 5px;
+        font-size: 0.8rem;
     }
     div{
         display: flex;
@@ -359,6 +360,7 @@ body{
     justify-content: flex-start;
     flex-direction: column;
     align-items: center;
+    height: 420px;
     span{
         padding-bottom:10px ;
         font-weight: 600;
@@ -386,9 +388,10 @@ body{
 
 .plane-icon{
     transform: rotate(90deg);
+    font-size: 14px;
     
 }
 .car-icon{
     
-    /* font-size: 24px; */
+    font-size: 14px;
 }

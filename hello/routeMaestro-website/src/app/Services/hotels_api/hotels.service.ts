@@ -109,7 +109,7 @@ export class HotelsService {
   
   
 
-  async getAllDetails(resultCount) {
+  async getAllDetails(resultCount:number) {
     const token=localStorage.getItem("authenticateToken")
     try {
       const {data} = await axios.post('http://localhost:4000/hotel/getIternary', { resultCount: resultCount,token:token });

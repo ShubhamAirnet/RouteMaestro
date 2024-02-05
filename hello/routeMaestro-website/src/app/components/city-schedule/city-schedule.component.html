@@ -1,5 +1,5 @@
 <!-- whole card for a city -->
-<app-hotel-cards *ngIf="dialog" [dialog]="dialog" (closeDialog)="dialogbox()" [city]="city" (addToItineraryEvent)="handleAddToItinerary($event)" [allHotels]="allHotels"></app-hotel-cards>
+<app-hotel-cards *ngIf="dialog" [dialog]="dialog" [hotelName]="hotelName"  (hotelNameChange)="handleHotelNameChange($event)" [checkInDate]="checkInDate" (closeDialog)="dialogbox()" [city]="city" (addToItineraryEvent)="handleAddToItinerary($event)" [allHotels]="allHotels"></app-hotel-cards>
 <div
   style="
     width: 53%;
