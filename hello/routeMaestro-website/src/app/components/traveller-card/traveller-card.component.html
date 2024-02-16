@@ -1,4 +1,7 @@
+<app-flight-seat-map *ngIf="seatMapDialog" style="width: 100vw; height: 100vh;" [ssr]="ssrData" [seatMapDaialog]="seatMapDialog" (closeDialog)="handleSeatMapClick()" (seatMapData)="handleSeatMapData($event)"></app-flight-seat-map>
+
 <body>
+
   <div class="sub-container" (click)="dialogbox()"></div>
     <main>
         <div class="header">
@@ -7,7 +10,7 @@
         </div>
         <div class="travellers">
             <div style="display: flex; justify-content: flex-start; align-items: center;  padding-left:20px;">
-                <h2>Traveller {{editIndex? editIndex+1 :currentTravellerCount}} </h2>
+                <h2>Traveller {{currentIndex? currentIndex+1 :currentTravellerCount}} </h2>
                 <span> /{{NoOfTravellers}}</span>
             </div>
            
@@ -17,68 +20,43 @@
                 <!-- Loop through RoomGuest array -->
                 <div class="boxes">
                   <ng-container *ngFor="let item of RoomGuest; let i = index">
-                    <!-- Check if NoOfAdults is defined and greater than 0 -->
+                    <!-- Calculate the total count of adults from previous rooms -->
+                    <ng-container *ngIf="i > 0">
+                     
+                    </ng-container>
+            
                     <ng-container *ngIf="item?.NoOfAdults && item?.NoOfAdults > 0">
                       <!-- Loop to generate cards for adults -->
-                      <ng-container *ngFor="let star of getArray(item?.NoOfAdults); let j = index">
-                        <div class="card" >
-                          <span style="width: 100%; background-color: black; color: white; display: flex; justify-content: center;">Room -{{ i + 1 }}</span>
-                          <div  style="display: flex; flex-direction: column; justify-content: center; align-items: center;">
-                            <i class="fa-solid fa-user adult-icon"></i>
-                            <p>Traveller</p>
-                            <p>{{i}} {{j}}</p>
-                          </div>
+                      <ng-container *ngFor="let star of getArray(item?.NoOfAdults + item?.NoOfChild); let j = index">
+                        <div class="card" (click)="i === 0 ? handleCardClick(j) : handleCardClick(calculateTotalAdultsCount(i) + j)" 
+                            [ngClass]="{'selected': selectedCard === (i === 0 ? j : calculateTotalAdultsCount(i) + j)}">
+                            <!-- Your card content goes here -->
+                            <span style="width: 100%; background-color: black; color: white; display: flex; justify-content: center;">Room -{{ i + 1 }}</span>
+                            <div style="display: flex; flex-direction: column; justify-content: center; align-items: center;">
+                                <ng-container *ngIf="j < item?.NoOfAdults">
+                                    <i class="fa-solid fa-user adult-icon"></i>
+                                    <p>Traveller</p>
+                                </ng-container>
+                                <ng-container *ngIf="j >= item?.NoOfAdults">
+                                    <i class="fa-solid fa-baby child-icon"></i>
+                                    <p>Traveller</p>
+                                </ng-container>
+                            </div>
                         </div>
-                      </ng-container>
-                      <ng-container *ngFor="let star of getArray( item?.NoOfChild); let j = index">
-                        <div class="card" >
-                          <span style="width: 100%; background-color: black; color: white; display: flex; justify-content: center;">Room -{{ i + 1 }}</span>
-                          <div style="display: flex; flex-direction: column; justify-content: center; align-items: center;">
-                            <i class="fa-solid fa-baby child-icon"></i>
-                            <p>Traveller</p>
-                            <p>{{i}} {{j}}</p>
-                          </div>
-                        </div>
-                      </ng-container>
+                    </ng-container>
+                    
                     </ng-container>
                   </ng-container>
                 </div>
-                
               </div>
             </ng-container>
             
+            
+            
+            
               
                   
-                <!-- <div class="boxes">
-                    <div class="card" >
-                        <span style="width: 100%; background-color: black; color:white; display: flex; justify-content: center;">Room -</span>
-                        <div>
-                            <i class="fa-solid fa-user adult-icon"></i>
-                            <p>Adult</p>
-                        </div>
-                    </div>
-                    <div class="card">
-                        <span style="width: 100%; background-color: black; color:white; display: flex; justify-content: center;">Room -1</span>
-                        <div>
-                            <i class="fa-solid fa-user adult-icon"></i>
-                            <p>Adult</p>
-                        </div>
-                    </div>
-                    <div class="card">
-                        <span style="width: 100%; background-color: black; color:white; display: flex; justify-content: center;">Room -1</span>
-                        <div>
-                            <i class="fa-solid fa-baby child-icon"></i>
-                            <p>Child</p>
-                        </div>
-                    </div>
-                    <div class="card">
-                        <span style="width: 100%; background-color: black; color:white; display: flex; justify-content: center;">Room -1</span>
-                        <div>
-                            <i class="fa-solid fa-user adult-icon"></i>
-                            <p>Adult</p>
-                        </div>
-                    </div>
-                   </div> -->
+                
             
                    <form [formGroup]="travelerForm" >
                     <div class="info">
@@ -91,25 +69,35 @@
                           <div class="traveller-info">
                             <div style="padding-top: 20px; padding-bottom: 20px; width: 100%; display: flex; justify-content: flex-start; gap: 20px;">
                               <span>Enter Mandatory Details</span> 
-                              <ng-container *ngIf="travelData?.passenger_details[editIndex] "> <i class="fa-solid fa-pen-to-square"></i></ng-container>
+                              <ng-container> <i class="fa-solid fa-pen-to-square"></i></ng-container>
                             </div>
+                            
                             <fieldset class="inputs" formGroupName="personalInfo">
                               <legend>Personal Info</legend>
                               <div>
+                                <label><span>Title</span></label>
+                                <select  formControlName="title" required [value]="travelData?.passenger_details[currentIndex]?.personalInfo?.title || ''">
+                                  <option></option>
+                                  <option>Mr</option>
+                                  <option>Mrs</option>
+                                  <option>Miss</option>
+                                </select>
+                              </div>
+                              <div>
                                 <label><span>First Name</span></label>
-                                <input type="text" formControlName="firstName" required [value]="travelData?.passenger_details[editIndex]?.personalInfo.firstName" />
+                                <input type="text" formControlName="firstName" required [value]="travelData?.passenger_details[currentIndex]?.personalInfo?.firstName || ''" />
                               </div>
                               <div>
                                 <label><span>Last Name</span></label>
-                                <input type="text" formControlName="lastName" required [value]="travelData?.passenger_details[editIndex]?.personalInfo.lastName" />
+                                <input type="text" formControlName="lastName" required [value]="travelData?.passenger_details[currentIndex]?.personalInfo?.lastName || ''" />
                               </div>
                               <div>
                                 <label><span>Date of Birth</span></label>
-                                <input type="date" formControlName="dateOfBirth" required [value]="travelData?.passenger_details[editIndex]?.personalInfo.dateOfBirth" />
+                                <input type="date" formControlName="dateOfBirth" required [value]="travelData?.passenger_details[currentIndex]?.personalInfo?.dateOfBirth || ''" />
                               </div> 
                               <div>
                                 <label><span>Gender</span></label>
-                                <select formControlName="gender" required [value]="travelData?.passenger_details[editIndex]?.personalInfo.gender" >
+                                <select formControlName="gender" required [value]="travelData?.passenger_details[currentIndex]?.personalInfo?.gender || ''" >
                                   <option></option>
                                   <option>Male</option>
                                   <option>Female</option>
@@ -117,73 +105,106 @@
                               </div>
                               <div>
                                 <label><span>Nationality</span></label>
-                                <select formControlName="nationality" required [value]="travelData?.passenger_details[editIndex]?.personalInfo.nationality" >
+                                <select formControlName="nationality" required [value]="travelData?.passenger_details[currentIndex]?.personalInfo?.nationality || ''" >
                                   <option></option>
                                   <option>India</option>
                                   <option>United States</option>
                                 </select>
                               </div>
                               <div>
+                                <label><span>Address Line 1</span></label>
+                                <input type="text" formControlName="addressLine1" required [value]="travelData?.passenger_details[currentIndex]?.personalInfo?.addressLine1 || ''" />
+                              </div>
+                              <div>
+                                <label><span>Address Line 2</span></label>
+                                <input type="text" formControlName="addressLine2" required [value]="travelData?.passenger_details[currentIndex]?.personalInfo?.addressLine2 || ''" />
+                              </div>
+                              <div>
                                 <label><span>PAN</span></label>
-                                <input type="text" formControlName="pan" required [value]="travelData?.passenger_details[editIndex]?.personalInfo.pan" />
+                                <input type="text" formControlName="pan" required [value]="travelData?.passenger_details[currentIndex]?.personalInfo?.pan || ''" />
                               </div>
                               <div>
                                 <label><span>Passport No.</span></label>
-                                <input type="text" formControlName="passportNo" required [value]="travelData?.passenger_details[editIndex]?.personalInfo.passportNo"/>
+                                <input type="text" formControlName="passportNo" required [value]="travelData?.passenger_details[currentIndex]?.personalInfo?.passportNo || ''"/>
                               </div>
                               <div>
                                 <label><span>Passport Issue Date</span></label>
-                                <input type="date" formControlName="passportIssueDate" required [value]="travelData?.passenger_details[editIndex]?.personalInfo.passportIssueDate"  />
+                                <input type="date" formControlName="passportIssueDate" required [value]="travelData?.passenger_details[currentIndex]?.personalInfo?.passportIssueDate || ''"  />
                               </div>
                               <div>
                                 <label><span>Passport Expiry Date</span></label>
-                                <input type="date" formControlName="passportExpiryDate" required [value]="travelData?.passenger_details[editIndex]?.personalInfo.passportExpiryDate"  />
+                                <input type="date" formControlName="passportExpiryDate" required [value]="travelData?.passenger_details[currentIndex]?.personalInfo?.passportExpiryDate || ''"  />
                               </div>
+                              <ng-container *ngIf="primary">
+                                <div>
+                                  <label><span>Phone</span></label>
+                                  <input type="text" formControlName="phone" required [value]="travelData?.passenger_details[currentIndex]?.personalInfo?.phone || ''" />
+                                </div>
+                                <div>
+                                  <label><span>Email</span></label>
+                                  <input type="email" formControlName="email" required [value]="travelData?.passenger_details[currentIndex]?.personalInfo?.email || ''"/>
+                                </div>
+                              </ng-container>
                             </fieldset>
     
                             <fieldset class="inputs" formGroupName="ssr">
                                 <legend>SSR</legend>
-                                <div>
-                                    <label><span>Extra Baggage (kgs)</span></label>
-                                    <select formControlName="extraBaggage1" [value]="travelData?.passenger_details[editIndex]?.ssr.extraBaggage1" >
-                                        <option>Weight 0 (Rs. 0)</option>
-                                        <option>Weight 5 (Rs. 2210)</option>
-                                        <option>Weight 10 (Rs. 4950)</option>
-                                        <option>Weight 15 (Rs. 7425)</option>
-                                        <option>Weight 30 (Rs. 7425)</option>
-                                    </select>
+                                
+                                <div *ngIf="ssrData?.Baggage">
+                                  <label><span>Extra Baggage (kgs)</span></label>
+                                  <select formControlName="extraBaggage" [value]="travelData?.passenger_details[currentIndex]?.ssr?.extraBaggage?.Weight || ''">
+                                    <ng-container *ngFor="let item of ssrData?.Baggage">
+                                      <option [ngValue]="item">{{ 'Weight ' + item?.Weight + ' (Rs. ' + item?.Price + ')' }}</option>
+                                    </ng-container>
+                                  </select>
+                                  
+                                 
                                 </div>
-                                <div>
-                                    <label><span>Meal</span></label>
-                                    <select formControlName="extraBaggage2" [value]="travelData?.passenger_details[editIndex]?.ssr.meal">
-                                        <option>Weight 0 (Rs. 0)</option>
-                                        <option>Weight 5 (Rs. 2210)</option>
-                                        <option>Weight 10 (Rs. 4950)</option>
-                                        <option>Weight 15 (Rs. 7425)</option>
-                                        <option>Weight 30 (Rs. 7425)</option>
-                                    </select>
+
+                                <div *ngIf="travelData?.passenger_details">
+                                  <label><span>Meal</span></label>
+                                  <select formControlName="meal" [value]="travelData?.passenger_details[currentIndex]?.ssr?.meal?.Description || ''">
+                                    <ng-container *ngFor="let item of ssrData?.Meal">
+                                      <option [ngValue]="item" >
+                                        {{item?.Description}} ({{item?.Code}})
+                                      </option>
+                                    </ng-container>
+                                  </select>
+                                  <!-- You can display the selected meal code if needed -->
                                 </div>
+                                
+                                <div *ngIf="ssrData?.MealDynamic">
+                                  <label><span>Meal</span></label>
+                                  <select formControlName="meal" [value]="travelData?.passenger_details[currentIndex]?.ssr?.meal?.AirlineDescription || ''">
+                                    
+                                      <ng-container *ngFor="let item of ssrData?.MealDynamic">
+                                          <option [ngValue]="item">{{item?.AirlineDescription }} ({{item?.Code}}/ Rs. {{item?.Price}})</option>
+                                      </ng-container>
+                                  </select>
+                                  <!-- You can display the selected meal code if needed -->
+                              
+                                </div>
+
                                 <div>
-                                    <label><span>Meal</span></label>
-                                    <select formControlName="seat" [value]="travelData?.passenger_details[editIndex]?.ssr.seat">
-                                        <option>Weight 0 (Rs. 0)</option>
-                                        <option>Weight 5 (Rs. 2210)</option>
-                                        <option>Weight 10 (Rs. 4950)</option>
-                                        <option>Weight 15 (Rs. 7425)</option>
-                                        <option>Weight 30 (Rs. 7425)</option>
-                                    </select>
+                                    <label><span>Seat</span></label>
+                                    <div style="display: flex; justify-content: flex-start; flex-direction: row; align-items: center; gap: 5px; height: 40px; ">
+                                      <input disabled style="width: 160px; height: 36px;" [value]="travelData?.passenger_details[currentIndex]?.ssr?.rowNo || ''"/>
+                                      <i class="fa-solid fa-calculator" (click)="handleSeatMapClick()"></i>
+
+                                    </div>
+
                                 </div>
                                
                             
                                 
                             </fieldset>
-                            <ng-container *ngIf=" !travelData?.passenger_details[editIndex]">
+                            <ng-container *ngIf=" !travelData?.passenger_details[currentIndex]">
                               <div class="btn" *ngIf="travelerForm.valid">
                                 <button type="submit" (click)="addTraveler()"><span>Add Traveler</span></button>
                               </div>
                             </ng-container>
                            
-                            <ng-container *ngIf="travelData?.passenger_details[editIndex]">
+                            <ng-container *ngIf="travelData?.passenger_details[currentIndex]">
                               <div class="btn" >
                                
                                 <button type="submit" (click)="updateTraveller()"><span>Update</span></button>

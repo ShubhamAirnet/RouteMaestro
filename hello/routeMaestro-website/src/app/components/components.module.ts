@@ -19,6 +19,17 @@ import { HotelInfoComponent } from './hotel-info/hotel-info.component';
 import { CityScheduleComponent } from './city-schedule/city-schedule.component';
 import { CombinedItineraryComponent } from './combined-itinerary/combined-itinerary.component';
 import { AlternateHotelCardsComponent } from './alternate-hotel-cards/alternate-hotel-cards.component';
+import { FlightSeatMapComponent } from './flight-seat-map/flight-seat-map.component';
+import { AdminSidebarComponent } from './admin-sidebar/admin-sidebar.component';
+import { PrivacyPolicyComponent } from './privacy-policy/privacy-policy.component';
+import { TermsConditionsComponent } from './terms-conditions/terms-conditions.component';
+import { RefundiblePolicyComponent } from './refundible-policy/refundible-policy.component';
+import { PackageCancellationComponent } from './package-cancellation/package-cancellation.component';
+import { HotelCancelComponent } from './hotel-cancel/hotel-cancel.component';
+import { CombinedPolicyComponent } from './combined-policy/combined-policy.component';
+import { PaymentBreakdownComponent } from './payment-breakdown/payment-breakdown.component';
+import { RouteOverviewComponent } from './route-overview/route-overview.component';
+import { FlightCancelComponent } from './flight-cancel/flight-cancel.component';
 
 
 @NgModule({
@@ -46,6 +57,17 @@ import { AlternateHotelCardsComponent } from './alternate-hotel-cards/alternate-
     CityScheduleComponent,
     CombinedItineraryComponent,
     AlternateHotelCardsComponent,
+    FlightSeatMapComponent,
+    AdminSidebarComponent,
+    PrivacyPolicyComponent,
+    TermsConditionsComponent,
+    RefundiblePolicyComponent,
+    PackageCancellationComponent,
+    HotelCancelComponent,
+    CombinedPolicyComponent,
+    PaymentBreakdownComponent,
+    RouteOverviewComponent,
+    FlightCancelComponent,
 
   ],
   exports: [
@@ -64,7 +86,19 @@ import { AlternateHotelCardsComponent } from './alternate-hotel-cards/alternate-
     HotelInfoComponent,
     CityScheduleComponent,
     CombinedItineraryComponent,
-    AlternateHotelCardsComponent
+    AlternateHotelCardsComponent,
+    FlightSeatMapComponent,
+    AdminSidebarComponent,
+    AdminNavbarComponent,
+    PrivacyPolicyComponent,
+    TermsConditionsComponent,
+    RefundiblePolicyComponent,
+    PackageCancellationComponent,
+    CombinedPolicyComponent,
+    HotelCancelComponent,
+    PaymentBreakdownComponent,
+    RouteOverviewComponent,
+    FlightCancelComponent
 
 
   ]

@@ -1,4 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { PackageService } from 'src/app/Services/package/package.service';
 import { ScheduleService } from 'src/app/Services/schedule_api/schedule.service';
 
 @Component({
@@ -27,7 +28,7 @@ export class CombinedItineraryComponent implements OnInit {
 
   // will be calling flights and hotels from the itinerary page itself coz they are global(impacting fare Summary).
   // and will be calling schedules here coz they are already finalized in the first phase.
-  constructor(private scheduleService: ScheduleService ) {
+  constructor(private scheduleService: ScheduleService,private pack:PackageService ) {
 
   }
 
@@ -36,8 +37,20 @@ export class CombinedItineraryComponent implements OnInit {
     console.log(this.allFlights)
     console.log(this.allHotels);
     this.settingCurrentFlightSetAndSegmentsArr(this.currentFlightSetIndex);
+    this.updateFlightDetails(this.currentFlightSetSegmentsArray)
+    console.log(this.currentFlightSetSegmentsArray)
   }
 
+  async updateFlightDetails(flight: any) {
+    try {
+        const res = await this.pack.updateFlightDetails(flight);
+        console.log("Flight details updated successfully:", res);
+        return res; // Assuming you might want to return the result
+    } catch (error) {
+        console.error("Error updating flight details:", error);
+        throw error; // Re-throw the error to propagate it further if needed
+    }
+}
   // flights functions
 
   settingCurrentFlightSetAndSegmentsArr(resultIndex:string){

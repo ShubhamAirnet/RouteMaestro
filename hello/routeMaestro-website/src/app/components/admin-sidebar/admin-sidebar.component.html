@@ -1,0 +1,46 @@
+<div class="container" [class.expanded]="isContainerExpanded">
+    <div class="left" [class.expanded]="isContainerExpanded">
+        <div class="details">
+            <!-- Add a class to the icon divs for styling -->
+            <div class="nav-item" (click)="toggleExpanded()">
+                <i style="width: 20px;" class="fa-solid fa-house"></i>
+                <div><span >Dashboard</span></div>
+            </div>
+            <div class="nav-item" (click)="toggleExpanded()">
+                <i style="transform: rotate(-45deg); width: 20px;" class="fa-solid fa-plane"></i>
+                <div><span>Book Flights</span></div>
+            </div>
+            <div class="nav-item" (click)="toggleExpanded()">
+                <i style="width: 20px;"  class="fa-solid fa-hotel"></i>
+                <div><span> Book Hotel</span></div>
+            </div>
+            <div class="nav-item" (click)="toggleExpanded()">
+                <i style="width: 20px;"  class="fa-solid fa-clipboard-list"></i>
+                <div>  <span>Itinearary</span></div>
+            </div>
+            <div class="nav-item" (click)="toggleExpanded()">
+                <i style="width: 20px;"  class="fa-solid fa-truck-fast"></i>
+                <div><span>Travel Packages</span></div>
+            </div>
+            <div class="nav-item" (click)="toggleExpanded()">
+                <i style="width: 20px;"  class="fa-solid fa-phone"></i>
+                <div><span>Support</span></div>
+            </div>
+            <div class="nav-item" (click)="toggleExpanded()">
+                <i style="width: 20px;"  class="fa-solid fa-list"></i>
+               <div> <span>Billing</span></div>
+            </div>
+        </div>
+
+        <div class="user-details">
+            <div class="nav-item" (click)="toggleExpanded()">
+                <i style="width: 20px;"  class="fa-regular fa-user"></i>
+                <div><span>Sam</span></div>
+            </div>
+            <div class="nav-item" (click)="toggleExpanded()">
+                <i style="width: 20px;" class="fa-solid fa-gear"></i>
+                <div><span>Settings</span></div>
+            </div>
+        </div>
+    </div>
+</div>

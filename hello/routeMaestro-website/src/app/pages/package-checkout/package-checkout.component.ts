@@ -1,10 +1,12 @@
-import { ChangeDetectorRef, Component, Input, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, Input, NgZone, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { HotelsService } from 'src/app/Services/hotels_api/hotels.service';
 import { Cashfree, load } from '@cashfreepayments/cashfree-js';
 import { cashfree } from './util';
 import axios from 'axios';
 import { TransactionsService } from 'src/app/Services/transactions.service';
+import { hotel_details } from '../../components/package-cancellation/hotel_details';
+import { DatePipe } from '@angular/common';
 
 @Component({
   selector: 'app-package-checkout',
@@ -31,10 +33,101 @@ export class PackageCheckoutComponent implements OnInit {
   sessionId:string;
   version:string;
   pay:boolean=false;
+  gst:number=0;
+  ssrPrice:any;
+  baggagePrice:number;
+  seatPrice:number;
+  mealPrice:number;
+  ssr:any;
+  isToggle:boolean=true;
+  isCollapsed:boolean=true;
+  isDateCollapsed:boolean=true;
+  isExclusionCollapsed:boolean=true;
+  arrowTermDirection = 'down';
+  arrowDirection = 'down';
+  arrowDateDirection = 'down';
+  arrowExclusionDirection = 'down';
+  taxesSectionExpanded: boolean = false;
+  // sample data
+  data:any = {
+    "ssr": {
+        "Response": {
+            
+            "Meal": [
+                {
+                    "Code": "BBML",
+                    "Description": "BABY MEAL"
+                },
+                {
+                    "Code": "DBML",
+                    "Description": "DIABETIC MEAL"
+                },
+                {
+                    "Code": "HNML",
+                    "Description": "HINDU (NON VEGETARIAN) MEAL"
+                },
+                {
+                    "Code": "MOML",
+                    "Description": "MUSLIM MEAL"
+                },
+                {
+                    "Code": "SFML",
+                    "Description": "SEA FOOD MEAL"
+                },
+                {
+                    "Code": "VGML",
+                    "Description": "VEGETARIAN VEGAN MEAL"
+                },
+                {
+                    "Code": "VJML",
+                    "Description": "VEGETARIAN INDIAN MEAL"
+                }
+            ],
+            "SeatPreference": [
+                {
+                    "Code": "A",
+                    "Description": "Aisle"
+                },
+                {
+                    "Code": "W",
+                    "Description": "Window"
+                }
+            ],
+
+            "ResponseStatus": 1,
+            "Error": {
+                "ErrorCode": 0,
+                "ErrorMessage": ""
+            },
+            "TraceId": "1fec828a-e0a2-4db7-be31-1dd09102272c"
+        }
+    }
+};
+
+// checkbox
+checkBox1: boolean = false;
+checkBox2: boolean = false;
+checkBox3: boolean = false;
 
 
-  constructor(private auth:HotelsService,private fb: FormBuilder,private cdr: ChangeDetectorRef,private transact:TransactionsService) {
-    
+
+// dialog box variables
+privacyDialog:boolean=false;
+termsDialog:boolean=false;
+refundibleDialog:boolean=false;
+
+// cancel variables
+hotelData=hotel_details;
+minLastCancellationDate:any;
+LastCancelPolicy=[]
+ 
+  formattedLastCancellationDate: any;
+  packageDialog: boolean;
+
+  constructor(private hotels:HotelsService,private datePipe: DatePipe,private zone: NgZone,private fb: FormBuilder,private cdr: ChangeDetectorRef,private transact:TransactionsService) {
+    this.ssr=this.data.ssr;
+    this.processCancellationPolicies()
+    this.findMinLastCancellationDate()
    }
 
   ngOnInit(): void {
@@ -42,13 +135,40 @@ export class PackageCheckoutComponent implements OnInit {
     this.initializeForm();
   }
 
+
+  toggle() {
+    this.isToggle = !this.isToggle;
+    this.arrowTermDirection = this.isToggle ? 'down' : 'up';
+  }
+  toggleCollapse() {
+    this.isCollapsed = !this.isCollapsed;
+    this.arrowDirection = this.isCollapsed ? 'down' : 'up';
+  }
+  toggleDateCollapse() {
+    this.isDateCollapsed = !this.isDateCollapsed;
+    this.arrowDateDirection = this.isDateCollapsed ? 'down' : 'up';
+  }
+  toggleExclusionCollapse() {
+    this.isExclusionCollapsed = !this.isExclusionCollapsed;
+    this.arrowExclusionDirection = this.isExclusionCollapsed ? 'down' : 'up';
+  }
+
+  toggleTaxesSection() {
+    this.taxesSectionExpanded = !this.taxesSectionExpanded;
+  }
+  
+
+  areAllCheckboxesChecked(): boolean {
+    return this.checkBox1 && this.checkBox2 && this.checkBox3;
+  }
   handleTravelerArrayChange(travelerArray: any[]): void {
     // Process the traveler array data received from the child component
     console.log(travelerArray);
     this.travelers=travelerArray;
     console.log(this.travelers)
-    this.cdr.detectChanges();
-    // ... other logic
+    this.zone.run(() => {
+      this.cdr.detectChanges();
+    });
   }
   private initializeForm(): void {
     this.contactForm = this.fb.group({
@@ -61,29 +181,47 @@ export class PackageCheckoutComponent implements OnInit {
       companyNumber: [''],
       companyAddress: [''],
     });
+
+   
   }
 
- 
+//  dialogBox functions
 
   dialogbox(index:number){
     console.log(index)
     this.dialog=!this.dialog;
     this.editIndex=index;
   }
+  privacyDialogBox(){
+    console.log('privacy')
+    this.privacyDialog=!this.privacyDialog
+  }
+  termsDialogBox(){
+    console.log('terms')
+    this.termsDialog=!this.termsDialog
+  }
+  refundibleDialogBox(){
+    console.log('refundible')
+    this.refundibleDialog=!this.refundibleDialog
+  }
+  packageDialogBox(){
+    console.log('package')
+    this.packageDialog=!this.packageDialog
+  }
 
   async submit(){
     this.pay=true
     console.log(this.contactForm.value)
     console.log(this.travelers)
-    await this.auth.updatePrimaryContact(this.contactForm.value) 
-    await this.auth.savePassengers(this.travelers)
+    await this.hotels.updatePrimaryContact(this.contactForm.value) 
+    await this.hotels.savePassengers(this.travelers)
   }
 
   async getData() {
     console.log('fetching');
     
     try {
-      const res = await this.auth.getSearchInfo();
+      const res = await this.hotels.getSearchInfo();
       console.log(res);
   
       if (res) {
@@ -95,6 +233,10 @@ export class PackageCheckoutComponent implements OnInit {
         }
         this.totalCost = this.travelData.cost.flightCost+this.travelData.cost.hotelCost+this.travelData.cost.taxes
         this.initialCost=this.totalCost;
+        this.transactionFee=this.totalCost*0.0175;
+        this.transactionFee = +this.transactionFee.toFixed(2);
+        this.totalCost += this.transactionFee;
+        this.totalCost = +this.totalCost.toFixed(2);
 
         console.log(this.NoOfRooms);
         console.log(this.NoOfAdults);
@@ -139,8 +281,10 @@ onMerchantShareChange() {
   console.log('Merchant Share changed:', this.merchantShare);
 
   const costChange = this.totalCost - this.initialCost;
-  this.totalCost = this.initialCost + this.merchantShare;
-  this.transactionFee = 0.00175 * this.totalCost;
+  this.gst=this.merchantShare*0.18;
+  this.gst = +this.gst.toFixed(2);
+  this.totalCost = this.initialCost + this.merchantShare+this.gst;
+  this.transactionFee = 0.0175 * this.totalCost;
 
   // Round to two decimal places
   this.transactionFee = +this.transactionFee.toFixed(2);
@@ -284,4 +428,155 @@ async generateLink(form:any,link_id:string){
     console.log(error)
   }
 }
+
+processCancellationPolicies() {
+  const maxFromDateArray: any[] = [];
+
+  Object.values(this.hotelData.hotels).forEach((hotel) => {
+    hotel.forEach((item) => {
+      if (item.room && item.room.CancellationPolicies) {
+        item.room.CancellationPolicies.forEach((policy: any, index: number) => {
+          const fromDate = new Date(policy.FromDate);
+          const toDate = new Date(policy.ToDate);
+
+          if (maxFromDateArray[index]) {
+            maxFromDateArray[index].push({
+              policy: policy,
+              dayRate: item.room.DayRates[0]?.Amount,
+              PublishedPrice: item.room.Price.PublishedPrice
+            });
+          } else {
+            maxFromDateArray[index] = [{
+              policy: policy,
+              dayRate: item.room.DayRates[0]?.Amount,
+              PublishedPrice: item.room.Price.PublishedPrice
+            }];
+          }
+        });
+      }
+    });
+  });
+
+  console.log("Max and Min dates for each cancellation policy:", maxFromDateArray);
+
+  const averageDate: { fromDate: string, toDate: string }[] = [];
+
+  const maxDate = (dates: Date[]) => new Date(Math.max(...dates.map(date => date.getTime()))).toISOString();
+  const minDate = (dates: Date[]) => new Date(Math.min(...dates.map(date => date.getTime()))).toISOString();
+
+  let maxFromDate: string | null = null;
+  let maxToDate: string | null = null;
+
+  maxFromDateArray.forEach((item: any) => {
+    const fromDates = item.map((dates: any) => new Date(dates.policy.FromDate));
+    const toDates = item.map((dates: any) => new Date(dates.policy.ToDate));
+
+    const currentMaxFromDate = maxDate(fromDates);
+    const currentMinToDate = minDate(toDates);
+
+    averageDate.push({ fromDate: currentMaxFromDate, toDate: currentMinToDate });
+
+    if (!maxFromDate || currentMaxFromDate > maxFromDate) {
+      maxFromDate = currentMaxFromDate;
+    }
+
+    if (!maxToDate || currentMinToDate > maxToDate) {
+      maxToDate = currentMinToDate;
+    }
+  });
+
+  console.log("Maximum FromDate:", maxFromDate);
+  console.log("Maximum ToDate:", maxToDate);
+  console.log("Average  Date:", averageDate);
+
+
+  for (let i = 0; i < averageDate.length; i++) {
+    const from = averageDate[i].fromDate;
+    const to = averageDate[i].toDate;
+    let cancel = 0;
+    let othercharges = 0;
+
+    maxFromDateArray[i].forEach((item: any) => {
+      const itemFromDate = item.policy.FromDate;
+      const chargeType = item.policy.ChargeType;
+
+      if (itemFromDate <= from) {
+        if (chargeType === 1) {
+          cancel += item?.policy?.Charge;
+        } else if (chargeType === 2) {
+          cancel += ((item?.policy?.Charge) / 100) * item.PublishedPrice;
+        } else {
+          cancel += ((item?.policy?.Charge) * item.dayRate);
+        }
+
+      } else {
+        if (chargeType === 1) {
+          othercharges += item?.policy?.Charge;
+        } else if (chargeType === 2) {
+          othercharges += ((item?.policy?.Charge) / 100) * item.PublishedPrice;
+        } else {
+          othercharges += ((item?.policy?.Charge) * item.dayRate);
+        }
+      }
+    });
+
+    this.LastCancelPolicy.push({
+      FromDate: from,
+      ToDate: to,
+      chargeBefore: cancel,
+      chargeAfter: cancel + othercharges,
+    });
+  }
+  this.LastCancelPolicy.sort((a, b) => new Date(a.FromDate).getTime() - new Date(b.FromDate).getTime());
+
+  for (let i = 1; i < this.LastCancelPolicy.length; i++) {
+    if (new Date(this.LastCancelPolicy[i - 1].ToDate) > new Date(this.LastCancelPolicy[i].ToDate)) {
+      this.LastCancelPolicy[i - 1].chargeBefore += this.LastCancelPolicy[i].chargeBefore;
+
+      if (new Date(this.LastCancelPolicy[i - 1].ToDate) > new Date(this.LastCancelPolicy[i].ToDate)) {
+        this.LastCancelPolicy[i - 1].chargeAfter += this.LastCancelPolicy[i].chargeAfter;
+      } else {
+        this.LastCancelPolicy[i - 1].chargeAfter += this.LastCancelPolicy[i].chargeAfter;
+        this.LastCancelPolicy[i - 1].ToDate = this.LastCancelPolicy[i].ToDate;
+      }
+      // Remove the merged item
+      this.LastCancelPolicy.splice(i, 1);
+      // Adjust the loop counter since we removed an item
+      i--;
+    }
+  }
+
+  console.log("Last Cancellation Policy:", this.LastCancelPolicy);
+}
+
+findMinLastCancellationDate() {
+  const allLastCancellationDates: any[] = [];
+
+  Object.values(this.hotelData.hotels).forEach((hotel: any[]) => {
+    hotel.forEach((item: { room: any }) => {
+      if (item.room && item.room.LastCancellationDate) {
+        allLastCancellationDates.push(new Date(item.room.LastCancellationDate));
+      }
+    });
+  });
+
+  // Find the minimum LastCancellationDate
+  if (allLastCancellationDates.length > 0) {
+    this.minLastCancellationDate = new Date(Math.min(...allLastCancellationDates));
+    this.formattedLastCancellationDate = this.datePipe.transform(this.minLastCancellationDate, 'EEE MMM d yyyy');
+    console.log("Minimum LastCancellationDate:", this.formattedLastCancellationDate);
+  } else {
+    console.log("No LastCancellationDate found");
+  }
+}
+
+calculateTotalAmount(index:number){
+  let total=0;
+  for(let k=index;k>=0;k--){
+    total+=this.LastCancelPolicy[k].chargeAfter;
+  }
+  console.log(total)
+  return total;
+}
+
 }

@@ -1,7 +1,7 @@
 <main >
   
     <!-- flight cards for default Itinerary -->
-  <!-- <div
+  <div
     *ngFor="let flight of currentFlightSetSegmentsArray"
     style="
       width: 100%;
@@ -11,10 +11,10 @@
       gap: 21px;
     "
   >
-   completeFlight = all flights to reach from a->b  with all layovers   
+   <!-- completeFlight = all flights to reach from a->b  with all layovers    -->
     <app-flight-card [completeFlight]="flight"></app-flight-card>
           
-  </div> -->
+  </div>
   <div
     *ngFor="let city of cities.cities"
     style="

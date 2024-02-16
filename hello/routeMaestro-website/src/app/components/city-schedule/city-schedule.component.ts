@@ -12,7 +12,7 @@ export class CityScheduleComponent implements OnInit {
   dialog: boolean=false;
   hotelName:string;
  selectedHotel:any=null;
- cheapestHotel:any=null;
+ currentHotel=[] as any[];
  @Output() hotelNameChange: EventEmitter<string> = new EventEmitter<string>();
 
   constructor() { }
@@ -21,7 +21,8 @@ export class CityScheduleComponent implements OnInit {
     console.log(this.city);
     console.log(this.allHotels);
     this.findHotelWithLowestPrice(this.allHotels);
-    this.hotelName = this.selectedHotel ? this.selectedHotel : this.cheapestHotel;
+    console.log(this.currentHotel)
+    // this.hotelName = this.selectedHotel ? this.selectedHotel : this.cheapestHotel;
   }
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -31,11 +32,19 @@ export class CityScheduleComponent implements OnInit {
   }
 
   handleAddToItinerary(selectedHotel: any): void {
-    // Perform any action with the selected hotel data in the parent component
+ 
     console.log('Received Hotel Data in Parent Component:', selectedHotel);
     this.selectedHotel = selectedHotel;
-    this.hotelName = this.selectedHotel ? this.selectedHotel : this.cheapestHotel;
-    this.hotelNameChange.emit(this.hotelName);
+    if (this.selectedHotel) {
+    
+      this.currentHotel.forEach((item) => {
+          if (item.checkInDate === this.selectedHotel.checkInDate) {
+              item.hotel = this.selectedHotel;
+          }
+      });
+  }
+  console.log(this.currentHotel);
+  
   }
 
   isHotelInfo=false;
@@ -47,31 +56,38 @@ export class CityScheduleComponent implements OnInit {
     this.dialog=!this.dialog;
   }
 
-  findHotelWithLowestPrice(allHotels: any): string {
+  findHotelWithLowestPrice(allHotels: any) {
     let lowestPriceHotelName: string = "";
-  
-    if (allHotels && allHotels.length > 0) {
-      // Initialize with the first hotel's price
-      let lowestPrice: number = allHotels[0]?.Response[0]?.search?.Price?.PublishedPrice;
-  
-      // Iterate through all hotels
-      for (const hotel of allHotels) {
-        if(hotel.cityName==this.city.cityName){
-          for (const response of hotel?.Response) {
-            const currentPrice = response?.search?.Price?.PublishedPrice;
-            
-            // Check if current hotel's price is lower than the lowest price
-            if (currentPrice !== undefined && currentPrice < lowestPrice) {
-              lowestPrice = currentPrice;
-              lowestPriceHotelName = response?.search?.HotelName || "";
+
+    this.city?.Properties.map((item) => {
+        if (allHotels && allHotels.length > 0) {
+            // Initialize lowestPrice here before iterating through hotels
+            let lowestPrice = Number.MAX_VALUE; // Start with a high value
+
+            // Iterate through all hotels
+            for (const hotel of allHotels) {
+                if (hotel?.cityName == this.city?.cityName && item?.date[0] === hotel?.checkInDate) {
+                    // Initialize lowestPrice here before iterating through responses
+                    for (const response of hotel?.Response) {
+                        const currentPrice = response?.search?.Price?.PublishedPrice;
+
+                        if (currentPrice !== undefined && currentPrice < lowestPrice) {
+                            lowestPrice = currentPrice;
+                            lowestPriceHotelName = response || "";
+                        }
+                    }
+                }
             }
-          }
+
+            // Check if a valid lowest price was found before pushing into the array
+            if (lowestPrice !== Number.MAX_VALUE) {
+                this.currentHotel.push({ checkInDate: item?.date[0], hotel: lowestPriceHotelName });
+            }
         }
-      }
-    }
-    console.log(lowestPriceHotelName)
-    this.cheapestHotel=lowestPriceHotelName;
-    return lowestPriceHotelName;
-  }
+    });
+
+}
+
+
   
 }

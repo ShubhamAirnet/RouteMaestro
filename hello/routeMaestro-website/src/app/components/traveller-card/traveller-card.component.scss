@@ -21,7 +21,7 @@
   }
   
   main {
-    z-index: 999999999;
+    z-index: 999999;
     position: fixed;
     height: 100vh;
     width: 70vw;
@@ -43,12 +43,13 @@
     align-items: center;
     height: 60px;
     border-radius: 20px 20px 0 0;
- 
+    background-color: #03254a;
     color: #fff;
   }
 
   .header h2 {
     margin-left: 20px;
+    color: white;
   }
 
   .travellers {
@@ -70,7 +71,7 @@
     justify-content: flex-start;
     padding-bottom: 10px;
     position: relative;
- 
+    background-color: white;
     white-space: nowrap; /* Prevents wrapping to the next line */
   }
 
@@ -83,6 +84,7 @@
     overflow-x:scroll ;
     overflow-y:visible ;
     width: 100%;
+    background-color: white;
     padding-bottom: 10px;
   }
 
@@ -98,11 +100,14 @@
     justify-content: space-between;
     align-items: center;
     border-radius: 10px;
+    transition: box-shadow 0.3s;
   }
 
-  .selected-card {
-    box-shadow: 0 0 10px 5px #007BFF;
-  }
+  .selected {
+    
+    box-shadow: 2px 2px 2px 2px rgba(226,71,43,0.5); 
+    
+}
 
   .child-icon,
   .adult-icon {
@@ -124,6 +129,10 @@
     background-color: #dcdcdc;
     border-bottom: 1px solid #bbb;
     padding-left: 10px;
+    background-color: #03254a;
+    h2{
+      color: white;
+    }
   }
 
   .traveller-info {
@@ -138,7 +147,8 @@
     border: 1px solid #ddd;
     display: flex;
     flex-wrap: wrap;
-    justify-content: space-around;
+    justify-content: flex-start;
+    gap: 1px;
     margin-right: 28px;
     border-radius: 10px;
   }

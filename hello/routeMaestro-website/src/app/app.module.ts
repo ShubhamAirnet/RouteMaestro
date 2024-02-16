@@ -44,6 +44,7 @@ import { PackageCheckoutComponent } from './pages/package-checkout/package-check
 
 
 
+
 @NgModule({
   imports: [
     NgbTooltipModule,
@@ -89,6 +90,7 @@ import { PackageCheckoutComponent } from './pages/package-checkout/package-check
     UserListComponent,
     UserViewComponent,
     PackageCheckoutComponent,
+
     
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA], 

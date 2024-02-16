@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, OnInit, Output } from "@angular/core";
-
+import { PackageService } from "src/app/Services/package/package.service";
 @Component({
   selector: "app-flight-card",
   templateUrl: "./flight-card.component.html",
@@ -10,11 +10,14 @@ export class FlightCardComponent implements OnInit {
   @Input() completeFlight;  
   @Output() finalDestinationCityEmitter: EventEmitter<string> = new EventEmitter();
   
-  constructor() {}
+  constructor(private pack:PackageService) {}
 
   ngOnInit(): void {
     console.log(this.completeFlight);
+   
   }
+
+
 
   isflightDetails: boolean = false;
 
