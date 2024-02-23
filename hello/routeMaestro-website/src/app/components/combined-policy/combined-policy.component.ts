@@ -1,6 +1,7 @@
 import { DatePipe } from '@angular/common';
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { hotel_details } from '../package-cancellation/hotel_details';
+import { fareQuote } from './flight_details';
 
 @Component({
   selector: 'app-combined-policy',
@@ -18,6 +19,7 @@ export class CombinedPolicyComponent implements OnInit {
   minLastCancellationDate: Date;
   LastCancelPolicy=[] ;
   hotelData=hotel_details;
+  flightData=fareQuote;
   constructor(private datePipe: DatePipe) { }
 
   ngOnInit(): void {
@@ -53,7 +55,7 @@ export class CombinedPolicyComponent implements OnInit {
     const maxFromDateArray: any[] = [];
     
   
-    Object.values(this.hotelData.hotels).forEach((hotel) => {
+    Object.values(this.hotelData).forEach((hotel) => {
       
       hotel.forEach((item) => {
         if (item.room && item.room.CancellationPolicies) {
@@ -174,7 +176,7 @@ export class CombinedPolicyComponent implements OnInit {
   findMinLastCancellationDate() {
     const allLastCancellationDates: any[] = [];
   
-    Object.values(this.hotelData.hotels).forEach((hotel: any[]) => {
+    Object.values(this.hotelData).forEach((hotel: any[]) => {
       hotel.forEach((item: { room: any }) => {
         if (item.room && item.room.LastCancellationDate) {
           allLastCancellationDates.push(new Date(item.room.LastCancellationDate));

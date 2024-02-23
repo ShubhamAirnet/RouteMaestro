@@ -137,3 +137,11 @@ tbody tr:nth-child(even) {
   padding-left: 10px;
   font-weight: 600;
 }
+
+.note{
+  margin-top: 10px;
+  gap: 5px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+}

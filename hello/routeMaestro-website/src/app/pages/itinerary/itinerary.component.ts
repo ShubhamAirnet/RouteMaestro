@@ -28,6 +28,17 @@ export class ItineraryComponent implements OnInit {
 
   isFlightOptionsAvailable: boolean = false;
 
+  // filters variable
+  isRefundable:boolean=false;
+  isNonRefundable:boolean=true;
+  isLCC:boolean=false;
+  isNonLCC:boolean=true;
+  isFiltered:boolean=false;
+  filteredFlights:any;
+  numberOfStopsFilter: number=1;
+  airline:string="Swiss";
+  airlineNames: Set<string> = new Set();
+
   showFlightOptions() {
     this.isFlightOptionsAvailable = !this.isFlightOptionsAvailable;
     // this.settingAlternateFlightOptions();
@@ -44,7 +55,9 @@ export class ItineraryComponent implements OnInit {
     private hotels: HotelsService
   ) {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+   
+  }
 
   // ngOnChanges(changes: SimpleChanges) {
   //   // Check if the 'currentFlightSetIndex' input property has changed
@@ -93,6 +106,8 @@ export class ItineraryComponent implements OnInit {
         this.allFlights = data.flightsData;
 
         console.log(this.allFlights);
+        this.applyFilters()
+      
 
         this.currentFlightSetIndex = "OB1";
         this.gotAllFlights = true;
@@ -101,6 +116,56 @@ export class ItineraryComponent implements OnInit {
       console.log(err);
     }
   }
+
+
+  // filters
+
+  
+// isRefundable
+filterFlights() {
+  if (this.isFiltered) {
+    this.filteredFlights = this.allFlights.filter((item) => {
+      const refundableCondition = (this.isRefundable && item.isRefundable === true) || (this.isNonRefundable && item.isRefundable === false);
+      const lccCondition = (this.isLCC && item.isLCC === true) || (this.isNonLCC && item.isLCC === false);
+      const airlineCondition = this.airline === '' || item.segments.some((sector) => sector.some((key) => key.Airline.AirlineName === this.airline));
+      const stopsCondition = this.numberOfStopsFilter === null || item.segments.some((sector) => sector.length - 1 === this.numberOfStopsFilter);
+
+      console.log('refundableCondition: ', refundableCondition);
+      console.log('lccCondition: ', lccCondition);
+      console.log('airlineCondition: ', airlineCondition);
+      console.log('stopsCondition: ', stopsCondition);
+
+
+      return refundableCondition && lccCondition && airlineCondition && stopsCondition;
+    });
+  } else {
+    // Handle the case when none of the filters are active
+    this.filteredFlights = this.allFlights;
+  }
+  console.log('filtered ', this.filteredFlights);
+  this.getAirlineNames(this.filteredFlights);
+}
+
+
+// Call this function whenever any of the filter conditions change
+applyFilters() {
+  this.isFiltered=true;
+  this.filterFlights();
+}
+
+//  to get all unique airline Names
+
+getAirlineNames( flights:any){
+  flights.map((item)=>{
+    item.segments.map((sectors)=>{
+      sectors.map((key)=>{
+        this.airlineNames.add(key.Airline.AirlineName)
+      })
+    })
+  })
+  console.log('names',this.airlineNames)
+}
+
 
   // =====================================================================================================================
   // =====================================================================================================================

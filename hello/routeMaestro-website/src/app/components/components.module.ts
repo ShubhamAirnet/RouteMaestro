@@ -30,6 +30,8 @@ import { CombinedPolicyComponent } from './combined-policy/combined-policy.compo
 import { PaymentBreakdownComponent } from './payment-breakdown/payment-breakdown.component';
 import { RouteOverviewComponent } from './route-overview/route-overview.component';
 import { FlightCancelComponent } from './flight-cancel/flight-cancel.component';
+import { CancelPackageComponent } from './cancel-package/cancel-package.component';
+import { CancelStatusComponent } from './cancel-status/cancel-status.component';
 
 
 @NgModule({
@@ -68,6 +70,8 @@ import { FlightCancelComponent } from './flight-cancel/flight-cancel.component';
     PaymentBreakdownComponent,
     RouteOverviewComponent,
     FlightCancelComponent,
+    CancelPackageComponent,
+    CancelStatusComponent,
 
   ],
   exports: [
@@ -98,7 +102,9 @@ import { FlightCancelComponent } from './flight-cancel/flight-cancel.component';
     HotelCancelComponent,
     PaymentBreakdownComponent,
     RouteOverviewComponent,
-    FlightCancelComponent
+    FlightCancelComponent,
+    CancelPackageComponent,
+    CancelStatusComponent
 
 
   ]

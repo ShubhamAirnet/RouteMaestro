@@ -2,9 +2,14 @@
     <h2 style=" padding-top: 10px;">
         <span style=" width: 250px; font-size: 1.5rem; font-weight: 800; text-decoration: underline;">Package Cancellation Policy</span>
     </h2>
+
+    <div class="note" *ngIf="!flightShort && !isFlightCancelPresent">
+      <span style="font-weight: 800;">Note:</span>
+      <span style="font-size: 0.9rem;">Below are only Cancellation Charges for the Hotels to see the Cancellation Charges of the Flights please refer to <span style="text-decoration: underline;" (click)="flightCancelSection()">Flight Cancellation</span> section</span>
+    </div>
     <div class="terms" style="margin-top: 20px;" >
         
-        
+       
         <div class="cancellation-table"  >
             <table>
                 <thead>
@@ -14,10 +19,24 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr>
-                        <td>Till {{formattedLastCancellationDate}}</td>
+                    <ng-container *ngIf="flightShort && isFlightCancelPresent">
+                      <tr>
+                        <td>Till {{flightLastCancelDate}}</td>
                         <td>₹ 0</td>
                     </tr>
+                    <tr>
+                      <td>Till {{formattedLastCancellationDate}}</td>
+                      <td>₹ {{flightCharges}}</td>
+                  </tr>
+                    </ng-container>
+                    <ng-container *ngIf="!flightShort && !isFlightCancelPresent">
+                      
+                    <tr>
+                      <td>Till {{formattedLastCancellationDate}}</td>
+                      <td>₹ 0</td>
+                  </tr>
+                    </ng-container>
+                   
                     <ng-container *ngFor="let item of LastCancelPolicy; let i=index">
                         <ng-container *ngIf="i === 0">
                           <tr>

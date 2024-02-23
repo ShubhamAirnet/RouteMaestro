@@ -1,42 +1,46 @@
-<main >
-  
-    <!-- flight cards for default Itinerary -->
+<main>
+  <!-- flight cards for default Itinerary -->
   <div
-    *ngFor="let flight of currentFlightSetSegmentsArray"
-    style="
-      width: 100%;
-      margin: 14px 0 20px 442px;
-      display: flex;
-      flex-direction: column;
-      gap: 21px;
-    "
-  >
-   <!-- completeFlight = all flights to reach from a->b  with all layovers    -->
-    <app-flight-card [completeFlight]="flight"></app-flight-card>
-          
-  </div>
-  <div
-    *ngFor="let city of cities.cities"
-    style="
-      width: 100%;
-      margin: 14px 0 20px 442px;
-      display: flex;
-      flex-direction: column;
-      gap: 21px;
-    "
+    *ngFor="let flight of currentFlightSetSegmentsArray; let i = index"
+    style="width: 550px; display: flex; flex-direction: column; gap: 21px"
   >
     <!-- completeFlight = all flights to reach from a->b  with all layovers   -->
-    <ng-container *ngFor="let item of city.Properties">
-      <p>{{item?.date[0]}}</p>
-      <app-city-schedule [city]="city" [allHotels]="allHotels" [checkInDate]="item?.date[0]"></app-city-schedule>
-
-    </ng-container>          
-  </div>
-  
-  <!-- NEED TO CALL FOR HOTELS AND SCHEDULES -->
-
+    <app-flight-card
+      [completeFlight]="flight"
+      (triggerAlternateFlightSetsDialog)="showFlightOptions($event)"
+    ></app-flight-card>
+    <ng-container
+      *ngIf="i < allSchedules?.length"
+      style="width: 40rem; display: flex; flex-direction: column; gap: 21px"
+    >
+      <app-city-schedule
+        [citySchedule]="allSchedules[i]"
+        [allHotels]="allHotels"
+        [currentFlightSet]="currentFlightSet"
+      ></app-city-schedule>
+    </ng-container>
+    <!--  containing Alternate flight Sets  -->
     <div>
-        
+      <div *ngIf="isFlightOptionsAvailable">
+        <app-alternate-flight-options
+          [allFlightSets]="allFlights"
+          [currentFlightSetResultIdx]="currentFlightSetIndex"
+          (highlightedFlightSetIdxChange)="
+            onHighlightedFlightSetIdxChange($event)
+          "
+        >
+        </app-alternate-flight-options>
+      </div>
     </div>
-
+  </div>
+  <!-- <button class="btn btn-secondary" (click)="emitCurrentFlightSetIdx()">Emit Flights</button> -->
 </main>
+
+
+
+
+
+
+
+
+

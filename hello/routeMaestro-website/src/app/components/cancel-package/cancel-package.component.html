@@ -1,0 +1,67 @@
+<body>
+    <div class="sub-containers"></div>
+    <div class="containers">
+        <div class="heads">
+            <span>Cancel Request</span>
+            <span>X</span>
+        </div>
+        <div class="contents">
+            <div class="details">
+                <div class="sub-details">
+                    <div class="items">
+                        <label for="request-type">Request Type</label>
+                        <select id="request-type" [(ngModel)]="selectedRequestType" (change)="onRequestTypeChange()">
+                            <option value="" disabled selected>Select an option</option>
+                            <option value="1">Full Cancellation</option>
+                            <option value="2">Partial Cancellation</option>
+                        </select>
+                    </div>
+                    <div class="items">
+                        <label for="cancellation-type">Cancellation Type</label>
+                        <select id="cancellation-type" [(ngModel)]="selectedCancellationType">
+                            <option value="" disabled selected>Select an option</option>
+                            <option value="1">Flight Missed</option>
+                            <option value="2">Flight Cancelled</option>
+                            <option value="3">Other Reasons</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="sub-details" *ngIf="isPartial">
+                    <fieldset style="width: 200px;">
+                        <legend>Sectors</legend>
+                        <!-- your-component.component.html -->
+                        <div class="items">
+                            <div class="options" *ngFor="let item of sectors">
+                            <input type="checkbox"   (change)="updateSectorArray(item, $event.target.checked)"/>
+                            <label><span>{{item.Origin}} - {{item.Destination}}</span></label>
+                            </div>
+                        </div>
+  
+                      </fieldset>
+                      
+                    <fieldset style="width: 240px;">
+                        <legend>Cancelled Hotels</legend>
+                       
+                           
+                            <div class="boxs">
+                                <div class="options" *ngFor="let item of cancelledHotels">
+                                    <input type="checkbox" (change)="updateHotelsArray(item, $event.target.checked)">
+                                    <span>{{item.hotelName}} ({{item.Destination}})</span>
+                                </div>
+                            </div>
+                       
+                    </fieldset>
+                </div>
+            </div>
+            <div class="further-details">
+                <div class="item-remarks">
+                    <label for="remarks">Remarks: </label>
+                    <textarea id="remarks" cols="30" rows="4" [(ngModel)]="remarks"></textarea>
+                </div>
+            </div>
+            <div class="btns">
+                <button class="btn-submits" (click)="onCancelClick()"><span style="font-size: 1rem; font-weight: 600;">Submit</span></button>
+            </div>
+        </div>
+    </div>
+</body>

@@ -3,16 +3,14 @@ main {
   flex-direction: column;
   justify-content: space-evenly;
   align-items: flex-start;
-  width: 53%;
   box-shadow: 0px 6px 10px 0 grey;
 }
 .flightCard {
   display: flex;
   height: 82px;
-  width: 712px;
+  width: 100%;
   padding: 4px;
 }
-
 .airline {
   width: 30%;
   display: flex;
@@ -30,7 +28,6 @@ main {
   justify-content: center;
   align-items: center;
 }
-
 .airline-section1-logo img{
   height: 50px;
   width: 50px;
@@ -52,8 +49,6 @@ main {
 .airline-section2 h4{
   font-size: 13px;
 }
-
-
 // ===================================================
 .timings {
   width: 60%;
@@ -91,12 +86,10 @@ main {
   background-color: #fff;
   margin: 0;
   padding: 0;
-
   &:hover{
     transition: none;
     box-shadow: none;
   }
- 
 }
 .flightStopsContent{
   background-color: #fff;
@@ -112,24 +105,20 @@ main {
   padding: 10px; /* Add padding for better visual appearance */
   max-width: 200px; /* Adjust the max width as needed */
 }
-
 .flight-stop-tooltip h3 {
   font-size: 14px; /* Increase the font size for better readability */
   color: #000;
   margin-bottom: 5px; /* Add some spacing between heading and content */
 }
-
 .flight-stop-tooltip-footer {
   display: flex;
   justify-content: space-evenly;
   align-items: center;
 }
-
 .flight-stop-tooltip-footer h4 {
   font-size: 12px;
   color: #000;
 }
-
 /* Optional: Adjust tooltip arrow color */
 .tooltip-inner::before {
   border-top-color: #fff;
@@ -140,6 +129,7 @@ main {
   display: flex;
   flex-direction: column;
   justify-content: space-evenly;
+  align-items: center;
 }
 .pricing-head-btns {
   display: flex;
@@ -147,7 +137,6 @@ main {
   justify-content: flex-end;
   gap: 10px;
 }
-
 .refundable-btn{
   border: none;
   background-color: #169930;
@@ -171,12 +160,10 @@ main {
   justify-content: center;
   align-items: center;
 }
-
 .edit-btn img{
   height: 12px;
   width: 12px;
 }
-
 .pricing-fare-detailsBtn {
   // display: flex;
   // flex-direction: column;
@@ -187,8 +174,6 @@ main {
 .pricing-fare-detailsBtn h3{
   font-size: 22px;
 }
-
-
 .flightDetails-btn{
   border: none;
   background-color: #fff;
@@ -199,7 +184,6 @@ main {
   right: 3px;
   bottom: -4px;
 }
-
 h3 {
   margin: 0;
   padding: 0;

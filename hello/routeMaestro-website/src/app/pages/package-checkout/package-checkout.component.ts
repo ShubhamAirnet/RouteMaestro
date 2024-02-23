@@ -1,5 +1,5 @@
 import { ChangeDetectorRef, Component, Input, NgZone, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { HotelsService } from 'src/app/Services/hotels_api/hotels.service';
 import { Cashfree, load } from '@cashfreepayments/cashfree-js';
 import { cashfree } from './util';
@@ -7,6 +7,7 @@ import axios from 'axios';
 import { TransactionsService } from 'src/app/Services/transactions.service';
 import { hotel_details } from '../../components/package-cancellation/hotel_details';
 import { DatePipe } from '@angular/common';
+import { PackageService } from 'src/app/Services/package/package.service';
 
 @Component({
   selector: 'app-package-checkout',
@@ -22,7 +23,7 @@ export class PackageCheckoutComponent implements OnInit {
   contactForm: FormGroup;
   Travellers:boolean=true;
   merchantShare:number=0;
-  travelers:any;
+  travelers=[] as any[];
   editIndex:number=0;
   @Input() TraceId:any;
   @Input() ResultIndex:any;
@@ -123,15 +124,17 @@ LastCancelPolicy=[]
  
   formattedLastCancellationDate: any;
   packageDialog: boolean;
+  NoOfTravellers: number;
+  RoomGuest: any;
 
-  constructor(private hotels:HotelsService,private datePipe: DatePipe,private zone: NgZone,private fb: FormBuilder,private cdr: ChangeDetectorRef,private transact:TransactionsService) {
+  constructor(private hotels:HotelsService,private datePipe: DatePipe,private zone: NgZone,private fb: FormBuilder,private cdr: ChangeDetectorRef,private transact:TransactionsService,private pack:PackageService) {
     this.ssr=this.data.ssr;
-    this.processCancellationPolicies()
-    this.findMinLastCancellationDate()
+    
    }
 
   ngOnInit(): void {
     this.getData();
+    this.getPassengerData()
     this.initializeForm();
   }
 
@@ -213,8 +216,8 @@ LastCancelPolicy=[]
     this.pay=true
     console.log(this.contactForm.value)
     console.log(this.travelers)
-    await this.hotels.updatePrimaryContact(this.contactForm.value) 
-    await this.hotels.savePassengers(this.travelers)
+    await this.pack.updatePrimaryContact(this.contactForm.value) 
+    await this.pack.savePassengerDetails(this.travelers)
   }
 
   async getData() {
@@ -227,6 +230,7 @@ LastCancelPolicy=[]
       if (res) {
         this.travelData = res;
         this.NoOfRooms = this.travelData.trip.RoomGuests.length;
+        this.RoomGuest=this.travelData.trip.RoomGuests;
         for(let i=0;i<this.travelData.trip.RoomGuests.length;i++){
           this.NoOfAdults+=this.travelData.trip.RoomGuests[i].NoOfAdults;
           this.NoOfChild+=this.travelData.trip.RoomGuests[i].NoOfChild;
@@ -237,22 +241,176 @@ LastCancelPolicy=[]
         this.transactionFee = +this.transactionFee.toFixed(2);
         this.totalCost += this.transactionFee;
         this.totalCost = +this.totalCost.toFixed(2);
+        this.NoOfTravellers=this.NoOfAdults+this.NoOfChild;
 
-        console.log(this.NoOfRooms);
-        console.log(this.NoOfAdults);
-        console.log(this.NoOfChild);
-        console.log(this.travelData);
-        if(this.travelData?.passenger_details){
-          this.travelers=this.travelData?.passenger_details
-        }
+        
         
       } else {
-        console.log("No data received from getSearchInfo");
+        console.log("No passenger data received from getPassengerDetails");
+      }
+
+        
+      
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  async getPassengerData() {
+    console.log('passengers fetching');
+    try {
+      const res = await this.pack.getPassengerDetails();
+      console.log(res.passengers);
+  
+      if (this.NoOfTravellers > 0) {
+        for(let i=0;i<this.RoomGuest.length;i++){
+          for(let j=0;j<this.RoomGuest[i].NoOfAdults+this.RoomGuest[i].NoOfChild;j++){
+            if(j < this.RoomGuest[i]?.NoOfAdults){
+              this.travelers.push({
+                personalInfo: {
+                  FirstName: '',
+                  Title: '',
+                  LastName: '',
+                  DateOfBirth: '',
+                  Gender: '',
+                  Nationality: '',
+                  AddressLine1: '',
+                  AddressLine2: '',
+                  Email: '',
+                  ContactNo: '',
+                  PAN: '',
+                  PassportNo: '',
+                  PassportIssueDate: '',
+                  PassportExpDate: '',
+                  PassportExpiry: '',
+                  Age: '',
+                  PaxType: 1,
+                  CountryCode: '',
+                  City: '',
+                  CountryName: '',
+                  LeadPassenger: true
+                },
+                dates:{
+                  dob:{
+                    day:'',
+                    month:'',
+                    year:''
+                  },
+                  passportIssue:{
+                    day:'',
+                    month:'',
+                    year:''
+                  },
+                  passportExpiry:{
+                    day:'',
+                    month:'',
+                    year:''
+                  }
+                },
+                guardianDetails:{
+                  Title:'',
+                  FirstName:'',
+                  LastName:'',
+                  PAN:'',
+                  PassportNo:'',
+                },
+                ssr: {
+                  extraBaggage: '',
+                  meal: '',
+                  seat: ''
+                }
+              });
+            }else{
+              this.travelers.push({
+                personalInfo: {
+                  FirstName: '',
+                  Title: '',
+                  LastName: '',
+                  DateOfBirth: '',
+                  Gender: '',
+                  Nationality: '',
+                  AddressLine1: '',
+                  AddressLine2: '',
+                  Email: '',
+                  ContactNo: '',
+                  PAN: '',
+                  PassportNo: '',
+                  PassportIssueDate: '',
+                  PassportExpDate: '',
+                  PassportExpiry: '',
+                  Age: '',
+                  PaxType: 2,
+                  CountryCode: '',
+                  City: '',
+                  CountryName: '',
+                  LeadPassenger: false
+                },
+                dates:{
+                  dob:{
+                    day:'',
+                    month:'',
+                    year:''
+                  },
+                  passportIssue:{
+                    day:'',
+                    month:'',
+                    year:''
+                  },
+                  passportExpiry:{
+                    day:'',
+                    month:'',
+                    year:''
+                  }
+                },
+                guardianDetails:{
+                  Title:'',
+                  FirstName:'',
+                  LastName:'',
+                  PAN:'',
+                  PassportNo:'',
+                },
+                ssr: {
+                  extraBaggage: '',
+                  meal: '',
+                  seat: ''
+                }
+              });
+            }
+          }
+        }
+  
+        // If there is data in res.passenger, update the travelers array
+        // Corrected condition: use res.passengers
+      if (res && Array.isArray(res.passengers) && res.passengers.length > 0) {
+        for (let i = 0; i < this.NoOfTravellers && i < res.passengers.length; i++) {
+          const passengerData = res.passengers[i];
+          console.log(passengerData)
+          this.travelers[i] = {
+            personalInfo: {
+              ...passengerData?.personalInfo,
+              LeadPassenger: passengerData?.personalInfo?.LeadPassenger || true
+            },
+            ssr: {
+              ...passengerData?.ssr
+            },
+            dates:{
+              ...passengerData?.dates
+            },
+            guardianDetails:{
+              ...passengerData?.guardianDetails
+            }
+          };
+          // console.log(this.travelers[i])
+        }
+      }
+      console.log('traveler', this.travelers);
+
       }
     } catch (error) {
       console.log(error);
     }
   }
+  
 
   toggleTerms() {
     const termsContainer = document.querySelector('.terms');
@@ -429,154 +587,6 @@ async generateLink(form:any,link_id:string){
   }
 }
 
-processCancellationPolicies() {
-  const maxFromDateArray: any[] = [];
 
-  Object.values(this.hotelData.hotels).forEach((hotel) => {
-    hotel.forEach((item) => {
-      if (item.room && item.room.CancellationPolicies) {
-        item.room.CancellationPolicies.forEach((policy: any, index: number) => {
-          const fromDate = new Date(policy.FromDate);
-          const toDate = new Date(policy.ToDate);
-
-          if (maxFromDateArray[index]) {
-            maxFromDateArray[index].push({
-              policy: policy,
-              dayRate: item.room.DayRates[0]?.Amount,
-              PublishedPrice: item.room.Price.PublishedPrice
-            });
-          } else {
-            maxFromDateArray[index] = [{
-              policy: policy,
-              dayRate: item.room.DayRates[0]?.Amount,
-              PublishedPrice: item.room.Price.PublishedPrice
-            }];
-          }
-        });
-      }
-    });
-  });
-
-  console.log("Max and Min dates for each cancellation policy:", maxFromDateArray);
-
-  const averageDate: { fromDate: string, toDate: string }[] = [];
-
-  const maxDate = (dates: Date[]) => new Date(Math.max(...dates.map(date => date.getTime()))).toISOString();
-  const minDate = (dates: Date[]) => new Date(Math.min(...dates.map(date => date.getTime()))).toISOString();
-
-  let maxFromDate: string | null = null;
-  let maxToDate: string | null = null;
-
-  maxFromDateArray.forEach((item: any) => {
-    const fromDates = item.map((dates: any) => new Date(dates.policy.FromDate));
-    const toDates = item.map((dates: any) => new Date(dates.policy.ToDate));
-
-    const currentMaxFromDate = maxDate(fromDates);
-    const currentMinToDate = minDate(toDates);
-
-    averageDate.push({ fromDate: currentMaxFromDate, toDate: currentMinToDate });
-
-    if (!maxFromDate || currentMaxFromDate > maxFromDate) {
-      maxFromDate = currentMaxFromDate;
-    }
-
-    if (!maxToDate || currentMinToDate > maxToDate) {
-      maxToDate = currentMinToDate;
-    }
-  });
-
-  console.log("Maximum FromDate:", maxFromDate);
-  console.log("Maximum ToDate:", maxToDate);
-  console.log("Average  Date:", averageDate);
-
-
-  for (let i = 0; i < averageDate.length; i++) {
-    const from = averageDate[i].fromDate;
-    const to = averageDate[i].toDate;
-    let cancel = 0;
-    let othercharges = 0;
-
-    maxFromDateArray[i].forEach((item: any) => {
-      const itemFromDate = item.policy.FromDate;
-      const chargeType = item.policy.ChargeType;
-
-      if (itemFromDate <= from) {
-        if (chargeType === 1) {
-          cancel += item?.policy?.Charge;
-        } else if (chargeType === 2) {
-          cancel += ((item?.policy?.Charge) / 100) * item.PublishedPrice;
-        } else {
-          cancel += ((item?.policy?.Charge) * item.dayRate);
-        }
-
-      } else {
-        if (chargeType === 1) {
-          othercharges += item?.policy?.Charge;
-        } else if (chargeType === 2) {
-          othercharges += ((item?.policy?.Charge) / 100) * item.PublishedPrice;
-        } else {
-          othercharges += ((item?.policy?.Charge) * item.dayRate);
-        }
-      }
-    });
-
-    this.LastCancelPolicy.push({
-      FromDate: from,
-      ToDate: to,
-      chargeBefore: cancel,
-      chargeAfter: cancel + othercharges,
-    });
-  }
-  this.LastCancelPolicy.sort((a, b) => new Date(a.FromDate).getTime() - new Date(b.FromDate).getTime());
-
-  for (let i = 1; i < this.LastCancelPolicy.length; i++) {
-    if (new Date(this.LastCancelPolicy[i - 1].ToDate) > new Date(this.LastCancelPolicy[i].ToDate)) {
-      this.LastCancelPolicy[i - 1].chargeBefore += this.LastCancelPolicy[i].chargeBefore;
-
-      if (new Date(this.LastCancelPolicy[i - 1].ToDate) > new Date(this.LastCancelPolicy[i].ToDate)) {
-        this.LastCancelPolicy[i - 1].chargeAfter += this.LastCancelPolicy[i].chargeAfter;
-      } else {
-        this.LastCancelPolicy[i - 1].chargeAfter += this.LastCancelPolicy[i].chargeAfter;
-        this.LastCancelPolicy[i - 1].ToDate = this.LastCancelPolicy[i].ToDate;
-      }
-      // Remove the merged item
-      this.LastCancelPolicy.splice(i, 1);
-      // Adjust the loop counter since we removed an item
-      i--;
-    }
-  }
-
-  console.log("Last Cancellation Policy:", this.LastCancelPolicy);
-}
-
-findMinLastCancellationDate() {
-  const allLastCancellationDates: any[] = [];
-
-  Object.values(this.hotelData.hotels).forEach((hotel: any[]) => {
-    hotel.forEach((item: { room: any }) => {
-      if (item.room && item.room.LastCancellationDate) {
-        allLastCancellationDates.push(new Date(item.room.LastCancellationDate));
-      }
-    });
-  });
-
-  // Find the minimum LastCancellationDate
-  if (allLastCancellationDates.length > 0) {
-    this.minLastCancellationDate = new Date(Math.min(...allLastCancellationDates));
-    this.formattedLastCancellationDate = this.datePipe.transform(this.minLastCancellationDate, 'EEE MMM d yyyy');
-    console.log("Minimum LastCancellationDate:", this.formattedLastCancellationDate);
-  } else {
-    console.log("No LastCancellationDate found");
-  }
-}
-
-calculateTotalAmount(index:number){
-  let total=0;
-  for(let k=index;k>=0;k--){
-    total+=this.LastCancelPolicy[k].chargeAfter;
-  }
-  console.log(total)
-  return total;
-}
 
 }

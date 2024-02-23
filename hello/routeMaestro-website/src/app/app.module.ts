@@ -8,7 +8,7 @@ import { AppComponent } from './app.component';
 import { AdminLayoutComponent } from './layouts/admin-layout/admin-layout.component';
 import { AuthLayoutComponent } from './layouts/auth-layout/auth-layout.component';
 
-import { NgbModule, NgbNavModule } from '@ng-bootstrap/ng-bootstrap';
+import { NgbDatepickerModule, NgbModule, NgbNavModule } from '@ng-bootstrap/ng-bootstrap';
 
 import { AppRoutingModule } from './app.routing';
 import { ComponentsModule } from './components/components.module';
@@ -41,6 +41,7 @@ import { SuccessComponent } from './pages/success/success.component';
 import { UserListComponent } from './pages/user-list/user-list.component';
 import { UserViewComponent } from './pages/user-view/user-view.component';
 import { PackageCheckoutComponent } from './pages/package-checkout/package-checkout.component';
+import { TrialComponent } from './pages/trial/trial.component';
 
 
 
@@ -56,6 +57,7 @@ import { PackageCheckoutComponent } from './pages/package-checkout/package-check
     MatSnackBarModule,
     FormsModule,
     ReactiveFormsModule,
+    NgbDatepickerModule,
     // NgOtpInputModule,
     NgxSpinnerModule,
     ComponentsModule,
@@ -90,6 +92,7 @@ import { PackageCheckoutComponent } from './pages/package-checkout/package-check
     UserListComponent,
     UserViewComponent,
     PackageCheckoutComponent,
+    TrialComponent,
 
     
   ],

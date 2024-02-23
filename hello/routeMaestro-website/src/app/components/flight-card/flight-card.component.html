@@ -1,7 +1,5 @@
-<main>
-  
+<main  >
   <div class="flightCard">
-
     <div class="airline">
       <div class="airline-section1">
         <div class="airline-section1-logo">
@@ -17,7 +15,6 @@
         <h4>{{ getCabinClass(0) }}</h4>
       </div>
     </div>
-
     <div class="timings">
       <div class="timings-city-stats">
         <h3>{{ getDepartureTime(0) }}</h3>
@@ -29,10 +26,7 @@
          <button type="button" class="btn flight-stops-btn "  placement="top" ngbTooltip>
           <img src="{{ getStopsImageUrl(0) }}" alt="stops Bar" />
           </button>
-        
-         
           <ng-template class="flightStopsContent"  #flightStopsContent>
-
               <div class="flight-stop-tooltip">
                 <h3>Plane change</h3>
                 <div class="flight-stop-tooltip-footer">
@@ -40,8 +34,6 @@
                   <h4>4h 20m </h4>
                 </div>
               </div>
-
-
              </ng-template>
         <h4>{{ getFlightStops(0) }}</h4>
       </div>
@@ -51,46 +43,11 @@
         <h3> {{ getArrDate(0) }}  </h3>
       </div>
     </div>
-
     <div class="pricing">
-
-      <div class="pricing-head-btns">
-        <!-- <button
-          *ngIf="isRefundable(0)"
-          type="button"
-          class="btn refundable-btn"
-          placement="top"
-          ngbTooltip="Refundable"
-        >
-          ₹
-        </button> -->
-
-        <!-- <button type="button" class="btn" style="border: 1px solid grey; background-color: #fff;border-radius: 50% ;" placement="top" ngbTooltip="Info ">
-            <i>i</i> 
-          </button> -->
-
-        <button class="edit-btn"       >
-          <img
-            src="../../../assets/img/brand/editFlight.png"
-            alt="Edit"
-          />
-        </button>
-
-
-
-      </div>
-
-      <div class="pricing-fare-detailsBtn">
-        <!-- <h3>₹{{ getFlightFare(0) }}</h3> -->
-
-        <button (click)="showFlightDetails()"  class="flightDetails-btn">Flight Details</button>
-
-      </div>
-     
+          <button style="border: none;background-color:#fff; text-decoration: none;" (click)="toTriggerAlternateFlightsetDialogBox()"> <img src="../../../assets/img/brand/pencil.png" alt="Edit" height="16px" width="15px">  </button>
+    </div>
+    <div>
     </div>
   </div>
-
-  <app-flight-details *ngIf="isflightDetails"  ></app-flight-details>
-
-    
+  <!-- <app-flight-details *ngIf="isflightDetails" (click)="toTriggerAlternateFlightsetDialogBox()"  ></app-flight-details> -->
 </main>

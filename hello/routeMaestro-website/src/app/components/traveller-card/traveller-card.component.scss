@@ -138,7 +138,7 @@
   .traveller-info {
     width: 100%;
     padding: 20px;
-    height: 800px;
+    height: 1000px;
     background-color: #fff;
   }
 
@@ -203,7 +203,19 @@
     font-size: 1rem;
     font-weight: 600;
   }
-
+  .date-picker__header {
+    display: flex;
+ 
+    align-items: center;
+  }
+  
+  .date-picker__select {
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 14px;
+  }
+  
   /* Responsive Design */
   @media only screen and (max-width: 768px) {
     main {

@@ -1,36 +1,31 @@
 import { Component, EventEmitter, Input, OnInit, Output } from "@angular/core";
-import { PackageService } from "src/app/Services/package/package.service";
 @Component({
   selector: "app-flight-card",
   templateUrl: "./flight-card.component.html",
   styleUrls: ["./flight-card.component.scss"],
 })
 export class FlightCardComponent implements OnInit {
- 
-  @Input() completeFlight;  
+  @Input() completeFlight;
   @Output() finalDestinationCityEmitter: EventEmitter<string> = new EventEmitter();
-  
-  constructor(private pack:PackageService) {}
-
+  @Output() triggerAlternateFlightSetsDialog:EventEmitter<boolean> = new EventEmitter();
+  toOpenDialogBox:boolean=false;
+  constructor() {}
   ngOnInit(): void {
-    console.log(this.completeFlight);
-   
+    // console.log(this.completeFlight);
   }
-
-
-
   isflightDetails: boolean = false;
-
   showFlightDetails() {
     this.isflightDetails = !this.isflightDetails;
     return;
   }
-
+  toTriggerAlternateFlightsetDialogBox(){
+    this.toOpenDialogBox=true;
+    console.log("baar baaar baaar trigger ho rha hai in flight card")
+    this.triggerAlternateFlightSetsDialog.emit(this.toOpenDialogBox);
+  }
   // =====================================================================================
-
   // using flightRankInArray as to which element to show from flight Details array
-
-  // 
+  //
   getAirlineName(flightRankInArray: number): string {
     // if direct flights
     if (
@@ -41,9 +36,7 @@ export class FlightCardComponent implements OnInit {
       // if Indirect flights
       //  need to handle  if we got two different airlines
       return this.completeFlight[0].Airline.AirlineName;
-
     }
-
   }
   getAirlineCode(flightRankInArray: number): string {
     // if direct flights
@@ -59,7 +52,6 @@ export class FlightCardComponent implements OnInit {
   }
   getCabinClass(flightRankInArray: number): string | number {
     let cabinClass: number | string;
-
     // if direct flights
     if (
       this.completeFlight.length === 1
@@ -72,7 +64,6 @@ export class FlightCardComponent implements OnInit {
       cabinClass =
         this.completeFlight[0].CabinClass;
     }
-
     switch (cabinClass) {
       case 2:
         cabinClass = "Economy";
@@ -89,7 +80,6 @@ export class FlightCardComponent implements OnInit {
       case 6:
         cabinClass = "First";
     }
-
     return cabinClass;
   }
   getFlightNumber(flightRankInArray: number): string {
@@ -102,42 +92,29 @@ export class FlightCardComponent implements OnInit {
       // if Indirect flights
       //  need to handle  if we got two different airlines
       return this.completeFlight[0].Airline.FlightNumber;
-
     }
   }
-
-
   getFirstOriginCity(flightRankInArray: number): string {
-   
     return this.completeFlight[0].Origin.Airport.CityName;
-
   }
-
   getDepartDate(flightRankInArray: number): string {
     const departFlightDateTime =
       this.completeFlight[0].Origin
         .DepTime;
-
     const newDate = new Date(departFlightDateTime);
-
     const departDay = newDate.getDate();
     const departMonth = newDate.getMonth();
     const departYear = newDate.getFullYear();
-
     return `${departDay}:${departMonth}:${departYear}`;
   }
   getDepartureTime(flightRankInArray: number): string {
     // here it wolud be same for direct and indirect flights
-
     const departFlightDateTime =
       this.completeFlight[0].Origin
         .DepTime;
-
     const newDate = new Date(departFlightDateTime);
     let hours = newDate.getHours();
-
     let minutes = newDate.getMinutes();
-
     // Format the time as a string
     // Format the time as a string
     let formattedTime: string;
@@ -150,14 +127,10 @@ export class FlightCardComponent implements OnInit {
     } else {
       formattedTime = `${hours}:${minutes}`;
     }
-
     return formattedTime;
   }
-
-
   getFlightDuration(flightRankInArray: number): string {
     let totalMinutes: number;
-
     // if direct flight
     if (
       this.completeFlight.length === 1
@@ -169,11 +142,9 @@ export class FlightCardComponent implements OnInit {
       totalMinutes =
         this.completeFlight[this.completeFlight.length - 1].AccumulatedDuration;
     }
-
     if (totalMinutes > 60) {
       const hours = Math.floor(totalMinutes / 60);
       const minutes = totalMinutes % 60;
-
       return `${hours}h ${minutes}m`;
     } else {
       return `${totalMinutes}m`;
@@ -182,7 +153,6 @@ export class FlightCardComponent implements OnInit {
   getFlightStops(flightRankInArray: number): string {
     let numberOfFlights: number =
       this.completeFlight.length;
-
     if (numberOfFlights === 1) return "Non Stop";
     else if (numberOfFlights === 2) {
       return `${numberOfFlights - 1} Stop`;
@@ -193,7 +163,6 @@ export class FlightCardComponent implements OnInit {
   getStopsImageUrl(flightRankInArray: number): string {
     let numberOfFlights: number =
       this.completeFlight.length;
-
     if (numberOfFlights === 1) {
       // journey is Non-Stop
       return"../../../assets/img/brand/nonStopFlight.png";
@@ -211,24 +180,17 @@ export class FlightCardComponent implements OnInit {
       return"../../../assets/img/brand/flightStop4.png";
     }
   }
-
-
   getFinalDestinationCity(flightRankInArray: number): string {
     const finalDestinationCity =
       this.completeFlight.length === 1
         ? this.completeFlight[0].Destination.Airport.CityName
         : this.completeFlight[this.completeFlight.length - 1].Destination.Airport.CityName;
-
     // Emit the final destination city
     this.finalDestinationCityEmitter.emit(finalDestinationCity);
-   
-
     return finalDestinationCity;
 }
-
   getArrivalTime(flightRankInArray: number): string {
     let arrFlightDateTime: string;
-
     // if direct flight
     if (
       this.completeFlight.length === 1
@@ -242,12 +204,9 @@ export class FlightCardComponent implements OnInit {
           this.completeFlight.length - 1
         ].Destination.ArrTime;
     }
-
     const newDate = new Date(arrFlightDateTime);
     let hours = newDate.getHours();
-
     let minutes = newDate.getMinutes();
-
     // Format the time as a string
     // Format the time as a string
     let formattedTime: string;
@@ -260,12 +219,10 @@ export class FlightCardComponent implements OnInit {
     } else {
       formattedTime = `${hours}:${minutes}`;
     }
-
     return formattedTime;
   }
   getArrDate(flightRankInArray: number): string {
     let arrFlightDateTime: string;
-
     // if direct flight
     if (
       this.completeFlight.length === 1
@@ -280,21 +237,14 @@ export class FlightCardComponent implements OnInit {
           this.completeFlight.length - 1
         ].Destination.ArrTime;
     }
-
     const newDate = new Date(arrFlightDateTime);
-
     const departDay = newDate.getDate();
     const departMonth = newDate.getMonth();
     const departYear = newDate.getFullYear();
-
     return`${departDay}:${departMonth}:${departYear}`;
   }
-
-
-
   // getFlightFare(flightRankInArray: number): string {
   //   // calculating per Adult fare
-
   //   let baseFare =
   //     this.flightDetails.flightData[flightRankInArray].fareBreakdown[0]
   //       .BaseFare;
@@ -303,9 +253,7 @@ export class FlightCardComponent implements OnInit {
   //   let passengerCount =
   //     this.flightDetails.flightData[flightRankInArray].fareBreakdown[0]
   //       .PassengerCount;
-
   //   let adultFare = String((baseFare + tax) / passengerCount);
-
   //   // adultFare.toString();
   //   // Add commas to the integer part
   //   adultFare = adultFare.replace(/\B(?=(\d{3})+(?!\d))/g, ",");
@@ -315,3 +263,14 @@ export class FlightCardComponent implements OnInit {
   //   return this.flightDetails.flightData[flightRankInArray].refundable;
   // }
 }
+
+
+
+
+
+
+
+
+
+
+

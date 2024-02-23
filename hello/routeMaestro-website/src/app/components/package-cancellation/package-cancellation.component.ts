@@ -1,6 +1,16 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 
 import { DatePipe } from '@angular/common';
+import { Pipe, PipeTransform } from '@angular/core';
+
+@Pipe({
+  name: 'removeCommas'
+})
+export class RemoveCommasPipe implements PipeTransform {
+  transform(value: string): string {
+    return value.replace(/,/g, '');
+  }
+}
 @Component({
   selector: 'app-package-cancellation',
   templateUrl: './package-cancellation.component.html',
@@ -9,28 +19,87 @@ import { DatePipe } from '@angular/common';
 export class PackageCancellationComponent implements OnInit {
   
   @Input() hotelData:any;
+  @Input() flightData:any;
   @Output() closeDialog: EventEmitter<void> = new EventEmitter<void>();
+  @Output() flightBox: EventEmitter<void> = new EventEmitter<void>();
   formattedLastCancellationDate: any;
   minLastCancellationDate: Date;
   LastCancelPolicy=[] ;
+  flightCharges:number=0;
+  flightShort:boolean;
+  flightLastCancelDate:any;
+  isFlightCancelPresent:boolean=false;
  
   constructor(private datePipe: DatePipe) { 
    
   }
 
   ngOnInit(): void {
+    // hotel
     this.processCancellationPolicies()
     this.findMinLastCancellationDate()
     console.log(this.hotelData)
+    // flight
+    console.log(this.flightData)
+    this.compareAndFormatDates(this.flightData.LastTicketDate,this.formattedLastCancellationDate)
+    this.calculateFlightCancelCharge()
   }
   close(){
     this.closeDialog.emit()
   }
+  flightCancelSection(){
+    this.flightBox.emit()
+  }
+  
+  compareAndFormatDates(date1: string, date2: string): string {
+    const formattedDate1 = new Date(date1);
+    const formattedDate2 = new Date(date2);
+    this.flightLastCancelDate=formattedDate1
+    if (formattedDate1 < formattedDate2) {
+      this.flightShort=true
+
+      return formattedDate1.toDateString();
+    } else {
+      this.flightShort=false;
+      return formattedDate2.toDateString();
+    }
+  }
+
+
+
+  //  flight useful data processing
+ calculateFlightCancelCharge(){
+  this.flightData.MiniFareRules.map((item)=>{
+    item.map((flight)=>{
+      if(flight.Type==="Cancellation"){
+        this.flightCharges+=this.extractNumberFromString(flight.Details)
+      }
+    })
+  })
+ }
+
+ extractNumberFromString(inputString: string): number  {
+  const match = inputString.match(/\d+/);
+
+  if (match) {
+    // Extracted a number, convert it to an integer
+    this.isFlightCancelPresent=true;
+    return parseInt(match[0], 10);
+  } else {
+    // No number found, return the original string
+    this.isFlightCancelPresent=false;
+    return 0;
+  }
+}
+
+
+
+// hotel useful data processing
 
   processCancellationPolicies() {
     const maxFromDateArray: any[] = [];
 
-    Object.values(this.hotelData.hotels).forEach((hotel: any[]) => { // specify the type here
+    Object.values(this.hotelData).forEach((hotel: any[]) => { // specify the type here
       
       hotel.forEach((item: any) => { // specify the type here
         if (item.room && item.room.CancellationPolicies) {
@@ -151,7 +220,7 @@ export class PackageCancellationComponent implements OnInit {
   findMinLastCancellationDate() {
     const allLastCancellationDates: any[] = [];
   
-    Object.values(this.hotelData.hotels).forEach((hotel: any[]) => {
+    Object.values(this.hotelData).forEach((hotel: any[]) => {
       hotel.forEach((item: { room: any }) => {
         if (item.room && item.room.LastCancellationDate) {
           allLastCancellationDates.push(new Date(item.room.LastCancellationDate));

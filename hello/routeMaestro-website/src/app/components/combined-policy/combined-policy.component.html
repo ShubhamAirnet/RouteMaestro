@@ -18,8 +18,8 @@
             
         </div>
         <div class="content">
-           <app-package-cancellation *ngIf="package" [hotelData]="hotelData" ></app-package-cancellation>
-           <app-hotel-cancel *ngIf="hotel"></app-hotel-cancel>
+           <app-package-cancellation *ngIf="package" [hotelData]="hotelData" [flightData]="flightData" (flightBox)="flightBox()" ></app-package-cancellation>
+           <app-hotel-cancel *ngIf="hotel" [hotelData]="hotelData"></app-hotel-cancel>
            <app-flight-cancel *ngIf="flight"></app-flight-cancel>
         </div>
     </div>
