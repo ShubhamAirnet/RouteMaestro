@@ -7,13 +7,17 @@ import { BehaviorSubject } from 'rxjs';
 })
 export class StoreService {
 
+
   constructor() { }
 
   private dataSubject = new BehaviorSubject<any>(null);
   data$ = this.dataSubject.asObservable();
 
+
   setData(data: any) {
     console.log(data);
     this.dataSubject.next(data);
   }
+
 }
+

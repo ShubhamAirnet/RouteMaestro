@@ -1,10 +1,13 @@
-import { ChangeDetectorRef, Component, Input, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { ChangeDetectorRef, Component, Input, NgZone, OnInit } from '@angular/core';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { HotelsService } from 'src/app/Services/hotels_api/hotels.service';
 import { Cashfree, load } from '@cashfreepayments/cashfree-js';
 import { cashfree } from './util';
 import axios from 'axios';
 import { TransactionsService } from 'src/app/Services/transactions.service';
+import { hotel_details } from '../../components/package-cancellation/hotel_details';
+import { DatePipe } from '@angular/common';
+import { PackageService } from 'src/app/Services/package/package.service';
 
 @Component({
   selector: 'app-package-checkout',
@@ -20,7 +23,7 @@ export class PackageCheckoutComponent implements OnInit {
   contactForm: FormGroup;
   Travellers:boolean=true;
   merchantShare:number=0;
-  travelers:any;
+  travelers=[] as any[];
   editIndex:number=0;
   @Input() TraceId:any;
   @Input() ResultIndex:any;
@@ -31,24 +34,144 @@ export class PackageCheckoutComponent implements OnInit {
   sessionId:string;
   version:string;
   pay:boolean=false;
+  gst:number=0;
+  ssrPrice:any;
+  baggagePrice:number;
+  seatPrice:number;
+  mealPrice:number;
+  ssr:any;
+  isToggle:boolean=true;
+  isCollapsed:boolean=true;
+  isDateCollapsed:boolean=true;
+  isExclusionCollapsed:boolean=true;
+  arrowTermDirection = 'down';
+  arrowDirection = 'down';
+  arrowDateDirection = 'down';
+  arrowExclusionDirection = 'down';
+  taxesSectionExpanded: boolean = false;
+  // sample data
+  data:any = {
+    "ssr": {
+        "Response": {
+            
+            "Meal": [
+                {
+                    "Code": "BBML",
+                    "Description": "BABY MEAL"
+                },
+                {
+                    "Code": "DBML",
+                    "Description": "DIABETIC MEAL"
+                },
+                {
+                    "Code": "HNML",
+                    "Description": "HINDU (NON VEGETARIAN) MEAL"
+                },
+                {
+                    "Code": "MOML",
+                    "Description": "MUSLIM MEAL"
+                },
+                {
+                    "Code": "SFML",
+                    "Description": "SEA FOOD MEAL"
+                },
+                {
+                    "Code": "VGML",
+                    "Description": "VEGETARIAN VEGAN MEAL"
+                },
+                {
+                    "Code": "VJML",
+                    "Description": "VEGETARIAN INDIAN MEAL"
+                }
+            ],
+            "SeatPreference": [
+                {
+                    "Code": "A",
+                    "Description": "Aisle"
+                },
+                {
+                    "Code": "W",
+                    "Description": "Window"
+                }
+            ],
+
+            "ResponseStatus": 1,
+            "Error": {
+                "ErrorCode": 0,
+                "ErrorMessage": ""
+            },
+            "TraceId": "1fec828a-e0a2-4db7-be31-1dd09102272c"
+        }
+    }
+};
+
+// checkbox
+checkBox1: boolean = false;
+checkBox2: boolean = false;
+checkBox3: boolean = false;
 
 
-  constructor(private auth:HotelsService,private fb: FormBuilder,private cdr: ChangeDetectorRef,private transact:TransactionsService) {
+
+// dialog box variables
+privacyDialog:boolean=false;
+termsDialog:boolean=false;
+refundibleDialog:boolean=false;
+
+// cancel variables
+hotelData=hotel_details;
+minLastCancellationDate:any;
+LastCancelPolicy=[]
+ 
+  formattedLastCancellationDate: any;
+  packageDialog: boolean;
+  NoOfTravellers: number;
+  RoomGuest: any;
+
+  constructor(private hotels:HotelsService,private datePipe: DatePipe,private zone: NgZone,private fb: FormBuilder,private cdr: ChangeDetectorRef,private transact:TransactionsService,private pack:PackageService) {
+    this.ssr=this.data.ssr;
     
    }
 
   ngOnInit(): void {
     this.getData();
+    this.getPassengerData()
     this.initializeForm();
   }
 
+
+  toggle() {
+    this.isToggle = !this.isToggle;
+    this.arrowTermDirection = this.isToggle ? 'down' : 'up';
+  }
+  toggleCollapse() {
+    this.isCollapsed = !this.isCollapsed;
+    this.arrowDirection = this.isCollapsed ? 'down' : 'up';
+  }
+  toggleDateCollapse() {
+    this.isDateCollapsed = !this.isDateCollapsed;
+    this.arrowDateDirection = this.isDateCollapsed ? 'down' : 'up';
+  }
+  toggleExclusionCollapse() {
+    this.isExclusionCollapsed = !this.isExclusionCollapsed;
+    this.arrowExclusionDirection = this.isExclusionCollapsed ? 'down' : 'up';
+  }
+
+  toggleTaxesSection() {
+    this.taxesSectionExpanded = !this.taxesSectionExpanded;
+  }
+  
+
+  areAllCheckboxesChecked(): boolean {
+    return this.checkBox1 && this.checkBox2 && this.checkBox3;
+  }
   handleTravelerArrayChange(travelerArray: any[]): void {
     // Process the traveler array data received from the child component
     console.log(travelerArray);
     this.travelers=travelerArray;
     console.log(this.travelers)
-    this.cdr.detectChanges();
-    // ... other logic
+    this.zone.run(() => {
+      this.cdr.detectChanges();
+    });
   }
   private initializeForm(): void {
     this.contactForm = this.fb.group({
@@ -61,56 +184,233 @@ export class PackageCheckoutComponent implements OnInit {
       companyNumber: [''],
       companyAddress: [''],
     });
+
+   
   }
 
- 
+//  dialogBox functions
 
   dialogbox(index:number){
     console.log(index)
     this.dialog=!this.dialog;
     this.editIndex=index;
   }
+  privacyDialogBox(){
+    console.log('privacy')
+    this.privacyDialog=!this.privacyDialog
+  }
+  termsDialogBox(){
+    console.log('terms')
+    this.termsDialog=!this.termsDialog
+  }
+  refundibleDialogBox(){
+    console.log('refundible')
+    this.refundibleDialog=!this.refundibleDialog
+  }
+  packageDialogBox(){
+    console.log('package')
+    this.packageDialog=!this.packageDialog
+  }
 
   async submit(){
     this.pay=true
     console.log(this.contactForm.value)
     console.log(this.travelers)
-    await this.auth.updatePrimaryContact(this.contactForm.value) 
-    await this.auth.savePassengers(this.travelers)
+    await this.pack.updatePrimaryContact(this.contactForm.value) 
+    await this.pack.savePassengerDetails(this.travelers)
   }
 
   async getData() {
     console.log('fetching');
     
     try {
-      const res = await this.auth.getSearchInfo();
+      const res = await this.hotels.getSearchInfo();
       console.log(res);
   
       if (res) {
         this.travelData = res;
         this.NoOfRooms = this.travelData.trip.RoomGuests.length;
+        this.RoomGuest=this.travelData.trip.RoomGuests;
         for(let i=0;i<this.travelData.trip.RoomGuests.length;i++){
           this.NoOfAdults+=this.travelData.trip.RoomGuests[i].NoOfAdults;
           this.NoOfChild+=this.travelData.trip.RoomGuests[i].NoOfChild;
         }
         this.totalCost = this.travelData.cost.flightCost+this.travelData.cost.hotelCost+this.travelData.cost.taxes
         this.initialCost=this.totalCost;
+        this.transactionFee=this.totalCost*0.0175;
+        this.transactionFee = +this.transactionFee.toFixed(2);
+        this.totalCost += this.transactionFee;
+        this.totalCost = +this.totalCost.toFixed(2);
+        this.NoOfTravellers=this.NoOfAdults+this.NoOfChild;
 
-        console.log(this.NoOfRooms);
-        console.log(this.NoOfAdults);
-        console.log(this.NoOfChild);
-        console.log(this.travelData);
-        if(this.travelData?.passenger_details){
-          this.travelers=this.travelData?.passenger_details
-        }
+        
         
       } else {
-        console.log("No data received from getSearchInfo");
+        console.log("No passenger data received from getPassengerDetails");
+      }
+
+        
+      
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  async getPassengerData() {
+    console.log('passengers fetching');
+    try {
+      const res = await this.pack.getPassengerDetails();
+      console.log(res.passengers);
+  
+      if (this.NoOfTravellers > 0) {
+        for(let i=0;i<this.RoomGuest.length;i++){
+          for(let j=0;j<this.RoomGuest[i].NoOfAdults+this.RoomGuest[i].NoOfChild;j++){
+            if(j < this.RoomGuest[i]?.NoOfAdults){
+              this.travelers.push({
+                personalInfo: {
+                  FirstName: '',
+                  Title: '',
+                  LastName: '',
+                  DateOfBirth: '',
+                  Gender: '',
+                  Nationality: '',
+                  AddressLine1: '',
+                  AddressLine2: '',
+                  Email: '',
+                  ContactNo: '',
+                  PAN: '',
+                  PassportNo: '',
+                  PassportIssueDate: '',
+                  PassportExpDate: '',
+                  PassportExpiry: '',
+                  Age: '',
+                  PaxType: 1,
+                  CountryCode: '',
+                  City: '',
+                  CountryName: '',
+                  LeadPassenger: true
+                },
+                dates:{
+                  dob:{
+                    day:'',
+                    month:'',
+                    year:''
+                  },
+                  passportIssue:{
+                    day:'',
+                    month:'',
+                    year:''
+                  },
+                  passportExpiry:{
+                    day:'',
+                    month:'',
+                    year:''
+                  }
+                },
+                guardianDetails:{
+                  Title:'',
+                  FirstName:'',
+                  LastName:'',
+                  PAN:'',
+                  PassportNo:'',
+                },
+                ssr: {
+                  extraBaggage: '',
+                  meal: '',
+                  seat: ''
+                }
+              });
+            }else{
+              this.travelers.push({
+                personalInfo: {
+                  FirstName: '',
+                  Title: '',
+                  LastName: '',
+                  DateOfBirth: '',
+                  Gender: '',
+                  Nationality: '',
+                  AddressLine1: '',
+                  AddressLine2: '',
+                  Email: '',
+                  ContactNo: '',
+                  PAN: '',
+                  PassportNo: '',
+                  PassportIssueDate: '',
+                  PassportExpDate: '',
+                  PassportExpiry: '',
+                  Age: '',
+                  PaxType: 2,
+                  CountryCode: '',
+                  City: '',
+                  CountryName: '',
+                  LeadPassenger: false
+                },
+                dates:{
+                  dob:{
+                    day:'',
+                    month:'',
+                    year:''
+                  },
+                  passportIssue:{
+                    day:'',
+                    month:'',
+                    year:''
+                  },
+                  passportExpiry:{
+                    day:'',
+                    month:'',
+                    year:''
+                  }
+                },
+                guardianDetails:{
+                  Title:'',
+                  FirstName:'',
+                  LastName:'',
+                  PAN:'',
+                  PassportNo:'',
+                },
+                ssr: {
+                  extraBaggage: '',
+                  meal: '',
+                  seat: ''
+                }
+              });
+            }
+          }
+        }
+  
+        // If there is data in res.passenger, update the travelers array
+        // Corrected condition: use res.passengers
+      if (res && Array.isArray(res.passengers) && res.passengers.length > 0) {
+        for (let i = 0; i < this.NoOfTravellers && i < res.passengers.length; i++) {
+          const passengerData = res.passengers[i];
+          console.log(passengerData)
+          this.travelers[i] = {
+            personalInfo: {
+              ...passengerData?.personalInfo,
+              LeadPassenger: passengerData?.personalInfo?.LeadPassenger || true
+            },
+            ssr: {
+              ...passengerData?.ssr
+            },
+            dates:{
+              ...passengerData?.dates
+            },
+            guardianDetails:{
+              ...passengerData?.guardianDetails
+            }
+          };
+          // console.log(this.travelers[i])
+        }
+      }
+      console.log('traveler', this.travelers);
+
       }
     } catch (error) {
       console.log(error);
     }
   }
+  
 
   toggleTerms() {
     const termsContainer = document.querySelector('.terms');
@@ -139,8 +439,10 @@ onMerchantShareChange() {
   console.log('Merchant Share changed:', this.merchantShare);
 
   const costChange = this.totalCost - this.initialCost;
-  this.totalCost = this.initialCost + this.merchantShare;
-  this.transactionFee = 0.00175 * this.totalCost;
+  this.gst=this.merchantShare*0.18;
+  this.gst = +this.gst.toFixed(2);
+  this.totalCost = this.initialCost + this.merchantShare+this.gst;
+  this.transactionFee = 0.0175 * this.totalCost;
 
   // Round to two decimal places
   this.transactionFee = +this.transactionFee.toFixed(2);
@@ -284,4 +586,7 @@ async generateLink(form:any,link_id:string){
     console.log(error)
   }
 }
+
+
+
 }

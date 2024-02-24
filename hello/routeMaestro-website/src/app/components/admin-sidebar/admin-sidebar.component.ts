@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+
 @Component({
   selector: 'app-admin-sidebar',
   templateUrl: './admin-sidebar.component.html',
@@ -7,6 +8,7 @@ import { Component, OnInit } from '@angular/core';
 export class AdminSidebarComponent implements OnInit {
   isContainerExpanded: boolean = false;
   constructor() { }
+
   ngOnInit(): void {
     console.log('admin')
   }
@@ -14,3 +16,4 @@ export class AdminSidebarComponent implements OnInit {
     this.isContainerExpanded = !this.isContainerExpanded;
 }
 } 
+

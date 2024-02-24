@@ -2,6 +2,7 @@ const express = require("express");
 const router = express.Router();
 const {db} = require("../firebaseConfig");
 const axios = require("axios");
+const fareQuote=require('./flights')
 
 const { getDownloadURL } = require('firebase-admin/storage');
 const { admin } = require('../firebaseConfig');
@@ -476,7 +477,7 @@ router.post("/fareRule",async(req,res)=>{
   const {traceId,flightToken,resultIndex}=req.body;
 
   const payload = {
-    EndUserIp: "49.43.88.177",
+    EndUserIp: "49.43.88.155",
     TokenId: flightToken,
     TraceId: traceId,
     ResultIndex: resultIndex,
@@ -550,6 +551,7 @@ router.post("/ssr",async(req,res)=>{
 
 })
 
+mant-changes
 // Your route handler file
 
 router.get('/getImageLink', async (req, res) => {
@@ -573,5 +575,700 @@ router.get('/getImageLink', async (req, res) => {
   }
 });
 
+function calculateAgeAtEndDate(dob, endDate) {
+  const birthDate = new Date(dob);
+  const currentDate = new Date(endDate);
+
+  // Calculate the difference in years
+  let age = currentDate.getFullYear() - birthDate.getFullYear();
+
+  // Adjust the age if the birthdate hasn't occurred yet this year
+  if (currentDate.getMonth() < birthDate.getMonth() ||
+    (currentDate.getMonth() === birthDate.getMonth() && currentDate.getDate() < birthDate.getDate())) {
+    age--;
+  }
+
+  return age;
+}
+
+router.post('/flightBook', async (req, res) => {
+  const { flightToken, traceId, resultIndex } = req.body;
+  let guests = [];
+
+  try {
+    const doc = await db.collection("package_data").doc('QNHo0JCIB4bDXBSNqKo9').get();
+
+    const itinerary=await db.collection('Demo_Itinerary').doc('updated_Itinerary').get()
+
+    if (doc.exists) {
+      guests = doc.data().passengers;
+      // console.log('guests', guests);
+    } else {
+      console.log("No such document!");
+      return res.status(400).json({ error: "No such document" });
+    }
+
+    if(itinerary.exists){
+      trip=itinerary.data().trip;
+    }else {
+      console.log("No such document!");
+      return res.status(400).json({ error: "No such document" });
+    }
+
+    const fareBreakdown = fareQuote.FareBreakdown;
+    
+    let adult = {};
+    let child = {};
+    let infant = {};
+
+    fareBreakdown.forEach((fare) => {
+      const newObject = {
+        Currency: "INR",
+        BaseFare: 0,
+        Tax: 0,
+        YQTax: 0,
+        AdditionalTxnFeePub: 0,
+        AdditionalTxnFeeOfrd: 0,
+        OtherCharges: 0,
+        Discount: 0,
+        PublishedFare: 0,
+        OfferedFare: 0,
+        TdsOnCommission: 0,
+        TdsOnPLB: 0,
+        TdsOnIncentive: 0,
+        ServiceFee: 0
+      };
+      const passengerType = fare.PassengerType;
+      const passengerCount = fare.PassengerCount;
+    
+      if (passengerType === 1) {
+        newObject.BaseFare += fare.BaseFare / passengerCount;
+        newObject.Tax += fare.Tax / passengerCount;
+        newObject.YQTax += fare.YQTax / passengerCount;
+        newObject.AdditionalTxnFeePub += fare.AdditionalTxnFeePub / passengerCount;
+        newObject.AdditionalTxnFeeOfrd += fare.AdditionalTxnFeeOfrd / passengerCount;
+        newObject.PublishedFare = newObject.BaseFare + newObject.Tax + newObject.YQTax + newObject.AdditionalTxnFeePub + newObject.OtherCharges;
+        newObject.OfferedFare = newObject.PublishedFare - newObject.Discount;
+        newObject.TdsOnCommission = (newObject.BaseFare + newObject.Tax) * 0.01; // Assuming 1% commission
+        newObject.TdsOnPLB = newObject.PublishedFare * 0.02; // Assuming 2% PLB
+        newObject.TdsOnIncentive = newObject.OfferedFare * 0.01; // Assuming 1% incentive
+        newObject.ServiceFee = 0;
+        adult=newObject;
+     
+      } else if (passengerType === 2) {
+        newObject.BaseFare += fare.BaseFare / passengerCount;
+        newObject.Tax += fare.Tax / passengerCount;
+        newObject.YQTax += fare.YQTax / passengerCount;
+        newObject.AdditionalTxnFeePub += fare.AdditionalTxnFeePub / passengerCount;
+        newObject.AdditionalTxnFeeOfrd += fare.AdditionalTxnFeeOfrd / passengerCount;
+        newObject.PublishedFare = newObject.BaseFare + newObject.Tax + newObject.YQTax + newObject.AdditionalTxnFeePub + newObject.OtherCharges;
+        newObject.OfferedFare = newObject.PublishedFare - newObject.Discount;
+        newObject.TdsOnCommission = (newObject.BaseFare + newObject.Tax) * 0.01; // Assuming 1% commission
+        newObject.TdsOnPLB = newObject.PublishedFare * 0.02; // Assuming 2% PLB
+        newObject.TdsOnIncentive = newObject.OfferedFare * 0.01; // Assuming 1% incentive
+        newObject.ServiceFee = 0;
+        child=newObject;
+      }else if (passengerType === 3) {
+        newObject.BaseFare += fare.BaseFare / passengerCount;
+        newObject.Tax += fare.Tax / passengerCount;
+        newObject.YQTax += fare.YQTax / passengerCount;
+        newObject.AdditionalTxnFeePub += fare.AdditionalTxnFeePub / passengerCount;
+        newObject.AdditionalTxnFeeOfrd += fare.AdditionalTxnFeeOfrd / passengerCount;
+        newObject.PublishedFare = newObject.BaseFare + newObject.Tax + newObject.YQTax + newObject.AdditionalTxnFeePub + newObject.OtherCharges;
+        newObject.OfferedFare = newObject.PublishedFare - newObject.Discount;
+        newObject.TdsOnCommission = (newObject.BaseFare + newObject.Tax) * 0.01; // Assuming 1% commission
+        newObject.TdsOnPLB = newObject.PublishedFare * 0.02; // Assuming 2% PLB
+        newObject.TdsOnIncentive = newObject.OfferedFare * 0.01; // Assuming 1% incentive
+        newObject.ServiceFee = 0;
+        infant=newObject;
+      }
+    });
+    
+   
+    
+    // console.log('adult',adult);
+    // console.log('child',child);
+    // console.log('infant',infant);
+
+    let passengers = [];
+    // console.log('guests', guests);
+
+    for (let i = 0; i < guests.length; i++) {
+      const { PAN, ...restPersonalInfo } = guests[i].personalInfo;
+      const dob=guests[i].personalInfo.Age
+      if (guests[i].personalInfo.Age >= 12) {
+      
+        const combinedObject = {
+          ...restPersonalInfo,
+          PaxType: 1,
+          Gender: guests[i].personalInfo.Gender === 'Male' ? 1 : 2, // Overwrite Gender
+          Fare: adult,
+          IsLeadPax:true,
+        };
+        
+        passengers.push(combinedObject);
+      } else if (guests[i].personalInfo.Age > 2) {
+        const combinedObject = {
+          ...restPersonalInfo,
+          GuardianDetails:guests[i].guardianDetails,
+          PaxType:2,
+          // ...guests[i].ssr,
+          Gender: guests[i].personalInfo.Gender === 'Male' ? 1 : 2,
+          Fare: child,
+          IsLeadPax:false
+        };
+        passengers.push(combinedObject);
+      } else if(guests[i].personalInfo.Age<=2 && calculateAgeAtEndDate(dob,trip.end_date)>2) {
+        const combinedObject = {
+          ...restPersonalInfo,
+          GuardianDetails:guests[i].guardianDetails,
+          PaxType:2,
+          // ...guests[i].ssr,
+          Gender: guests[i].personalInfo.Gender === 'Male' ? 1 : 2,
+          Fare: child,
+          IsLeadPax:false
+        };
+        passengers.push(combinedObject);
+      }else{
+        const combinedObject = {
+          ...restPersonalInfo,
+          GuardianDetails:guests[i].guardianDetails,
+          PaxType:2,
+          // ...guests[i].ssr,
+          Gender: guests[i].personalInfo.Gender === 'Male' ? 1 : 2,
+          Fare: infant,
+          IsLeadPax:false
+        };
+        passengers.push(combinedObject);
+      }
+    }
+
+    const payload = {
+      ResultIndex: resultIndex,
+      EndUserIp: "49.43.88.155",
+      TokenId: flightToken,
+      TraceId: traceId,
+      Passengers: passengers,
+    };
+
+    console.log(payload);
+    try {
+      const { data } = await axios.post("http://api.tektravels.com/BookingEngineService_Air/AirService.svc/rest/Book", payload);
+
+     
+      console.log(data);
+
+      // Store BookingId and PNR in Firestore
+      if(data){
+        const bookingId = data.Response.Response.BookingId;
+        const pnr = data.Response.Response.PNR;
+        
+        const itineraryRef = db.collection("package_data").doc('QNHo0JCIB4bDXBSNqKo9');
+        await itineraryRef.update({
+          flight_details: {
+            booking_details: {
+              BookingId: bookingId,
+              PNR: pnr
+            }
+          }
+        });
+      }
+
+      return res.status(200).json({ data: data });
+    } catch (error) {
+      console.error("Error in API call:", error.message);
+      return res.status(400).json({ error: "Error in API call" });
+    }
+  } catch (error) {
+    console.error("Error getting document:", error.message);
+    return res.status(400).json({ error: "Error getting document" });
+  }
+});
+
+router.post('/ticketLCC', async (req, res) => {
+  const { flightToken, traceId, resultIndex } = req.body;
+  let guests = [];
+  let trip;
+
+  try {
+    const doc = await db.collection("package_data").doc('QNHo0JCIB4bDXBSNqKo9').get();
+    if (doc.exists) {
+      guests = doc.data().passengers;
+
+      // console.log('guests', guests);
+    } else {
+      console.log("No such document!");
+      return res.status(400).json({ error: "No such document" });
+    }
+
+
+
+    const itinerary=await db.collection('Demo_Itinerary').doc('updated_Itinerary').get();
+
+    if(itinerary.exists){
+      trip=itinerary.trip
+    }
+
+   
+    const fareBreakdown = fareQuote.FareBreakdown;
+    
+    let adult = {};
+    let child = {};
+    let infant = {};
+
+    fareBreakdown.forEach((fare) => {
+      const newObject = {
+        Currency: "INR",
+        BaseFare: 0,
+        Tax: 0,
+        YQTax: 0,
+        AdditionalTxnFeePub: 0,
+        AdditionalTxnFeeOfrd: 0,
+        OtherCharges: 0,
+        Discount: 0,
+        PublishedFare: 0,
+        OfferedFare: 0,
+        TdsOnCommission: 0,
+        TdsOnPLB: 0,
+        TdsOnIncentive: 0,
+        ServiceFee: 0
+      };
+      const passengerType = fare.PassengerType;
+      const passengerCount = fare.PassengerCount;
+    
+      if (passengerType === 1) {
+        newObject.BaseFare += fare.BaseFare / passengerCount;
+        newObject.Tax += fare.Tax / passengerCount;
+        newObject.YQTax += fare.YQTax / passengerCount;
+        newObject.AdditionalTxnFeePub += fare.AdditionalTxnFeePub / passengerCount;
+        newObject.AdditionalTxnFeeOfrd += fare.AdditionalTxnFeeOfrd / passengerCount;
+        newObject.PublishedFare = newObject.BaseFare + newObject.Tax + newObject.YQTax + newObject.AdditionalTxnFeePub + newObject.OtherCharges;
+        newObject.OfferedFare = newObject.PublishedFare - newObject.Discount;
+        newObject.TdsOnCommission = (newObject.BaseFare + newObject.Tax) * 0.01; // Assuming 1% commission
+        newObject.TdsOnPLB = newObject.PublishedFare * 0.02; // Assuming 2% PLB
+        newObject.TdsOnIncentive = newObject.OfferedFare * 0.01; // Assuming 1% incentive
+        newObject.ServiceFee = 0;
+        adult=newObject;
+     
+      } else if (passengerType === 2) {
+        newObject.BaseFare += fare.BaseFare / passengerCount;
+        newObject.Tax += fare.Tax / passengerCount;
+        newObject.YQTax += fare.YQTax / passengerCount;
+        newObject.AdditionalTxnFeePub += fare.AdditionalTxnFeePub / passengerCount;
+        newObject.AdditionalTxnFeeOfrd += fare.AdditionalTxnFeeOfrd / passengerCount;
+        newObject.PublishedFare = newObject.BaseFare + newObject.Tax + newObject.YQTax + newObject.AdditionalTxnFeePub + newObject.OtherCharges;
+        newObject.OfferedFare = newObject.PublishedFare - newObject.Discount;
+        newObject.TdsOnCommission = (newObject.BaseFare + newObject.Tax) * 0.01; // Assuming 1% commission
+        newObject.TdsOnPLB = newObject.PublishedFare * 0.02; // Assuming 2% PLB
+        newObject.TdsOnIncentive = newObject.OfferedFare * 0.01; // Assuming 1% incentive
+        newObject.ServiceFee = 0;
+        child=newObject;
+      }else if (passengerType === 3) {
+        newObject.BaseFare += fare.BaseFare / passengerCount;
+        newObject.Tax += fare.Tax / passengerCount;
+        newObject.YQTax += fare.YQTax / passengerCount;
+        newObject.AdditionalTxnFeePub += fare.AdditionalTxnFeePub / passengerCount;
+        newObject.AdditionalTxnFeeOfrd += fare.AdditionalTxnFeeOfrd / passengerCount;
+        newObject.PublishedFare = newObject.BaseFare + newObject.Tax + newObject.YQTax + newObject.AdditionalTxnFeePub + newObject.OtherCharges;
+        newObject.OfferedFare = newObject.PublishedFare - newObject.Discount;
+        newObject.TdsOnCommission = (newObject.BaseFare + newObject.Tax) * 0.01; // Assuming 1% commission
+        newObject.TdsOnPLB = newObject.PublishedFare * 0.02; // Assuming 2% PLB
+        newObject.TdsOnIncentive = newObject.OfferedFare * 0.01; // Assuming 1% incentive
+        newObject.ServiceFee = 0;
+        infant=newObject;
+      }
+    });
+    
+   
+    
+    console.log('adult',adult);
+    console.log('child',child);
+    console.log('infant',infant);
+
+    let passengers = [];
+    // console.log('guests', guests);
+
+    for (let i = 0; i < guests.length; i++) {
+      let dob=new Date(guest[i].personalInfo.Age)
+      if (guests[i].personalInfo.Age >= 12) {
+        const combinedObject = {
+          ...guests[i].personalInfo,
+          PaxType: 1,
+          Gender: guests[i].personalInfo.Gender === 'Male' ? 1 : 2, // Overwrite Gender
+          Fare: adult,
+          IsLeadPax:true,
+        };
+        
+        passengers.push(combinedObject);
+      } else if (guests[i].personalInfo.Age > 2) {
+        const combinedObject = {
+          ...guests[i].personalInfo,
+          PaxType:2,
+          GuardianDetails:guests[i].guardianDetails,
+          // ...guests[i].ssr,
+          Gender: guests[i].personalInfo.Gender === 'Male' ? 1 : 2,
+          Fare: child,
+          IsLeadPax:false
+        };
+        passengers.push(combinedObject);
+      } else if(guests[i].personalInfo.Age <=2 && calculateAgeAtEndDate(dob,trip.end_date)>2 ) {
+        const combinedObject = {
+          ...guests[i].personalInfo,
+          PaxType:2,
+          GuardianDetails:guests[i].guardianDetails,
+          // ...guests[i].ssr,
+          Gender: guests[i].personalInfo.Gender === 'Male' ? 1 : 2,
+          Fare: child,
+          IsLeadPax:false
+        };
+        passengers.push(combinedObject);
+      }else{
+        const combinedObject = {
+          ...guests[i].personalInfo,
+          PaxType:3,
+          GuardianDetails:guests[i].guardianDetails,
+          // ...guests[i].ssr,
+          Gender: guests[i].personalInfo.Gender === 'Male' ? 1 : 2,
+          Fare: infant,
+          IsLeadPax:false
+        };
+        passengers.push(combinedObject);
+      }
+    }
+
+    const payload = {
+      ResultIndex: resultIndex,
+      EndUserIp: "49.43.88.155",
+      TokenId: flightToken,
+      TraceId: traceId,
+      Passengers: passengers,
+    };
+
+    console.log(payload);
+    const {data}=await axios.post('http://api.tektravels.com/BookingEngineService_Air/AirService.svc/rest/Ticket',payload);
+    console.log(data)
+    if (data.Response.Response && data.Response.Response.FlightItinerary) {
+      const ticketDetails = data.Response.FlightItinerary.Passenger.map(item => ({
+        Ticket: item.Ticket,
+        firstName: item.FirstName,
+        lastName: item.LastName
+      }));
+      
+      const updatedItineraryRef = db.collection("package_data").doc('QNHo0JCIB4bDXBSNqKo9');
+      const existingData = (await updatedItineraryRef.get()).data();
+      let flightDetails = existingData && existingData.flight_details ? existingData.flight_details : {};
+      
+      flightDetails.ticket_details = ticketDetails;
+      
+      await updatedItineraryRef.update({
+        flight_details: flightDetails
+      });
+      
+     
+    }
+    
+
+    res.status(200).json({ success: true,data })
+  } catch (error) {
+    console.error("Error getting document:", error.message);
+    return res.status(400).json({ error: "Error getting document" });
+  }
+});
+router.post('/ticketNonLCC', async (req, res) => {
+  try {
+    const { flightToken, traceId } = req.body;
+    let guests = [];
+    let bookingDetails;
+
+    const itineraryRef = db.collection("package_data").doc('QNHo0JCIB4bDXBSNqKo9');
+    
+    // Wait for the promise to resolve
+    const doc = await itineraryRef.get();
+
+    if (doc.exists) {
+      guests = doc.data().passenger_details;
+      bookingDetails = doc.data().flight_details.booking_details;
+    } else {
+      console.log("No such document!");
+    }
+
+    const payload = {
+      EndUserIp: "49.43.88.155",
+      TokenId: flightToken,
+      TraceId: traceId,
+      PNR: bookingDetails.PNR,
+      BookingId: bookingDetails.BookingId
+    };
+
+    const { data } = await axios.post("http://api.tektravels.com/BookingEngineService_Air/AirService.svc/rest/Ticket", payload);
+    console.log('nonLcc',data)
+ 
+
+    if (data.Response.Response && data.Response.Response.FlightItinerary && data.Response.Response.FlightItinerary.Passenger) {
+      const ticketDetails = data.Response.FlightItinerary.Passenger.map(item => ({
+        Ticket: item.Ticket,
+        firstName: item.FirstName,
+        lastName: item.LastName
+      }));
+      
+      const updatedItineraryRef = db.collection("package_data").doc('QNHo0JCIB4bDXBSNqKo9');
+      const existingData = (await updatedItineraryRef.get()).data();
+      let flightDetails = existingData && existingData.flight_details ? existingData.flight_details : {};
+      
+      flightDetails.ticket_details = ticketDetails;
+      
+      await updatedItineraryRef.update({
+        flight_details: flightDetails
+      });
+      
+     
+    }
+    
+
+    res.status(200).json({ success: true,data });
+  } catch (error) {
+    console.error("Error:", error);
+    res.status(400).json({ success: false, error: error.message });
+  }
+});
+
+
+router.post('/getFlightBookingDetails',async(req,res)=>{
+  const {flightToken}=req.body;
+  const itineraryRef = db.collection("package_data").doc('QNHo0JCIB4bDXBSNqKo9');
+  let bookingDetails;
+  // Wait for the promise to resolve
+  const doc = await itineraryRef.get();
+
+  if (doc.exists) {
+    guests = doc.data().passengers;
+    bookingDetails = doc.data().flight_details.booking_details;
+  } else {
+    console.log("No such document!");
+  }
+
+  const payload={
+    TokenId:flightToken,
+    EndUserIp:"49.43.88.155",
+    BookingId:bookingDetails.BookingId,
+    PNR:bookingDetails.PNR
+  }
+console.log(payload)
+  try{
+    const {data}=await axios.post('http://api.tektravels.com/BookingEngineService_Air/AirService.svc/rest/GetBookingDetails',payload);
+    console.log(data);
+    if(data.Response.FlightItinerary.Passenger && data.Response.FlightItinerary.Passenger[0].Ticket){
+      let tickets=[];
+      data.Response.FlightItinerary.Passenger.map((item)=>{
+        tickets = data.Response.FlightItinerary.Passenger.map(item => ({
+          Ticket: item.Ticket,
+          firstName: item.FirstName,
+          lastName: item.LastName
+        }));
+      })
+
+      const updatedItineraryRef = db.collection("package_data").doc('QNHo0JCIB4bDXBSNqKo9');
+      const existingData = (await updatedItineraryRef.get()).data();
+      let flightDetails = existingData && existingData.flight_details ? existingData.flight_details : {};
+    
+      flightDetails.ticket_details = tickets;
+    
+      await updatedItineraryRef.update({
+        flight_details: flightDetails
+      });
+    
+
+    }
+    return res.send(data);
+  }catch(error){
+    console.log(error.message)
+  }
+})
+
+router.post('/releasePNR',async(req,res)=>{
+  const {flightToken}=req.body
+  const itineraryRef = db.collection("package_data").doc('QNHo0JCIB4bDXBSNqKo9');
+  const bookingId=(await itineraryRef.get()).data().flight_details.booking_details.BookingId;
+  const source=fareQuote.Source;
+
+  const payload={
+    EndUserIp:"49.43.88.155",
+    TokenId:flightToken,
+    BookingId:bookingId,
+    Source:source
+  }
+
+  try{
+    const {data}=await axios.post('http://api.tektravels.com/BookingEngineService_Air/AirService.svc/rest/ReleasePNRRequest',payload);
+    console.log(data)
+    return res.send(data)
+  }catch(error){
+    console.log(error);
+  }
+  
+
+})
+
+router.post('/getCancelCharges',async(req,res)=>{
+  const {flightToken,requestType}=req.body
+  const itineraryRef = db.collection("package_data").doc('QNHo0JCIB4bDXBSNqKo9');
+  const bookingId=(await itineraryRef.get()).data().flight_details.booking_details.BookingId;
+
+  const payload={
+    EndUserIp:"49.43.88.155",
+    TokenId:flightToken,
+    BookingId:bookingId,
+    RequestType:requestType
+  }
+
+  try{
+    const {data}=await axios.post('http://api.tektravels.com/BookingEngineService_Air/AirService.svc/rest/GetCancellationCharges',payload)
+    console.log(data)
+    return res.send(data)
+  }catch(error){
+    console.log(error)
+  }
+})
+
+router.post('/sendChangeRequest', async (req, res) => {
+  try {
+    const { flightToken, requestType, cancellationType, remarks } = req.body;
+    const itineraryRef = db.collection("package_data").doc('QNHo0JCIB4bDXBSNqKo9');
+    
+    const itineraryData = await itineraryRef.get();
+    const bookingId = itineraryData.data().flight_details.booking_details.BookingId;
+
+    const tickets = itineraryData.data().flight_details.ticket_details.map((item) => {
+      return item.TicketId;
+    });
+    let changeRequestId=[]
+
+    const payload = {
+      EndUserIp: "49.43.88.155",
+      TokenId: flightToken,
+      BookingId: bookingId,
+      RequestType: requestType,
+      CancellationType: cancellationType,
+      Remarks: remarks,
+      // TicketId: tickets,
+      // Sectors: sectors
+    };
+    console.log(payload)
+    const { data } = await axios.post('http://api.tektravels.com/BookingEngineService_Air/AirService.svc/rest/SendChangeRequest', payload);
+    
+    console.log(data);
+    
+    if(data.Response.TicketCRInfo){
+      data.Response.TicketCRInfo.map((item)=>{
+        changeRequestId.push(item.ChangeRequestId)
+      })
+      const updatedItineraryRef = db.collection("package_data").doc('QNHo0JCIB4bDXBSNqKo9');
+      const existingData = (await updatedItineraryRef.get()).data();
+      let flightDetails = existingData && existingData.flight_details ? existingData.flight_details : {};
+    
+      flightDetails.changeRequestId = changeRequestId;
+    
+      await updatedItineraryRef.update({
+        flight_details: flightDetails
+      });
+    }
+
+
+    return res.send(data); // You may want to send the response back to the client
+
+  } catch (error) {
+    console.log(error);
+    res.status(500).send(error.message); // Handle error and send an appropriate response
+  }
+});
+router.post('/sendChangeRequestPartial', async (req, res) => {
+  try {
+    const { flightToken, requestType, cancellationType, remarks, sectors } = req.body;
+    const itineraryRef = db.collection("package_data").doc('QNHo0JCIB4bDXBSNqKo9');
+    
+    const itineraryData = await itineraryRef.get();
+    const bookingId = itineraryData.data().flight_details.booking_details.BookingId;
+
+    const tickets = itineraryData.data().flight_details.ticket_details.map((item) => {
+      return item.Ticket.TicketId;
+    });
+    let changeRequestId=[]
+     // Create a new array with the desired structure, excluding cityName
+    //  const sanitizedSectors = sectors.map(({ Origin, Destination }) => ({ Origin, Destination }));
+    const sampleSectors=[{Origin:'ZRH',Destination:'VCE'}]
+
+    const payload = {
+      EndUserIp: "49.43.88.155",
+      TokenId: flightToken,
+      BookingId: bookingId,
+      RequestType: requestType,
+      CancellationType: cancellationType,
+      Remarks: remarks,
+      TicketId: tickets,
+      Sectors: sampleSectors
+    };
+    console.log(payload)
+    const { data } = await axios.post('http://api.tektravels.com/BookingEngineService_Air/AirService.svc/rest/SendChangeRequest', payload);
+    
+    console.log(data);
+    
+    if(data.Response.TicketCRInfo){
+      data.Response.TicketCRInfo.map((item)=>{
+        changeRequestId.push(item.ChangeRequestId)
+      })
+      const updatedItineraryRef = db.collection("package_data").doc('QNHo0JCIB4bDXBSNqKo9');
+      const existingData = (await updatedItineraryRef.get()).data();
+      let flightDetails = existingData && existingData.flight_details ? existingData.flight_details : {};
+    
+      flightDetails.changeRequestId = changeRequestId;
+    
+      await updatedItineraryRef.update({
+        flight_details: flightDetails
+      });
+    }
+
+
+    return res.send(data); // You may want to send the response back to the client
+
+  } catch (error) {
+    console.log(error);
+    res.status(500).send(error.message); // Handle error and send an appropriate response
+  }
+});
+
+
+router.post('/getChangeRequest', async (req, res) => {
+  const { flightToken } = req.body;
+  const updatedItineraryRef = db.collection("package_data").doc('QNHo0JCIB4bDXBSNqKo9');
+  const requestId = (await updatedItineraryRef.get()).data().flight_details.changeRequestId;
+  let responseArray = [];
+
+  // Use map to create an array of Promises
+  const requests = requestId.map(async (item) => {
+    const payload = {
+      EndUserIp: "49.43.88.155",
+      TokenId: flightToken,
+      ChangeRequestId: item
+    };
+
+    try {
+      const { data } = await axios.post('http://api.tektravels.com/BookingEngineService_Air/AirService.svc/rest/GetChangeRequestStatus', payload);
+      console.log(data);
+      responseArray.push(data);
+    } catch (error) {
+      console.log(error);
+    }
+  });
+
+  try {
+    // Wait for all Promises to resolve using Promise.all
+    await Promise.all(requests);
+    // Now, all requests have completed, and responseArray is populated
+    return res.send(responseArray);
+  } catch (error) {
+    console.log(error);
+    return res.status(500).send("Internal Server Error");
+  }
+});
 
 module.exports = router;

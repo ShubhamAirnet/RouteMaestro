@@ -21,6 +21,17 @@ export class HotelCardsComponent implements OnInit {
   // hotels:any;
   selectedHotel: any = null;
 
+  // star rating
+  threeStarRating:number=null
+  fourStarRating:number=null
+  fiveStarRating:number=null
+
+  // user rating
+  threeUserRating:number=null
+  fourUserRating:number=null
+  fourPlusTwoUserRating:number=null
+
+  filteredHotels:any;
 
   constructor(private auth:HotelsService,private cdr: ChangeDetectorRef) {
     // this.getData()
@@ -37,25 +48,77 @@ export class HotelCardsComponent implements OnInit {
     // You can add logic here to handle input changes if needed
   }
 
+  onStarCheckboxChange(control: string, rating: number) {
+    this[control] = this[control] === null ? rating : null;
+    setTimeout(() => this.filterHotels()); // Use setTimeout to trigger change detection
+  }
+  
+  onUserCheckboxChange(control: string, rating: number) {
+    this[control] = this[control] === null ? rating : null;
+    setTimeout(() => this.filterHotels()); // Use setTimeout to trigger change detection
+  }
+  
+
   handleHotelNameChange(newHotelName: string): void {
     // Do something with the updated hotelName in the parent component
     console.log('Received updated hotelName in parent component:', newHotelName);
     this.hotelName=newHotelName;
   }
 
-  ngOnInit(): void {   
 
-    console.log(this.dialog)
-    console.log(this.allHotels)
-    console.log(this.city)
-    console.log(this.hotelName)
-    console.log(this.checkInDate)
+  ngOnInit(): void {    
+    this.filterHotels()
+    }
 
-     }
   getStarArray(rating: number): any[] {
     return Array(rating).fill(0);
   }
 
+
+  // filter hotels
+
+  filterHotels() {
+    console.log('filtering');
+  
+    const shouldFilter = (
+      this.threeStarRating !== null ||
+      this.fourStarRating !== null ||
+      this.fiveStarRating !== null ||
+      this.threeUserRating !== null ||
+      this.fourUserRating !== null ||
+      this.fourPlusTwoUserRating !== null
+    );
+  
+    if (shouldFilter) {
+      this.filteredHotels = this.allHotels.map(item => ({
+        ...item,
+        Response: item.Response.filter(hotel => {
+          const tripAdvisorRating = hotel.search.TripAdvisor?.Rating;
+  
+          return (
+            (this.threeStarRating !== null && hotel.search.StarRating === 3) ||
+            (this.fourStarRating !== null && hotel.search.StarRating === 4) ||
+            (this.fiveStarRating !== null && hotel.search.StarRating === 5) ||
+            (this.threeUserRating !== null && tripAdvisorRating !== undefined && tripAdvisorRating >= 3) ||
+            (this.fourUserRating !== null && tripAdvisorRating !== undefined && tripAdvisorRating >= 4) ||
+            (this.fourPlusTwoUserRating !== null && tripAdvisorRating !== undefined && tripAdvisorRating >= 4.2)
+          );
+        })
+      }));
+    } else {
+      // No filtering conditions specified, return the original data
+      this.filteredHotels = this.allHotels.slice();
+    }
+  
+    console.log(this.filteredHotels);
+  }
+  
+  
+  
+  
+  
+  
+  
 
   async getData() {
     console.log('fetching');

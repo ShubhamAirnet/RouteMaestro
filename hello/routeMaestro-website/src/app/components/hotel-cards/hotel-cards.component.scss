@@ -74,10 +74,37 @@ h3 {
 
 /* Individual box styling */
 .box1 {
-  background-color: green;
+  border: 1px solid;
   height: 90%;
-  width: 280px;
+  width: 180px;
   border-radius: 10px;
+  display: flex;
+  justify-content: flex-start;
+  align-items: flex-start;
+  flex-direction: column;
+  gap: 30px;
+  padding-left: 30px;
+}
+
+.rating,.user-rating{
+  margin-top: 20px;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  flex-direction: column;
+
+}
+
+.checkbox1{
+  display: flex;
+  justify-content: flex-start;
+  gap: 5px;
+  align-items: center;
+  width: 100%;
+  span{
+    font-size: 0.9rem;
+    color: black;
+  }
 }
 
 .box2 {

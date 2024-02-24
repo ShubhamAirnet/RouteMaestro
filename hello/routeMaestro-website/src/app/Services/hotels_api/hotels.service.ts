@@ -92,6 +92,7 @@ export class HotelsService {
           await setDoc(searchDocRef, { passenger_details: passengerDetailsArray }, { merge: true });
   
           console.log("Document updated successfully!");
+          return passengerDetailsArray;
         } else {
           console.error("Invalid index provided.");
         }

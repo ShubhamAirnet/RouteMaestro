@@ -1,11 +1,11 @@
 <!-- form-component.component.html -->
-<app-navbar></app-navbar>
+<app-admin-navbar></app-admin-navbar>
 
 <div class="d-flex w-100">
-  <app-sidebar ></app-sidebar>
-  <div *ngIf="activeFeature==='addNewMember'" style="width: 80%;">
+
+  <div *ngIf="activeFeature==='addNewMember'" style="width: 100%;">
     
-    <form #myForm="ngForm" class="main-content w-100 p-5 ml-20" (ngSubmit)="onSubmit(myForm.value)">
+    <form #myForm="ngForm" class="main-content w-100 p-5 ml-30" (ngSubmit)="onSubmit(myForm.value)">
       <div class="toggle-container">
         <button class ="toggle" mat-raised-button color="primary" (click)="toggleFeature('addNewMember')" [class.active]="activeFeature === 'addNewMember'">
           Add New Member

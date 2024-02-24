@@ -17,6 +17,7 @@ import { HotelInfoComponent } from './hotel-info/hotel-info.component';
 import { CityScheduleComponent } from './city-schedule/city-schedule.component';
 import { CombinedItineraryComponent } from './combined-itinerary/combined-itinerary.component';
 import { AlternateHotelCardsComponent } from './alternate-hotel-cards/alternate-hotel-cards.component';
+
 import { CustomizeOwnComboComponent } from './customize-own-combo/customize-own-combo.component';
 import { HotelImagesSliderComponent } from './hotel-images-slider/hotel-images-slider.component';
 import { AdminSidebarComponent } from './admin-sidebar/admin-sidebar.component';
@@ -24,6 +25,22 @@ import { LoaderComponent } from './loader/loader.component';
 import { TooltipComponent } from './tooltip/tooltip.component';
 import { PackageFareSummaryComponent } from './package-fare-summary/package-fare-summary.component';
 // import { NgSpinKitModule } from 'ng-spin-kit';
+
+import { FlightSeatMapComponent } from './flight-seat-map/flight-seat-map.component';
+import { AdminSidebarComponent } from './admin-sidebar/admin-sidebar.component';
+import { PrivacyPolicyComponent } from './privacy-policy/privacy-policy.component';
+import { TermsConditionsComponent } from './terms-conditions/terms-conditions.component';
+import { RefundiblePolicyComponent } from './refundible-policy/refundible-policy.component';
+import { PackageCancellationComponent } from './package-cancellation/package-cancellation.component';
+import { HotelCancelComponent } from './hotel-cancel/hotel-cancel.component';
+import { CombinedPolicyComponent } from './combined-policy/combined-policy.component';
+import { PaymentBreakdownComponent } from './payment-breakdown/payment-breakdown.component';
+import { RouteOverviewComponent } from './route-overview/route-overview.component';
+import { FlightCancelComponent } from './flight-cancel/flight-cancel.component';
+import { CancelPackageComponent } from './cancel-package/cancel-package.component';
+import { CancelStatusComponent } from './cancel-status/cancel-status.component';
+
+
 
 @NgModule({
   imports: [
@@ -51,12 +68,28 @@ import { PackageFareSummaryComponent } from './package-fare-summary/package-fare
     CityScheduleComponent,
     CombinedItineraryComponent,
     AlternateHotelCardsComponent,
+
     CustomizeOwnComboComponent,
     HotelImagesSliderComponent,
     AdminSidebarComponent,
     LoaderComponent,
     TooltipComponent,
     PackageFareSummaryComponent,
+
+    FlightSeatMapComponent,
+    AdminSidebarComponent,
+    PrivacyPolicyComponent,
+    TermsConditionsComponent,
+    RefundiblePolicyComponent,
+    PackageCancellationComponent,
+    HotelCancelComponent,
+    CombinedPolicyComponent,
+    PaymentBreakdownComponent,
+    RouteOverviewComponent,
+    FlightCancelComponent,
+    CancelPackageComponent,
+    CancelStatusComponent,
+
 
   ],
   exports: [
@@ -76,12 +109,29 @@ import { PackageFareSummaryComponent } from './package-fare-summary/package-fare
     CityScheduleComponent,
     CombinedItineraryComponent,
     AlternateHotelCardsComponent,
+
     CustomizeOwnComboComponent,
     HotelImagesSliderComponent,
     AdminSidebarComponent,
     LoaderComponent,
     TooltipComponent,
     PackageFareSummaryComponent,
+
+    FlightSeatMapComponent,
+    AdminSidebarComponent,
+    AdminNavbarComponent,
+    PrivacyPolicyComponent,
+    TermsConditionsComponent,
+    RefundiblePolicyComponent,
+    PackageCancellationComponent,
+    CombinedPolicyComponent,
+    HotelCancelComponent,
+    PaymentBreakdownComponent,
+    RouteOverviewComponent,
+    FlightCancelComponent,
+    CancelPackageComponent,
+    CancelStatusComponent
+
 
 
   ]

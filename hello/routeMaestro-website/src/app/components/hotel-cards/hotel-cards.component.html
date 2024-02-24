@@ -7,11 +7,47 @@
             <h3 (click)="close()">X</h3>
         </div>
         <div class="boxs">
-            <div class="box1"></div>
+            <div class="box1">
+
+                          <!-- Star Rating -->
+              <div class="rating">
+                <span style="font-weight: 600;color: black;">Star Rating</span>
+                <div class="checkbox1">
+                  <input type="checkbox" [ngModel]="threeStarRating" (ngModelChange)="onStarCheckboxChange('threeStarRating', $event)" />
+                  <span>3 Star</span>
+                </div>
+                <div class="checkbox1">
+                  <input type="checkbox" [ngModel]="fourStarRating" (ngModelChange)="onStarCheckboxChange('fourStarRating', $event)" />
+                  <span>4 Star</span>
+                </div>
+                <div class="checkbox1">
+                  <input type="checkbox" [ngModel]="fiveStarRating" (ngModelChange)="onStarCheckboxChange('fiveStarRating', $event)" />
+                  <span>5 Star</span>
+                </div>
+              </div>
+
+              <!-- User Rating -->
+              <div class="user-rating">
+                <span style="font-weight: 600;color: black;">User Rating</span>
+                <div class="checkbox1">
+                  <input type="checkbox" [ngModel]="threeUserRating" (ngModelChange)="onUserCheckboxChange('threeUserRating', $event)" />
+                  <span>3+</span>
+                </div>
+                <div class="checkbox1">
+                  <input type="checkbox" [ngModel]="fourUserRating" (ngModelChange)="onUserCheckboxChange('fourUserRating', $event)" />
+                  <span>4+</span>
+                </div>
+                <div class="checkbox1">
+                  <input type="checkbox" [ngModel]="fourPlusTwoUserRating" (ngModelChange)="onUserCheckboxChange('fourPlusTwoUserRating', $event)" />
+                  <span>4.2+</span>
+                </div>
+              </div>
+
+            </div>
             <div class="box2">
                 <div class="box-containers" style="width: 100%;">
                     <div *ngIf="allHotels">
-                      <ng-container *ngFor="let hotels of allHotels;"> 
+                      <ng-container *ngFor="let hotels of filteredHotels;"> 
                         <ng-container *ngIf="hotels?.cityName===city?.cityName && hotels.checkInDate===checkInDate">
                          
                           <div class="cards" *ngFor="let hotel of hotels?.Response; let i = index"
