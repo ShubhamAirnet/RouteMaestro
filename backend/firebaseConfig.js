@@ -1,10 +1,12 @@
-const admin = require('firebase-admin');
+var admin = require("firebase-admin");
 const serviceAccount = require('./routemaestrodemo-firebase-adminsdk-z61ff-641aa72e44.json');
 
 admin.initializeApp({
   credential: admin.credential.cert(serviceAccount),
+  storageBucket: 'gs://routemaestrodemo.appspot.com'
 });
 
+// Get Firestore and Storage instances
 const db = admin.firestore();
 
-module.exports=db;
+module.exports = { db, admin };

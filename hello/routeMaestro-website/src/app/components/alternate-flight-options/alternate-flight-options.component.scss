@@ -59,9 +59,10 @@
     padding: 10px 0;
   }
   .modal-body-filters-sections{
-    background-color: darkblue;
+    background-color: rgb(255, 255, 255);
     width: 20%;
     height: 100%;
+    border-right: 1px solid #ccc;
   }
   .modal-body-flight-sets-section {
     display: flex;

@@ -1,6 +1,6 @@
 const express = require("express");
 const router = express.Router();
-const db = require("../firebaseConfig");
+const {db} = require("../firebaseConfig");
 const axios = require("axios");
 
 
@@ -19,7 +19,7 @@ router.get("/authenticate", async (req, res) => {
       payload
     );
 
-    console.log(data);
+    // console.log(data);
     res.status(200).json({
       token: data.TokenId,
     });
@@ -46,7 +46,7 @@ router.get('/countryList',async(req,res)=>{
           payload
         );
     
-        console.log(data);
+        // console.log(data);
         res.status(200).json({
           data:data.CountryList
         });
@@ -75,7 +75,7 @@ router.get("/destinationCityList",async(req,res)=>{
           payload
         );
     
-        console.log(data);
+        // console.log(data);
         res.status(200).json({
           data:data.Destinations
         });
@@ -103,7 +103,7 @@ router.get("/topDestinations",async(req,res)=>{
           payload
         );
     
-        console.log(data);
+        // console.log(data);
         res.status(200).json({
           data:data
         });
@@ -129,29 +129,28 @@ router.post('/getIternary', async (req, res) => {
     const itinerary = await itineraryRef.get();
 
 
-    
-
     if (itinerary.exists) {
       const cities = itinerary.data().cities;
       const trip = itinerary.data().trip;
       const NoOfRooms = trip.RoomGuests.length;
 
+
       // console.log(cities)
     
           // Use Promise.all to wait for all asynchronous operations to complete
           await Promise.all(cities.map(async (city) => {
-            
+              // console.log(city);
               await Promise.all(city.Properties.map(async (item) => {
                 i++;
-                console.log(i);
-                console.log(item);
+                // console.log(i);
+                // console.log(item);
                 await getHotelSearchData(city, item.date[0], item.date.length, NoOfRooms, resultCount, trip.RoomGuests, token, hotelData);
               }));
             
           }));
           
     
-      console.log(hotelData)
+      // console.log(hotelData)
       return res.status(200).json({ success: true, message: 'Data fetched successfully', fullJourneyHotels: hotelData, count: i });
     }
   } catch (error) {
@@ -169,7 +168,7 @@ async function getHotelSearchData(city,checkInDate,NoOfNights, NoOfRooms, result
 
   const payload = {
     EndUserIp: "49.43.88.155",    
-    EndUserIp:"49.43.88.155",
+   
 
     TokenId:token,
 
@@ -187,11 +186,10 @@ async function getHotelSearchData(city,checkInDate,NoOfNights, NoOfRooms, result
   };
   try {
 
-    // console.log(payload)
+    // console.log(payload , "Hotel search Data ===================");
     const { data } = await axios.post("http://api.tektravels.com/BookingEngineService_Hotel/hotelservice.svc/rest/GetHotelResult/", payload);
-
-    // console.log('data1',data);
-    console.log("after the hotel search api call made")
+    // console.log('HotelSearch Response *********************************',data);
+    // console.log("after the hotel search api call made")
 
     const hotelSearchData = data.HotelSearchResult;
     hotelSearchData.CityName = city.cityName;
@@ -272,7 +270,9 @@ async function getHotelRoomInfoData(resultIndex,hotelCode,traceId,token){
     TraceId:traceId
     }
   try{
+    // console.log(payload)
     const {data}=await axios.post('http://api.tektravels.com/BookingEngineService_Hotel/hotelservice.svc/rest/GetHotelRoom',payload);
+    // console.log(data);
     return data;
 
   }catch(error){
@@ -359,6 +359,7 @@ router.post('/hotelRoomInfo',async(req,res)=>{
   }
 
   try{
+    console.log(payload)
     const {data}=await axios.post('http://api.tektravels.com/BookingEngineService_Hotel/hotelservice.svc/rest/GetHotelRoom',payload)
     console.log(data);
     res.status(200).json({

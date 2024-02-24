@@ -26,31 +26,104 @@ export class FlightSetCardComponent implements OnInit {
   constructor() {}
 
   ngOnInit(): void {
-
-   
-    // console.log(this.key +" this is the key from all flights sets key value pair")
-    // console.log(this.defaultFlightSetKey +"this is the key for the current deafult flight Set setted in the itinerary");
-
-    // // setting the current flight set result index which is on display.
-    // // on component rendering it would be the result Index of the first element of the power Array
-    // this.flightSetOnDisplayResultIdx=this.allFlightSetsPowerArray[0].resultIndex;
-    // this.getFlightSetToDisplay(this.flightSetOnDisplayResultIdx);
-    // console.log(this.allFlightSetsPowerArray +"these are all the flight sets available for the itinerary");
-
-    // // this.flightSetSegmentsArray = this.similarCollectedFlightSetsArray[0].segments;
-    // // console.log(this.flightSetSegmentsArray);
-    // console.log("=========================================");
-
+    // console.log(this.flightSet);
     this.settingFlightSetSegmentsArray();
-    // this.btnvalueResultIdx = this.flightSet.resultIndex;
-
-    // console.log(this.btnvalueResultIdx);
-
-    // // for by default
-    // if (this.flightSet.resultIndex === this.currentFlightSetResultIdx) {
-    //   this.isSelected = true;
-    // }
   }
+
+  // trip number==> from a-->b , b--->c   ====> will be two trips
+  // segment number==> from a->x->y->b   ==> will be 3 segments
+  getAirlineLogo(tripNumber:number,segmentNumber:number){
+    // console.log(this.flightSet.airlineLogos[tripNumber][segmentNumber])
+   return this.flightSet.airlineLogos[tripNumber][segmentNumber];
+
+  }
+
+
+
+
+
+
+
+
+
+  // Baggage , Fare Rule, Refundable functions---------- START--------------
+  tooltipStates: boolean[] = [false, false, false];
+  tooltipCloseTimeout: any;
+
+  mouseEntered(index: number): void {
+    // Set the tooltip state at the specified index to true
+    this.tooltipStates = this.tooltipStates.map((state, i) => i === index);
+
+    // console.log(this.tooltipStates)
+  }
+
+  mouseLeft(index: number): void {
+    // Delay closing the tooltip to allow the cursor to move from trigger to tooltip
+    this.setTooltipCloseTimeout(index);
+  }
+
+
+  setTooltipCloseTimeout(index: number): void {
+    // Close the tooltip after a delay
+    console.log("outside timeout")
+
+    this.tooltipCloseTimeout = setTimeout(() => {
+      console.log("in timeout")
+      this.tooltipStates[index] = false;
+    }, 10000); // Adjust the delay as needed
+  }
+
+
+  mouseOnTooltip(index: number): void {
+    clearTimeout(this.tooltipCloseTimeout);
+  }
+  
+  mouseLeftTooltip(index:number){
+    this.setTooltipCloseTimeout(index);
+  }
+
+  // Baggage , Fare Rule, Refundable functions---------- END--------------
+
+
+
+  getStopsImageUrl(completeFlight): string {
+    let numberOfFlights: number =
+      completeFlight.length;
+
+    if (numberOfFlights === 1) {
+      // journey is Non-Stop
+      return"../../../assets/img/brand/nonStopFlight.png";
+    } else if (numberOfFlights === 2) {
+      // journey has 1 stop
+      return "../../../assets/img/brand/flightStop1.png";
+    } else if (numberOfFlights === 3) {
+      // journey has 2 stops
+     return "../../../assets/img/brand/flightStop2.png";
+    } else if (numberOfFlights === 4) {
+      // journey has 3 stops
+      return "../../../assets/img/brand/flightStop3.png";
+    } else {
+      // journey has 3+ stops
+      return"../../../assets/img/brand/flightStop4.png";
+    }
+  }
+
+  getLayoverCities(oneCompleteFlight){
+    // console.log(oneCompleteFlight)
+  
+    const layoverCitiesArr:string[]=[];
+    if(oneCompleteFlight.length===1) return "Direct"
+    else{
+      oneCompleteFlight.forEach((flight,i)=>{
+        if(i+1<oneCompleteFlight.length){
+          layoverCitiesArr.push(flight.Destination.Airport.CityName)
+        }
+      })
+    }
+    // console.log(layoverCitiesArr)
+    return `Via ${layoverCitiesArr.join(', ')}`;
+  }
+
 
   // getBtnValue() {
   //   return this.btnvalueResultIdx;
@@ -71,7 +144,7 @@ export class FlightSetCardComponent implements OnInit {
 
   settingFlightSetSegmentsArray() {
     this.flightSetSegmentsArray = this.flightSet.segments;
-   
+
     return;
   }
 

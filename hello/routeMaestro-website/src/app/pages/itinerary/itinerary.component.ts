@@ -1,9 +1,10 @@
-import { Component, OnInit,  } from "@angular/core";
+import { Component, OnInit, ViewChild,  } from "@angular/core";
 import { FlightsService } from "src/app/Services/flights_api/flights.service";
 import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
 import { HotelsService } from "src/app/Services/hotels_api/hotels.service";
 
 import { ChangeDetectorRef } from "@angular/core";
+import { CombinedItineraryComponent } from "src/app/components/combined-itinerary/combined-itinerary.component";
 
 @Component({
   selector: "app-itinerary",
@@ -16,7 +17,7 @@ export class ItineraryComponent implements OnInit {
   allFlights = [];
   currentFlightSetIndex: string;
   gotAllFlights: boolean = false;
-
+  currentFlightSet;
 
   // global variables for the hotels
   allHotels: any;
@@ -27,37 +28,52 @@ export class ItineraryComponent implements OnInit {
   cities: any;
 
 
-  // isHotelInfo=false;
-  // toShowHotelInfo(value:string){
-  //     this.isHotelInfo=!this.isHotelInfo;
-  // }
 
   constructor(
     private flightApiService: FlightsService,
     private hotels: HotelsService
   ) {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    console.log(this.allFlights)
+  }
 
-  // ngOnChanges(changes: SimpleChanges) {
-  //   // Check if the 'currentFlightSetIndex' input property has changed
-  //   if (changes.currentFlightSetIndex) {
-  //     // Call your function here
-  //     this.settingCurrentFlightSetAndSegmentsArr(currentFlightSetIndex);
-  //   }
-  // }
 
-  // async getCityData(){
-  //   try{
-  //     const res=await this.hotels.getSearchInfo();
+  // ----------------------------TRIAL START----------------------------------------------------------------------------
+  tooltipStates: boolean[] = [false, false, false];
+  tooltipCloseTimeout: any;
+  mouseEntered(index: number): void {
+    // Set the tooltip state at the specified index to true
+    this.tooltipStates = this.tooltipStates.map((state, i) => i === index);
 
-  //     this.cities=res;
-  //     console.log(this.cities.cities)
-  //     this.cities.cities.map(item=>console.log(item.cityName))
-  //   }catch(error){
-  //     console.log(error)
-  //   }
-  // }
+    console.log(this.tooltipStates)
+  }
+  mouseLeft(index: number): void {
+    // Delay closing the tooltip to allow the cursor to move from trigger to tooltip
+    this.setTooltipCloseTimeout(index);
+  }
+  setTooltipCloseTimeout(index: number): void {
+    // Close the tooltip after a delay
+    this.tooltipCloseTimeout = setTimeout(() => {
+      this.tooltipStates[index] = false;
+    }, 10000); // Adjust the delay as needed
+  }
+  mouseOnTooltip(index: number): void {
+    clearTimeout(this.tooltipCloseTimeout);
+  }
+  mouseLeftTooltip(index:number){
+    this.setTooltipCloseTimeout(index);
+  }
+  // ----------------------------TRIAL ENDs----------------------------------------------------------------------------
+
+
+
+
+
+
+
+
+
 
   // GLOBAL CALLS
   authenticateFlightApi() {
@@ -77,6 +93,8 @@ export class ItineraryComponent implements OnInit {
     this.getHotelData();
   }
 
+
+
   // FLIGHT Search Call
   async multiStopSearchFlightsV2() {
     try {
@@ -88,21 +106,14 @@ export class ItineraryComponent implements OnInit {
         console.log(this.allFlights);
 
         this.currentFlightSetIndex = "OB1";
+        this.currentFlightSet=  this.allFlights.find(flight=>flight.resultIndex===this.currentFlightSetIndex);
+
         this.gotAllFlights = true;
       }
     } catch (err) {
       console.log(err);
     }
   }
-
-  // =====================================================================================================================
-  // =====================================================================================================================
-  // =====================================================================================================================
-
-  // selectCity(city: string) {
-  //   this.currentCity = city;
-  // }
-
 
   // HOTEL Search Call
   async getHotelData() {
@@ -123,9 +134,54 @@ export class ItineraryComponent implements OnInit {
     console.log("will be getting schedule here");
   }
 
-  // dialogbox(){
-  //   this.dialog=!this.dialog;
-  // }
 
+  allSelectedHotels=[]
+  gotAllSelectedHotels(allHotels){
+    this.allSelectedHotels=allHotels
+    console.log(this.allSelectedHotels)
+  }
+
+
+
+  // ------------------------------Fare Summary CALLS--------------------------------------------
+
+  getFlightPublishedFare(){
+    return this.currentFlightSet.fare.PublishedFare;
+  }
+
+  getFlightsIncentive(){
+    const incentive=this.currentFlightSet.fare.CommissionEarned+this.currentFlightSet.fare.IncentiveEarned+this.currentFlightSet.fare.AdditionalTxnFeePub +this.currentFlightSet.fare.PLBEarned;
+    return incentive
+  }
+
+  combinedHotelPublishedFare:number=0;
+  getHotelPublishedFare(){
+    this.allSelectedHotels.forEach(city=>{
+      city.hotels.forEach(property=>{
+        console.log(property.hotel.search.Price.PublishedPriceRoundedOff)
+        this.combinedHotelPublishedFare+=property.hotel.search.Price.PublishedPriceRoundedOff;
+        console.log(this.combinedHotelPublishedFare)
+      })
+    })
+    console.log(this.combinedHotelPublishedFare)
+  }
+
+
+
+
+
+
+  @ViewChild('combinedItinerary') combinedItinerary: CombinedItineraryComponent;
+
+  finalFlightSetResultIdx:string;
+
+  triggerFlightEmitter(){
+     // Call a method in Component B and get data
+     const gotCurretnFlightResultIdx = this.combinedItinerary.currentFlightSetIndex;
+    
+     // Pass data to Component C
+     this.finalFlightSetResultIdx = gotCurretnFlightResultIdx;
+
+  }
  
 }

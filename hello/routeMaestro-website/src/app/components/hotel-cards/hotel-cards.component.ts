@@ -43,7 +43,15 @@ export class HotelCardsComponent implements OnInit {
     this.hotelName=newHotelName;
   }
 
-  ngOnInit(): void {      }
+  ngOnInit(): void {   
+
+    console.log(this.dialog)
+    console.log(this.allHotels)
+    console.log(this.city)
+    console.log(this.hotelName)
+    console.log(this.checkInDate)
+
+     }
   getStarArray(rating: number): any[] {
     return Array(rating).fill(0);
   }
@@ -76,6 +84,7 @@ export class HotelCardsComponent implements OnInit {
   
 
   close(){
+    console.log("closing")
     this.closeDialog.emit();
   }
 

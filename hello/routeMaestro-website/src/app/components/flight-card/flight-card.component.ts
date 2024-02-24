@@ -18,7 +18,7 @@ export class FlightCardComponent implements OnInit {
   constructor() {}
 
   ngOnInit(): void {
-    console.log(this.completeFlight);
+    // console.log(this.completeFlight);
   }
 
   isflightDetails: boolean = false;
@@ -32,6 +32,7 @@ export class FlightCardComponent implements OnInit {
 
     this.toOpenDialogBox=true;
     
+    console.log("baar baaar baaar trigger ho rha hai in flight card")
     this.triggerAlternateFlightSetsDialog.emit(this.toOpenDialogBox);
 
 

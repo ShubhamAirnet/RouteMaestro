@@ -1,7 +1,7 @@
 <!-- Dialog Box  to show alternate Flight Sets  -->
 <!-- USEFULL IN CASE OF FILTERING -->
 
-<p>alternate flight options   </p>
+
 
 
 <div class="modal" [ngClass]="{'open': isOpen}">
@@ -21,11 +21,6 @@
         </div>
 
         <div class="modal-body-flight-sets-section"   >
-          
-          <!-- <div *ngFor="let pair of allFlightSets | keyvalue">
-            <app-flight-set-card [similarFlightSetsPowerArray]="pair.value" [key]="pair.key" [defaultFlightSetKey]="currentFlightSetKey" ></app-flight-set-card>
-
-          </div> -->
 
           <button *ngFor="let flightSet of allFlightSets"  [ngClass]="{'normal-flightSet': !flightSet.isSelected, 'highlighted-flightSet': flightSet.isSelected}"    (click)="showValue(flightSet)" >
 
