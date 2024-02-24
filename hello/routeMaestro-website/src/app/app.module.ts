@@ -42,6 +42,8 @@ import { UserListComponent } from './pages/user-list/user-list.component';
 import { UserViewComponent } from './pages/user-view/user-view.component';
 import { PackageCheckoutComponent } from './pages/package-checkout/package-checkout.component';
 import { TrialComponent } from './pages/trial/trial.component';
+import { PackageListComponent } from './pages/package-list/package-list.component';
+import { AdminDashboardComponent } from './pages/admin-dashboard/admin-dashboard.component';
 
 
 
@@ -93,6 +95,8 @@ import { TrialComponent } from './pages/trial/trial.component';
     UserViewComponent,
     PackageCheckoutComponent,
     TrialComponent,
+    PackageListComponent,
+    AdminDashboardComponent,
 
     
   ],

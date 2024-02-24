@@ -27,7 +27,7 @@ import { PackageFareSummaryComponent } from './package-fare-summary/package-fare
 // import { NgSpinKitModule } from 'ng-spin-kit';
 
 import { FlightSeatMapComponent } from './flight-seat-map/flight-seat-map.component';
-import { AdminSidebarComponent } from './admin-sidebar/admin-sidebar.component';
+
 import { PrivacyPolicyComponent } from './privacy-policy/privacy-policy.component';
 import { TermsConditionsComponent } from './terms-conditions/terms-conditions.component';
 import { RefundiblePolicyComponent } from './refundible-policy/refundible-policy.component';
@@ -77,7 +77,7 @@ import { CancelStatusComponent } from './cancel-status/cancel-status.component';
     PackageFareSummaryComponent,
 
     FlightSeatMapComponent,
-    AdminSidebarComponent,
+ 
     PrivacyPolicyComponent,
     TermsConditionsComponent,
     RefundiblePolicyComponent,
@@ -118,7 +118,7 @@ import { CancelStatusComponent } from './cancel-status/cancel-status.component';
     PackageFareSummaryComponent,
 
     FlightSeatMapComponent,
-    AdminSidebarComponent,
+  
     AdminNavbarComponent,
     PrivacyPolicyComponent,
     TermsConditionsComponent,

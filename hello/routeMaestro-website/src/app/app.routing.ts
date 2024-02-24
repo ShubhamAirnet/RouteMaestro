@@ -28,6 +28,8 @@ import { UserViewComponent } from './pages/user-view/user-view.component';
 import { SuccessComponent } from './pages/success/success.component';
 import { PackageCheckoutComponent } from './pages/package-checkout/package-checkout.component';
 import { TrialComponent } from './pages/trial/trial.component';
+import { PackageListComponent } from './pages/package-list/package-list.component';
+import { AdminDashboardComponent } from './pages/admin-dashboard/admin-dashboard.component';
 
 const routes: Routes = [
   {
@@ -75,6 +77,8 @@ const routes: Routes = [
   {path:"success/:id" , component:SuccessComponent},
   {path:"package-checkout" , component:PackageCheckoutComponent},
   {path:"trial" , component:TrialComponent},
+  {path:"package-list" , component:PackageListComponent},
+  {path:"admin-dashboard" , component:AdminDashboardComponent},
   {
     path: '**',
     redirectTo: 'home'
