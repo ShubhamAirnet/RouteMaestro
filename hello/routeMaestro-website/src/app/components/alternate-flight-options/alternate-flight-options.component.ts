@@ -34,9 +34,11 @@ export class AlternateFlightOptionsComponent implements OnInit {
   constructor() { }
 
   ngOnInit(): void {
-    console.log(this.isOpen)
-    console.log(this.allFlightSets);
+   
+
+
     this.applyFilters()
+
 
     this.settingHighlightedFlightSet(this.currentFlightSetResultIdx);
 
@@ -96,8 +98,8 @@ export class AlternateFlightOptionsComponent implements OnInit {
 
       if(flightSet.isSelected){
         this.hightlightedFlightSetIdx=flightSet.resultIndex;
-        console.log(flightSet.resultIndex)
-        console.log(this.hightlightedFlightSetIdx);
+        // console.log(flightSet.resultIndex)
+        // console.log(this.hightlightedFlightSetIdx);
       }
     });
   }

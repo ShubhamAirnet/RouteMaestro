@@ -65,9 +65,11 @@ export class HotelCardsComponent implements OnInit {
     this.hotelName=newHotelName;
   }
 
+
   ngOnInit(): void {    
     this.filterHotels()
     }
+
   getStarArray(rating: number): any[] {
     return Array(rating).fill(0);
   }
@@ -145,6 +147,7 @@ export class HotelCardsComponent implements OnInit {
   
 
   close(){
+    console.log("closing")
     this.closeDialog.emit();
   }
 

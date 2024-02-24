@@ -1,0 +1,38 @@
+.container {
+    display: flex;
+  }
+
+  .room-list {
+    width: 80vw;
+  }
+
+  table {
+    width: 100%;
+  }
+
+  td {
+    cursor: pointer;
+    padding: 5px;
+  }
+
+  .selected {
+    background-color: lightblue;
+  }
+
+  .your-rooms {
+    width: 20vw;
+    padding: 0 10px;
+  }
+
+  ul {
+    list-style: none;
+    padding: 0;
+  }
+
+  li {
+    margin-bottom: 10px;
+  }
+
+  .active {
+    font-weight: bold;
+  }

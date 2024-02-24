@@ -1,8 +1,13 @@
 const express = require("express");
 const router = express.Router();
-const db = require("../firebaseConfig");
+const {db} = require("../firebaseConfig");
 const axios = require("axios");
 const fareQuote=require('./flights')
+
+const { getDownloadURL } = require('firebase-admin/storage');
+const { admin } = require('../firebaseConfig');
+
+
 
 router.get("/authenticate", async (req, res) => {
   const payload = {
@@ -313,44 +318,80 @@ router.post("/searchMultiStopFlights", async (req, res) => {
         "http://api.tektravels.com/BookingEngineService_Air/AirService.svc/rest/Search",
         payload
       );
-        console.log(data)
+        // console.log(data)
 
       if (data.Response.Error.ErrorCode !== 0) {
         res.status(500).json({
           message: ErrorMessage,
         });
-      } else {
+      } 
+      else {
+
         const flightArray = await data.Response.Results[0];
         const traceId = await data.Response.TraceId;
 
-        const keyValueArray = [];
 
-        flightArray.forEach((flight) => {
-          keyValueArray.push({
-            isRefundable: flight.IsRefundable,
-            isLCC: flight.IsLCC,
-            resultIndex: flight.ResultIndex,
-            fare: flight.Fare,
-            segments: flight.Segments,
-            penaltyCharges: flight.PenaltyCharges,
-          });
-        });
+        const getAirlineLogos = async (oneCompleteFlight) => {
+          try {
+            const imageLinks = await Promise.all(oneCompleteFlight.map(async (flight) => {
+              return await getImageLink(flight.Airline.AirlineCode);
+            }));
+        
+            // Now 'imageLinks' is an array of download URLs
+            // console.log(imageLinks);
+            
+            return imageLinks
+          
+          } catch (err) {
+            console.error(err);
+            // Handle the error appropriately, e.g., send a response or throw an error
+            // res.status(500).send('Internal Server Error');
+          }
+        };
+        const getImageLink=async(airlineCode)=>{
+          try {
+   
+            const storage = admin.storage();
+            
+            const imagesRef = storage.bucket().file(`allAirlinesLogo/${airlineCode}.gif`);
+        
+            const downloadURL= await getDownloadURL(imagesRef);
 
-        // console.log(keyValueArray)
+            return downloadURL
 
-        // const rawDataAsPayload = {
-        //   flightsData: keyValueArray, 
-        //   timePeriod: timePeriodArray
-        // };
 
-        // const { data: optimizedData } = await axios.post(
-        //   "http://localhost:4000/flight/assigningTimePeriodsToFlightSets",
-        //   rawDataAsPayload
-        // );
+          } catch (err) {
+            console.error(err);
+            res.status(500).send('Internal Server Error');
+          }
+        }
 
-        res
+        const processFlights = async () => {
+          const keyValueArray = [];
+        
+          // for-each does not work well with async nature , as it does not wait for an itieration to complete
+          for (const flight of flightArray) {
+            const airlineLogos = await Promise.all(flight.Segments.map(oneCompleteFlight => getAirlineLogos(oneCompleteFlight)));
+        
+            keyValueArray.push({
+              isRefundable: flight.IsRefundable,
+              isLCC: flight.IsLCC,
+              resultIndex: flight.ResultIndex,
+              fare: flight.Fare,
+              segments: flight.Segments,
+              penaltyCharges: flight.PenaltyCharges,
+              airlineLogos: airlineLogos,
+            });
+          }
+        
+          res
           .status(200)
           .json({TraceId:traceId ,flightsData: keyValueArray});
+        };
+        
+        processFlights();
+
+       
       }
     } else {
       res.status(500).json({
@@ -361,6 +402,10 @@ router.post("/searchMultiStopFlights", async (req, res) => {
     res.send(error);
   }
 });
+
+
+
+
 
 router.post("/assigningTimePeriodsToFlightSets", async (req, res) => {
   const { flightsData,timePeriod } = req.body;
@@ -505,6 +550,30 @@ router.post("/ssr",async(req,res)=>{
   }
 
 })
+
+mant-changes
+// Your route handler file
+
+router.get('/getImageLink', async (req, res) => {
+  try {
+   
+    const storage = admin.storage();
+    
+    const imagesRef = storage.bucket().file('allAirlinesLogo/0B.gif');
+
+    const downloadURL= await getDownloadURL(imagesRef);
+
+    res.status(200).json({
+      url:downloadURL
+    })
+
+    // res.send(imagesRef);
+    // Rest of your code...
+  } catch (err) {
+    console.error(err);
+    res.status(500).send('Internal Server Error');
+  }
+});
 
 function calculateAgeAtEndDate(dob, endDate) {
   const birthDate = new Date(dob);
@@ -731,6 +800,7 @@ router.post('/ticketLCC', async (req, res) => {
       console.log("No such document!");
       return res.status(400).json({ error: "No such document" });
     }
+
 
 
     const itinerary=await db.collection('Demo_Itinerary').doc('updated_Itinerary').get();

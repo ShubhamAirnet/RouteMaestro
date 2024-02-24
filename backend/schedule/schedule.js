@@ -1,6 +1,6 @@
 const express = require("express");
 const router = express.Router();
-const db = require("../firebaseConfig");
+const {db} = require("../firebaseConfig");
 const axios = require("axios");
 
 router.get("/getItinerarySchedule",async(req,res)=>{
@@ -16,8 +16,9 @@ router.get("/getItinerarySchedule",async(req,res)=>{
       trip = itinerary.data().trip;
 
       console.log(cities);
+      console.log(trip)
       res.status(200).json({
-        cities
+        cities,trip
       })
     }
     

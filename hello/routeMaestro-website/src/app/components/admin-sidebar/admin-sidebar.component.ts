@@ -12,8 +12,8 @@ export class AdminSidebarComponent implements OnInit {
   ngOnInit(): void {
     console.log('admin')
   }
-
   toggleExpanded() {
     this.isContainerExpanded = !this.isContainerExpanded;
 }
-}
+} 
+
