@@ -1,0 +1,60 @@
+
+<body>
+    <div class="container">
+        <div class="sub-container" (click)="close()"></div>
+        <main>
+            <div class="left">
+                <div class="header">
+                    <div class="head">
+                        <span>Select your seat</span>
+                        <span (click)="close()">X</span>
+                    </div>
+                </div>
+
+                <div class="main">
+
+                    <div class="content">
+
+                        <!-- your existing HTML code -->
+                        <form [formGroup]="seatMapForm">
+                            <div *ngIf="ssrData?.Seat" class="select-details">
+                                <label><span>Seat Type</span></label>
+                                <select formControlName="seatType">
+                                <option value="Aisle">Aisle</option>
+                                <option value="Window">Window</option>
+                                <option value="Middle">Middle</option>
+                                </select>
+                            </div>
+                            <div class="select-details">
+                                <label><span>Row No</span></label>
+                                <select formControlName="rowNo">
+                                <option value="1">1</option>
+                                <!-- Add other row numbers as needed -->
+                                </select>
+                            </div>
+                            <div class="select-details" *ngIf="ssrData?.SeatPreference">
+                                <label><span>Seat No</span></label>
+                                <select formControlName="seatCode">
+                                  <ng-container *ngFor="let item of ssrData?.SeatPreference">
+                                    <option [value]="item.Code">{{ item.Code + ' (Rs. ' + item.Description + ')' }}</option>
+                                  </ng-container>
+                                </select>
+                              </div>
+                              
+                              
+                            <div class="confirm">
+                                <button (click)="emitSeatMapData()"><span>Confirm</span></button>
+                            </div>
+                        </form>
+                        <!-- your existing HTML code -->
+                    </div>
+                </div>
+            </div>
+            <div class="right">
+                <img src="../../../assets/img/brand/seatMap.png"/>
+            </div>
+        </main>
+
+    </div>
+    
+</body>

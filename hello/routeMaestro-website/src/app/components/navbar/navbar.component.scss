@@ -5,9 +5,10 @@
   display: flex;
   align-items: center !important;
   justify-content: space-between;
-  box-shadow: 10px 1px 20px 0 grey ;
+  box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
   background-color: #fff !important;
   z-index: 1;
+  height: 68px;
 }
 .navbar-logo{
   height: 65px;
@@ -19,7 +20,7 @@
   
   /* border: solid 1px red; */
   a{
-    font-size: 20px;
+    font-size: 1.1rem;
     text-decoration: none;
     color: #063E68;
     font-weight: 500;

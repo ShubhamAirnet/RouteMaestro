@@ -1,0 +1,111 @@
+body {
+    margin: 0;
+    font-family: 'Arial', sans-serif;
+    background-color: #f5f5f5;
+}
+
+.container {
+    width: 60px;
+    height: 100vh;
+    display: flex;
+    justify-content: flex-start;
+    overflow-x: hidden;
+    transition: width 0.3s ease-in-out;
+}
+
+.left {
+    position: fixed;
+    height: 100%;
+    background-color: white;
+    width: 60px;
+    left: 0;
+    transition: width 0.3s ease-in-out;
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+    span{
+        display: none;
+    }
+}
+
+.details {
+    margin-top: 90px;
+    padding: 13px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    transition: background-color 0.4s ease-in-out;
+}
+.user-details {
+    // margin-top: 10px;
+    padding: 13px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    transition: background-color 0.4s ease-in-out;
+}
+
+.nav-item {
+    display: flex;
+    align-items: center;
+    padding: 10px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s ease-in-out;
+    gap: 10px;
+}
+
+.nav-item:hover {
+    background-color: #fff;
+    
+    span {
+        color: black;
+    }
+    i{
+        color: #E2472B;
+    }
+}
+
+.nav-item i {
+    width: 24px;
+    color: #E2472B;
+}
+.nav-item i:hover {
+    color: black;
+}
+.nav-item span:hover {
+    color: #E2472B;
+}
+.nav-item div {
+    display: flex;
+    flex-direction: column;
+    margin-left: 10px;
+}
+
+.nav-item span {
+    font-weight: 600;
+    color: #03254A;
+    font-size: 14px;
+}
+
+.container.expanded {
+    width: 220px;
+    transition: background-color 0.4s ease-in-out;
+    
+}
+
+.left.expanded {
+    width: 220px;
+    span{
+        display: inline;
+    }
+    transition: background-color 0.4s ease-in-out;
+    
+}
+
+.main-content {
+    margin-left: 60px; /* Adjust this margin based on your needs */
+    transition: margin-left 0.3s ease-in-out;
+}
+
+.container.expanded + .main-content {
+    margin-left: 260px; /* Adjust this margin based on your needs */
+}

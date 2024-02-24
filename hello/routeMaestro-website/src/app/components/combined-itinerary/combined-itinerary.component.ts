@@ -1,6 +1,7 @@
-import { Component, Input, OnInit ,TemplateRef, inject} from '@angular/core';
+import { Component, EventEmitter, Input, OnInit ,Output,TemplateRef, inject} from '@angular/core';
 import { ScheduleService } from 'src/app/Services/schedule_api/schedule.service';
 import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
+import { StoreService } from 'src/app/Services/store/store.service';
 
 
 @Component({
@@ -21,6 +22,7 @@ export class CombinedItineraryComponent implements OnInit {
   offeredFare;
   publishedFare;
 
+  @Output() getCurrentFlightSetIdxEmitter =new EventEmitter<string>();
 
   // hotel variables
   @Input()allHotels;
@@ -35,17 +37,12 @@ export class CombinedItineraryComponent implements OnInit {
   // dialog box
   isFlightOptionsAvailable:boolean=false;
 
-
-
-
-
   cities:any;
 
 
   // will be calling flights and hotels from the itinerary page itself coz they are global(impacting fare Summary).
   // and will be calling schedules here coz they are already finalized in the first phase.
-  constructor(private scheduleService: ScheduleService ) {
-
+  constructor(private scheduleService: ScheduleService, private store:StoreService ) {
   }
 
   ngOnInit(): void {
@@ -60,10 +57,10 @@ export class CombinedItineraryComponent implements OnInit {
 
     this.currentFlightSet=this.allFlights.filter(flightSet=>(flightSet.resultIndex===resultIndex));
 
-    console.log(this.currentFlightSet)
+    // console.log(this.currentFlightSet)
 
     this.currentFlightSetSegmentsArray=this.currentFlightSet[0].segments;
-    console.log( this.currentFlightSetSegmentsArray);
+    // console.log( this.currentFlightSetSegmentsArray);
 
     this.isCurrentFlightSetLoaded=true;
 
@@ -75,13 +72,16 @@ export class CombinedItineraryComponent implements OnInit {
 
  onHighlightedFlightSetIdxChange(highlightedFlightSetIdx: string) {
    // Handle the highlightedFlightSetIdx value received from the child component
-   console.log('Received highlightedFlightSetIdx:', highlightedFlightSetIdx);
+  //  console.log('Received highlightedFlightSetIdx:', highlightedFlightSetIdx);
 
    this.currentFlightSetIndex=highlightedFlightSetIdx;
    this.settingCurrentFlightSetAndSegmentsArr(this.currentFlightSetIndex)
-   console.log(this.currentFlightSetIndex)
+  //  console.log(this.currentFlightSetIndex)
  }
 
+emitCurrentFlightSetIdx(){
+  this.getCurrentFlightSetIdxEmitter.emit(this.currentFlightSetIndex);
+}
 
 
 //  hotels functions
@@ -91,16 +91,11 @@ export class CombinedItineraryComponent implements OnInit {
 async getAllSchedules(){
 
   try {
-
     const data:any = await this.scheduleService.getSchedules();
-    console.log(data.cities, "In component");
+    // console.log("===============================",data)
+    // Store data in the service
+    this.store.setData(data);
     this.allSchedules=data.cities;
-
-    const data = await this.scheduleService.getSchedules();
-    console.log(data, "In component");
-    this.cities=data
-
-
   } catch (error) {
     console.log(error);
   }
@@ -110,21 +105,34 @@ async getAllSchedules(){
 
 // dialog box
 showFlightOptions( toshowDialog:boolean ){
+  console.log("getting value from child to show dialog in combined itinerary")
  this. isFlightOptionsAvailable=!this.isFlightOptionsAvailable;
 }
 
-// private modalService = inject(NgbModal);
+@Output() allSelectedHotels: EventEmitter<any> = new EventEmitter<any>();
 
-// openXl(content: TemplateRef<any>) {
-//   this.modalService.open(content, { size: "xl" });
-// }
+allCurrHotels = [];
 
-// dismissModal(modal: any) {
-//   modal.dismiss("Cross click");
-// }
+gotCurrHotelsForCity(currCityHotels) {
+ 
+  const cityName = currCityHotels[0].city;
 
-// closeModal(modal: any) {
-//   modal.close("Close click");
-// }
+  const cityIndex = this.allCurrHotels.findIndex(particularCity => particularCity.cityName === cityName);
+
+  if (cityIndex !== -1) {
+    // If city already exists, update the hotels array
+    this.allCurrHotels[cityIndex].hotels = currCityHotels;
+  } else {
+    // If city does not exist, add a new entry
+    this.allCurrHotels.push({ cityName: cityName, hotels: currCityHotels });
+  }
+
+  // need to optmize this - as this making call till the array is full but we want only to call when the array gets full
+  this.emitAllCurrHotels()
+}
+
+emitAllCurrHotels(){
+  this.allSelectedHotels.emit(this.allCurrHotels);
+}
 
 }
