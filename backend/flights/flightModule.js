@@ -551,7 +551,7 @@ router.post("/ssr",async(req,res)=>{
 
 })
 
-mant-changes
+
 // Your route handler file
 
 router.get('/getImageLink', async (req, res) => {
@@ -762,13 +762,15 @@ router.post('/flightBook', async (req, res) => {
       if(data){
         const bookingId = data.Response.Response.BookingId;
         const pnr = data.Response.Response.PNR;
+        const Status=data.Response.Response.Status;
         
         const itineraryRef = db.collection("package_data").doc('QNHo0JCIB4bDXBSNqKo9');
         await itineraryRef.update({
           flight_details: {
             booking_details: {
               BookingId: bookingId,
-              PNR: pnr
+              PNR: pnr,
+              Status:Status
             }
           }
         });
