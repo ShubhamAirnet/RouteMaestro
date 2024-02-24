@@ -1,48 +1,48 @@
 const hotelSample={
     hotel1:[{
-        search: {
+        search:  {
             "IsHotDeal": false,
-            "ResultIndex": 43,
-            "HotelCode": "1083367",
-            "HotelName": "Hotel Airport City",
+            "ResultIndex": 40,
+            "HotelCode": "1370071",
+            "HotelName": "Hotel Star View",
             "HotelCategory": "",
             "StarRating": 3,
-            "HotelDescription": "Property Location A stay at Hotel Airport City places you in the heart of Mahipalpur, steps from Aerocity and 5 minutes by foot from Central Mall.  This luxury hotel is 11.3 mi (18.2 k  ",
+            "HotelDescription": "Hotel Star View is conveniently located in the popular Pahar Ganj area. The hotel offers a high standard of service and amenities to suit the individual needs of all travelers. To be found at the hote  ",
             "HotelPromotion": "",
             "HotelPolicy": "",
             "Price": {
                 "CurrencyCode": "INR",
-                "RoomPrice": 3162.29,
+                "RoomPrice": 2172.79,
                 "Tax": 0,
                 "ExtraGuestCharge": 0,
                 "ChildCharge": 0,
-                "OtherCharges": 1581.15,
+                "OtherCharges": 1086.39,
                 "Discount": 0,
-                "PublishedPrice": 12122.65,
-                "PublishedPriceRoundedOff": 12123,
-                "OfferedPrice": 4743.44,
-                "OfferedPriceRoundedOff": 4743,
-                "AgentCommission": 7379.21,
+                "PublishedPrice": 8328.22,
+                "PublishedPriceRoundedOff": 8328,
+                "OfferedPrice": 3259.18,
+                "OfferedPriceRoundedOff": 3259,
+                "AgentCommission": 5069.04,
                 "AgentMarkUp": 0,
-                "ServiceTax": 284.61,
+                "ServiceTax": 195.55,
                 "TCS": 0,
                 "TDS": 0,
                 "ServiceCharge": 0,
-                "TotalGSTAmount": 284.6064,
+                "TotalGSTAmount": 195.5508,
                 "GST": {
                     "CGSTAmount": 0,
                     "CGSTRate": 0,
                     "CessAmount": 0,
                     "CessRate": 0,
-                    "IGSTAmount": 284.6064,
+                    "IGSTAmount": 195.5508,
                     "IGSTRate": 18,
                     "SGSTAmount": 0,
                     "SGSTRate": 0,
-                    "TaxableAmount": 1581.15
+                    "TaxableAmount": 1086.39
                 }
             },
-            "HotelPicture": "https://api.tbotechnology.in/imageresource.aspx?img=FbrGPTrju5e5v0qrAGTD8pPBsj8/wYA5jaoLHflErFwXObKDXgAV+3DavDD+E48+aRzWlJtsZwZTDxGmDZsGoami/5pdKnnQ56YtsezhMaI=",
-            "HotelAddress": "A-11 Road 1 National Highway 8 , ",
+            "HotelPicture": "https://api.tbotechnology.in/imageresource.aspx?img=lLdKYi18YEiML+TprZkTabTwwwPgGXxCQkEoOgYSSU7IUA5vib/CD/fjSKdi++TbETylvYBbK/RBfwoWfxVT3e71b5EivXw0XCbCDqtos+I=",
+            "HotelAddress": "5136/1 Main Bazar, Pahar Ganj , ",
             "HotelContactNo": "",
             "HotelMap": null,
             "Latitude": "",
@@ -57,22 +57,22 @@ const hotelSample={
             "RequireAllPaxDetails": true,
             "RoomId": 0,
             "RoomStatus": 0,
-            "RoomIndex": 3,
-            "RoomTypeCode": "210001131|220236894$37365^^2^^210001131|220236894|37365|141~!:~2",
-            "RoomDescription": "Family Double Room,2 Double Beds",
-            "RoomTypeName": "Family Double Room,2 Double Beds",
-            "RatePlanCode": "210001131|220236894|37365|141",
+            "RoomIndex": 5,
+            "RoomTypeCode": "226804554|393868436$37558^^2^^226804554|393868436|37558|141~!:~2",
+            "RoomDescription": "Family Triple Room,1 King Bed And 1 Twin Bed,Nonsmoking",
+            "RoomTypeName": "Family Triple Room,1 King Bed And 1 Twin Bed,Nonsmoking",
+            "RatePlanCode": "226804554|393868436|37558|141",
             "RatePlan": 0,
-            "RatePlanName": "Free parking ",
+            "RatePlanName": "Early check-in,Free self parking ",
             "InfoSource": "FixedCombination",
-            "SequenceNo": "TH~~1083367~1",
+            "SequenceNo": "TH~~1370071~1",
             "DayRates": [
                 {
-                    "Amount": 517.39,
+                    "Amount": 345.45,
                     "Date": "2024-03-10T00:00:00"
                 },
                 {
-                    "Amount": 517.39,
+                    "Amount": 345.45,
                     "Date": "2024-03-11T00:00:00"
                 }
             ],
@@ -80,52 +80,52 @@ const hotelSample={
             "SupplierPrice": null,
             "Price": {
                 "CurrencyCode": "INR",
-                "RoomPrice": 1034.77,
-                "Tax": 551.14,
+                "RoomPrice": 690.91,
+                "Tax": 397.07,
                 "ExtraGuestCharge": 0,
                 "ChildCharge": 0,
-                "OtherCharges": 793.35,
+                "OtherCharges": 543.99,
                 "Discount": 0,
-                "PublishedPrice": 5695.62,
-                "PublishedPriceRoundedOff": 5696,
-                "OfferedPrice": 2379.26,
-                "OfferedPriceRoundedOff": 2379,
-                "AgentCommission": 3316.36,
+                "PublishedPrice": 3892.11,
+                "PublishedPriceRoundedOff": 3892,
+                "OfferedPrice": 1631.97,
+                "OfferedPriceRoundedOff": 1632,
+                "AgentCommission": 2260.14,
                 "AgentMarkUp": 0,
-                "ServiceTax": 142.8,
+                "ServiceTax": 97.89,
                 "TCS": 0,
-                "TDS": 1326.23,
+                "TDS": 903.74,
                 "ServiceCharge": 0,
-                "TotalGSTAmount": 142.8035,
+                "TotalGSTAmount": 97.8866,
                 "GST": {
                     "CGSTAmount": 0,
                     "CGSTRate": 0,
                     "CessAmount": 0,
                     "CessRate": 0,
-                    "IGSTAmount": 142.8035,
+                    "IGSTAmount": 97.8866,
                     "IGSTRate": 18,
                     "SGSTAmount": 0,
                     "SGSTRate": 0,
-                    "TaxableAmount": 793.35
+                    "TaxableAmount": 543.79
                 }
             },
-            "RoomPromotion": "Book now and save|",
+            "RoomPromotion": "",
             "Amenities": [
-                "Free parking "
+                "Early check-in,Free self parking "
             ],
             "Amenity": [
-                "Free parking "
+                "Early check-in,Free self parking "
             ],
             "SmokingPreference": "NoPreference",
             "BedTypes": [],
             "HotelSupplements": [],
-            "LastCancellationDate": "2024-02-22T23:59:59",
+            "LastCancellationDate": "2024-02-23T23:59:59",
             "CancellationPolicies": [
                 {
                     "Charge": 100,
                     "ChargeType": 2,
                     "Currency": "INR",
-                    "FromDate": "2024-02-23T00:00:00",
+                    "FromDate": "2024-02-24T00:00:00",
                     "ToDate": "2024-02-28T23:59:59"
                 },
                 {
@@ -136,10 +136,10 @@ const hotelSample={
                     "ToDate": "2024-03-12T23:59:59"
                 }
             ],
-            "LastVoucherDate": "2024-02-23T00:00:00",
-            "CancellationPolicy": "Family Double Room,2 Double Beds#^#100.00% of total amount will be charged, If cancelled between 23-Feb-2024 00:00:00 and 28-Feb-2024 23:59:59.|100.00% of total amount will be charged, If cancelled between 29-Feb-2024 00:00:00 and 12-Mar-2024 23:59:59.|#!#",
+            "LastVoucherDate": "2024-02-24T00:00:00",
+            "CancellationPolicy": "Family Triple Room,1 King Bed And 1 Twin Bed,Nonsmoking#^#100.00% of total amount will be charged, If cancelled between 24-Feb-2024 00:00:00 and 28-Feb-2024 23:59:59.|100.00% of total amount will be charged, If cancelled between 29-Feb-2024 00:00:00 and 12-Mar-2024 23:59:59.|#!#",
             "Inclusion": [
-                "Free parking "
+                "Early check-in,Free self parking "
             ],
             "IsPassportMandatory": false,
             "IsPANMandatory": true
@@ -148,52 +148,52 @@ const hotelSample={
         NoOfChild:1,
         ChildAge:[4],
         cityName:"Delhi",
-        traceId:"92abf470-3eab-4bc1-94ed-ca1f11771ee7"
+        traceId:"99944a65-2b5f-4632-b1bd-87d1feaedd20"
     },
     {
-        search: {
+        search:  {
             "IsHotDeal": false,
-            "ResultIndex": 43,
-            "HotelCode": "1083367",
-            "HotelName": "Hotel Airport City",
+            "ResultIndex": 40,
+            "HotelCode": "1370071",
+            "HotelName": "Hotel Star View",
             "HotelCategory": "",
             "StarRating": 3,
-            "HotelDescription": "Property Location A stay at Hotel Airport City places you in the heart of Mahipalpur, steps from Aerocity and 5 minutes by foot from Central Mall.  This luxury hotel is 11.3 mi (18.2 k  ",
+            "HotelDescription": "Hotel Star View is conveniently located in the popular Pahar Ganj area. The hotel offers a high standard of service and amenities to suit the individual needs of all travelers. To be found at the hote  ",
             "HotelPromotion": "",
             "HotelPolicy": "",
             "Price": {
                 "CurrencyCode": "INR",
-                "RoomPrice": 3162.29,
+                "RoomPrice": 2172.79,
                 "Tax": 0,
                 "ExtraGuestCharge": 0,
                 "ChildCharge": 0,
-                "OtherCharges": 1581.15,
+                "OtherCharges": 1086.39,
                 "Discount": 0,
-                "PublishedPrice": 12122.65,
-                "PublishedPriceRoundedOff": 12123,
-                "OfferedPrice": 4743.44,
-                "OfferedPriceRoundedOff": 4743,
-                "AgentCommission": 7379.21,
+                "PublishedPrice": 8328.22,
+                "PublishedPriceRoundedOff": 8328,
+                "OfferedPrice": 3259.18,
+                "OfferedPriceRoundedOff": 3259,
+                "AgentCommission": 5069.04,
                 "AgentMarkUp": 0,
-                "ServiceTax": 284.61,
+                "ServiceTax": 195.55,
                 "TCS": 0,
                 "TDS": 0,
                 "ServiceCharge": 0,
-                "TotalGSTAmount": 284.6064,
+                "TotalGSTAmount": 195.5508,
                 "GST": {
                     "CGSTAmount": 0,
                     "CGSTRate": 0,
                     "CessAmount": 0,
                     "CessRate": 0,
-                    "IGSTAmount": 284.6064,
+                    "IGSTAmount": 195.5508,
                     "IGSTRate": 18,
                     "SGSTAmount": 0,
                     "SGSTRate": 0,
-                    "TaxableAmount": 1581.15
+                    "TaxableAmount": 1086.39
                 }
             },
-            "HotelPicture": "https://api.tbotechnology.in/imageresource.aspx?img=FbrGPTrju5e5v0qrAGTD8pPBsj8/wYA5jaoLHflErFwXObKDXgAV+3DavDD+E48+aRzWlJtsZwZTDxGmDZsGoami/5pdKnnQ56YtsezhMaI=",
-            "HotelAddress": "A-11 Road 1 National Highway 8 , ",
+            "HotelPicture": "https://api.tbotechnology.in/imageresource.aspx?img=lLdKYi18YEiML+TprZkTabTwwwPgGXxCQkEoOgYSSU7IUA5vib/CD/fjSKdi++TbETylvYBbK/RBfwoWfxVT3e71b5EivXw0XCbCDqtos+I=",
+            "HotelAddress": "5136/1 Main Bazar, Pahar Ganj , ",
             "HotelContactNo": "",
             "HotelMap": null,
             "Latitude": "",
@@ -209,21 +209,21 @@ const hotelSample={
             "RoomId": 0,
             "RoomStatus": 0,
             "RoomIndex": 1,
-            "RoomTypeCode": "210001131|220236894$37365^^1^^210001131|220236894|37365|141~!:~1",
-            "RoomDescription": "Family Double Room,2 Double Beds",
-            "RoomTypeName": "Family Double Room,2 Double Beds",
-            "RatePlanCode": "210001131|220236894|37365|141",
+            "RoomTypeCode": "226804554|393868436$37558^^1^^226804554|393868436|37558|141~!:~1",
+            "RoomDescription": "Family Triple Room,1 King Bed And 1 Twin Bed,Nonsmoking",
+            "RoomTypeName": "Family Triple Room,1 King Bed And 1 Twin Bed,Nonsmoking",
+            "RatePlanCode": "226804554|393868436|37558|141",
             "RatePlan": 0,
-            "RatePlanName": "Free parking ",
+            "RatePlanName": "Early check-in,Free self parking ",
             "InfoSource": "FixedCombination",
-            "SequenceNo": "TH~~1083367~1",
+            "SequenceNo": "TH~~1370071~1",
             "DayRates": [
                 {
-                    "Amount": 512.22,
+                    "Amount": 343.87,
                     "Date": "2024-03-10T00:00:00"
                 },
                 {
-                    "Amount": 512.22,
+                    "Amount": 343.87,
                     "Date": "2024-03-11T00:00:00"
                 }
             ],
@@ -231,52 +231,52 @@ const hotelSample={
             "SupplierPrice": null,
             "Price": {
                 "CurrencyCode": "INR",
-                "RoomPrice": 1024.45,
-                "Tax": 551.14,
+                "RoomPrice": 687.73,
+                "Tax": 397.07,
                 "ExtraGuestCharge": 0,
                 "ChildCharge": 0,
-                "OtherCharges": 787.79,
+                "OtherCharges": 542.4,
                 "Discount": 0,
-                "PublishedPrice": 5654.33,
-                "PublishedPriceRoundedOff": 5654,
-                "OfferedPrice": 2363.38,
-                "OfferedPriceRoundedOff": 2363,
-                "AgentCommission": 3290.95,
+                "PublishedPrice": 3880.2,
+                "PublishedPriceRoundedOff": 3880,
+                "OfferedPrice": 1627.21,
+                "OfferedPriceRoundedOff": 1627,
+                "AgentCommission": 2253,
                 "AgentMarkUp": 0,
-                "ServiceTax": 141.82,
+                "ServiceTax": 97.62,
                 "TCS": 0,
-                "TDS": 1316.7,
+                "TDS": 901.36,
                 "ServiceCharge": 0,
-                "TotalGSTAmount": 141.8188,
+                "TotalGSTAmount": 97.6245,
                 "GST": {
                     "CGSTAmount": 0,
                     "CGSTRate": 0,
                     "CessAmount": 0,
                     "CessRate": 0,
-                    "IGSTAmount": 141.8188,
+                    "IGSTAmount": 97.6245,
                     "IGSTRate": 18,
                     "SGSTAmount": 0,
                     "SGSTRate": 0,
-                    "TaxableAmount": 787.87
+                    "TaxableAmount": 542.36
                 }
             },
-            "RoomPromotion": "Book now and save|",
+            "RoomPromotion": "",
             "Amenities": [
-                "Free parking "
+                "Early check-in,Free self parking "
             ],
             "Amenity": [
-                "Free parking "
+                "Early check-in,Free self parking "
             ],
             "SmokingPreference": "NoPreference",
             "BedTypes": [],
             "HotelSupplements": [],
-            "LastCancellationDate": "2024-02-22T23:59:59",
+            "LastCancellationDate": "2024-02-23T23:59:59",
             "CancellationPolicies": [
                 {
                     "Charge": 100,
                     "ChargeType": 2,
                     "Currency": "INR",
-                    "FromDate": "2024-02-23T00:00:00",
+                    "FromDate": "2024-02-24T00:00:00",
                     "ToDate": "2024-02-28T23:59:59"
                 },
                 {
@@ -287,10 +287,10 @@ const hotelSample={
                     "ToDate": "2024-03-12T23:59:59"
                 }
             ],
-            "LastVoucherDate": "2024-02-23T00:00:00",
-            "CancellationPolicy": "Family Double Room,2 Double Beds#^#100.00% of total amount will be charged, If cancelled between 23-Feb-2024 00:00:00 and 28-Feb-2024 23:59:59.|100.00% of total amount will be charged, If cancelled between 29-Feb-2024 00:00:00 and 12-Mar-2024 23:59:59.|#!#",
+            "LastVoucherDate": "2024-02-24T00:00:00",
+            "CancellationPolicy": "Family Triple Room,1 King Bed And 1 Twin Bed,Nonsmoking#^#100.00% of total amount will be charged, If cancelled between 24-Feb-2024 00:00:00 and 28-Feb-2024 23:59:59.|100.00% of total amount will be charged, If cancelled between 29-Feb-2024 00:00:00 and 12-Mar-2024 23:59:59.|#!#",
             "Inclusion": [
-                "Free parking "
+                "Early check-in,Free self parking "
             ],
             "IsPassportMandatory": false,
             "IsPANMandatory": true
@@ -299,54 +299,204 @@ const hotelSample={
         NoOfChild:1,
         ChildAge:[3],
         cityName:"Delhi",
-        traceId:"92abf470-3eab-4bc1-94ed-ca1f11771ee7"
+        traceId:"99944a65-2b5f-4632-b1bd-87d1feaedd20"
 
     }
     ],
     hotel2:[{
         search:{
             "IsHotDeal": false,
-            "ResultIndex": 1,
-            "HotelCode": "46279421",
-            "HotelName": "Hotel Paris Residency",
+            "ResultIndex": 30,
+            "HotelCode": "1664741",
+            "HotelName": "Hotel Bkc Inn",
             "HotelCategory": "",
             "StarRating": 3,
-            "HotelDescription": "",
+            "HotelDescription": "Property Location With a stay at Treebo BKC   in Mumbai (Santacruz, Mumbai), you''ll be within a 10-minute drive of University of Mumbai and Bandra Kurla Complex.  This hotel is 5.3 mi   ",
             "HotelPromotion": "",
             "HotelPolicy": "",
             "Price": {
                 "CurrencyCode": "INR",
-                "RoomPrice": 5026.16,
+                "RoomPrice": 12832.62,
                 "Tax": 0,
                 "ExtraGuestCharge": 0,
                 "ChildCharge": 0,
-                "OtherCharges": 2512.68,
+                "OtherCharges": 6416.71,
                 "Discount": 0,
-                "PublishedPrice": 19266.01,
-                "PublishedPriceRoundedOff": 19266,
-                "OfferedPrice": 7538.84,
-                "OfferedPriceRoundedOff": 7539,
-                "AgentCommission": 11727.17,
+                "PublishedPrice": 49192.64,
+                "PublishedPriceRoundedOff": 49193,
+                "OfferedPrice": 19249.33,
+                "OfferedPriceRoundedOff": 19249,
+                "AgentCommission": 29943.31,
                 "AgentMarkUp": 0,
-                "ServiceTax": 452.28,
+                "ServiceTax": 1155.01,
                 "TCS": 0,
                 "TDS": 0,
                 "ServiceCharge": 0,
-                "TotalGSTAmount": 452.2826,
+                "TotalGSTAmount": 1155.0074,
                 "GST": {
                     "CGSTAmount": 0,
                     "CGSTRate": 0,
                     "CessAmount": 0,
                     "CessRate": 0,
-                    "IGSTAmount": 452.2826,
+                    "IGSTAmount": 1155.0074,
                     "IGSTRate": 18,
                     "SGSTAmount": 0,
                     "SGSTRate": 0,
-                    "TaxableAmount": 2512.68
+                    "TaxableAmount": 6416.71
                 }
             },
-            "HotelPicture": "https://b2b.tektravels.com/Images/HotelNA.jpg",
-            "HotelAddress": "1st Floor,Kasam Meetha Building,Dada Saheb Phalke Marg, Dadar east,Mumbai,Maharashtra,IN, , , , ",
+            "HotelPicture": "https://api.tbotechnology.in/imageresource.aspx?img=FbrGPTrju5e5v0qrAGTD8pPBsj8/wYA59yZzciIrL6JNIZZ9wJXkwu/90W60kj46bvJQpoKr4NG6CSswB8Ttg60C3mq/ddtcr+MQLmb/O3a3vrRkUZdGnw==",
+            "HotelAddress": "SRA Building 11 B.K.C Bandra East , ",
+            "HotelContactNo": "",
+            "HotelMap": null,
+            "Latitude": "",
+            "Longitude": "",
+            "HotelLocation": null,
+            "SupplierPrice": null,
+            "RoomDetails": []
+        },
+        room: {
+            "AvailabilityType": "Confirm",
+            "ChildCount": 0,
+            "RequireAllPaxDetails": true,
+            "RoomId": 0,
+            "RoomStatus": 0,
+            "RoomIndex": 3,
+            "RoomTypeCode": "323788190|392799913$37340^^2^^323788190|392799913|37340|141~!:~2",
+            "RoomDescription": "Deluxe Quadruple Room, 2 Queen Beds,Nonsmoking",
+            "RoomTypeName": "Deluxe Quadruple Room, 2 Queen Beds,Nonsmoking",
+            "RatePlanCode": "323788190|392799913|37340|141",
+            "RatePlan": 0,
+            "RatePlanName": "Free breakfast ",
+            "InfoSource": "FixedCombination",
+            "SequenceNo": "TH~~1664741~1",
+            "DayRates": [
+                {
+                    "Amount": 1863.07,
+                    "Date": "2024-03-12T00:00:00"
+                },
+                {
+                    "Amount": 1431.85,
+                    "Date": "2024-03-13T00:00:00"
+                }
+            ],
+            "IsPerStay": false,
+            "SupplierPrice": null,
+            "Price": {
+                "CurrencyCode": "INR",
+                "RoomPrice": 3294.92,
+                "Tax": 3126.56,
+                "ExtraGuestCharge": 0,
+                "ChildCharge": 0,
+                "OtherCharges": 3210.74,
+                "Discount": 0,
+                "PublishedPrice": 22426.71,
+                "PublishedPriceRoundedOff": 22427,
+                "OfferedPrice": 9632.21,
+                "OfferedPriceRoundedOff": 9632,
+                "AgentCommission": 12794.5,
+                "AgentMarkUp": 0,
+                "ServiceTax": 577.92,
+                "TCS": 0,
+                "TDS": 5117.48,
+                "ServiceCharge": 0,
+                "TotalGSTAmount": 577.9246,
+                "GST": {
+                    "CGSTAmount": 0,
+                    "CGSTRate": 0,
+                    "CessAmount": 0,
+                    "CessRate": 0,
+                    "IGSTAmount": 577.9246,
+                    "IGSTRate": 18,
+                    "SGSTAmount": 0,
+                    "SGSTRate": 0,
+                    "TaxableAmount": 3210.7
+                }
+            },
+            "RoomPromotion": "",
+            "Amenities": [
+                "Free breakfast "
+            ],
+            "Amenity": [
+                "Free breakfast "
+            ],
+            "SmokingPreference": "NoPreference",
+            "BedTypes": [],
+            "HotelSupplements": [],
+            "LastCancellationDate": "2024-02-23T23:59:59",
+            "CancellationPolicies": [
+                {
+                    "Charge": 22363,
+                    "ChargeType": 1,
+                    "Currency": "INR",
+                    "FromDate": "2024-02-24T00:00:00",
+                    "ToDate": "2024-03-01T23:59:59"
+                },
+                {
+                    "Charge": 100,
+                    "ChargeType": 2,
+                    "Currency": "INR",
+                    "FromDate": "2024-03-02T00:00:00",
+                    "ToDate": "2024-03-14T23:59:59"
+                }
+            ],
+            "LastVoucherDate": "2024-02-24T00:00:00",
+            "CancellationPolicy": "Deluxe Quadruple Room, 2 Queen Beds,Nonsmoking#^#INR 22363.00 will be charged, If cancelled between 24-Feb-2024 00:00:00 and 01-Mar-2024 23:59:59.|100.00% of total amount will be charged, If cancelled between 02-Mar-2024 00:00:00 and 14-Mar-2024 23:59:59.|#!#",
+            "Inclusion": [
+                "Free breakfast "
+            ],
+            "IsPassportMandatory": false,
+            "IsPANMandatory": true
+        },
+        NoOfAdults:3,
+        NoOfChild:1,
+        ChildAge:[4],
+        cityName:"Mumbai",
+        traceId:"16141a5e-dd9c-4075-92c7-eec72b5833af"
+    },{
+        search:{
+            "IsHotDeal": false,
+            "ResultIndex": 30,
+            "HotelCode": "1664741",
+            "HotelName": "Hotel Bkc Inn",
+            "HotelCategory": "",
+            "StarRating": 3,
+            "HotelDescription": "Property Location With a stay at Treebo BKC   in Mumbai (Santacruz, Mumbai), you''ll be within a 10-minute drive of University of Mumbai and Bandra Kurla Complex.  This hotel is 5.3 mi   ",
+            "HotelPromotion": "",
+            "HotelPolicy": "",
+            "Price": {
+                "CurrencyCode": "INR",
+                "RoomPrice": 12832.62,
+                "Tax": 0,
+                "ExtraGuestCharge": 0,
+                "ChildCharge": 0,
+                "OtherCharges": 6416.71,
+                "Discount": 0,
+                "PublishedPrice": 49192.64,
+                "PublishedPriceRoundedOff": 49193,
+                "OfferedPrice": 19249.33,
+                "OfferedPriceRoundedOff": 19249,
+                "AgentCommission": 29943.31,
+                "AgentMarkUp": 0,
+                "ServiceTax": 1155.01,
+                "TCS": 0,
+                "TDS": 0,
+                "ServiceCharge": 0,
+                "TotalGSTAmount": 1155.0074,
+                "GST": {
+                    "CGSTAmount": 0,
+                    "CGSTRate": 0,
+                    "CessAmount": 0,
+                    "CessRate": 0,
+                    "IGSTAmount": 1155.0074,
+                    "IGSTRate": 18,
+                    "SGSTAmount": 0,
+                    "SGSTRate": 0,
+                    "TaxableAmount": 6416.71
+                }
+            },
+            "HotelPicture": "https://api.tbotechnology.in/imageresource.aspx?img=FbrGPTrju5e5v0qrAGTD8pPBsj8/wYA59yZzciIrL6JNIZZ9wJXkwu/90W60kj46bvJQpoKr4NG6CSswB8Ttg60C3mq/ddtcr+MQLmb/O3a3vrRkUZdGnw==",
+            "HotelAddress": "SRA Building 11 B.K.C Bandra East , ",
             "HotelContactNo": "",
             "HotelMap": null,
             "Latitude": "",
@@ -362,21 +512,21 @@ const hotelSample={
             "RoomId": 0,
             "RoomStatus": 0,
             "RoomIndex": 1,
-            "RoomTypeCode": "228012118|260296936$37340^^1^^228012118|260296936|37340|141~!:~1",
-            "RoomDescription": "Family Room,2 Queen Beds",
-            "RoomTypeName": "Family Room,2 Queen Beds",
-            "RatePlanCode": "228012118|260296936|37340|141",
+            "RoomTypeCode": "323788190|392799913$37340^^1^^323788190|392799913|37340|141~!:~1",
+            "RoomDescription": "Deluxe Quadruple Room, 2 Queen Beds,Nonsmoking",
+            "RoomTypeName": "Deluxe Quadruple Room, 2 Queen Beds,Nonsmoking",
+            "RatePlanCode": "323788190|392799913|37340|141",
             "RatePlan": 0,
-            "RatePlanName": "Room Only",
+            "RatePlanName": "Free breakfast ",
             "InfoSource": "FixedCombination",
-            "SequenceNo": "TH~~46279421~1",
+            "SequenceNo": "TH~~1664741~1",
             "DayRates": [
                 {
-                    "Amount": 796.93,
+                    "Amount": 1858.7,
                     "Date": "2024-03-12T00:00:00"
                 },
                 {
-                    "Amount": 796.13,
+                    "Amount": 1426.69,
                     "Date": "2024-03-13T00:00:00"
                 }
             ],
@@ -384,52 +534,52 @@ const hotelSample={
             "SupplierPrice": null,
             "Price": {
                 "CurrencyCode": "INR",
-                "RoomPrice": 1593.06,
-                "Tax": 918.03,
+                "RoomPrice": 3285.39,
+                "Tax": 3126.56,
                 "ExtraGuestCharge": 0,
                 "ChildCharge": 0,
-                "OtherCharges": 1255.55,
+                "OtherCharges": 3205.18,
                 "Discount": 0,
-                "PublishedPrice": 8982.6,
-                "PublishedPriceRoundedOff": 8983,
-                "OfferedPrice": 3766.64,
-                "OfferedPriceRoundedOff": 3767,
-                "AgentCommission": 5215.96,
+                "PublishedPrice": 22387.8,
+                "PublishedPriceRoundedOff": 22388,
+                "OfferedPrice": 9617.12,
+                "OfferedPriceRoundedOff": 9617,
+                "AgentCommission": 12770.68,
                 "AgentMarkUp": 0,
-                "ServiceTax": 225.97,
+                "ServiceTax": 577,
                 "TCS": 0,
-                "TDS": 2086.22,
+                "TDS": 5107.95,
                 "ServiceCharge": 0,
-                "TotalGSTAmount": 225.9745,
+                "TotalGSTAmount": 577.0034,
                 "GST": {
                     "CGSTAmount": 0,
                     "CGSTRate": 0,
                     "CessAmount": 0,
                     "CessRate": 0,
-                    "IGSTAmount": 225.9745,
+                    "IGSTAmount": 577.0034,
                     "IGSTRate": 18,
                     "SGSTAmount": 0,
                     "SGSTRate": 0,
-                    "TaxableAmount": 1255.43
+                    "TaxableAmount": 3205.57
                 }
             },
-            "RoomPromotion": "Private sale|",
+            "RoomPromotion": "",
             "Amenities": [
-                "Room Only"
+                "Free breakfast "
             ],
             "Amenity": [
-                "Room Only"
+                "Free breakfast "
             ],
             "SmokingPreference": "NoPreference",
             "BedTypes": [],
             "HotelSupplements": [],
-            "LastCancellationDate": "2024-02-22T23:59:59",
+            "LastCancellationDate": "2024-02-23T23:59:59",
             "CancellationPolicies": [
                 {
-                    "Charge": 8371,
+                    "Charge": 22329,
                     "ChargeType": 1,
                     "Currency": "INR",
-                    "FromDate": "2024-02-23T00:00:00",
+                    "FromDate": "2024-02-24T00:00:00",
                     "ToDate": "2024-03-01T23:59:59"
                 },
                 {
@@ -440,160 +590,10 @@ const hotelSample={
                     "ToDate": "2024-03-14T23:59:59"
                 }
             ],
-            "LastVoucherDate": "2024-02-23T00:00:00",
-            "CancellationPolicy": "Family Room,2 Queen Beds#^#INR 8371.00 will be charged, If cancelled between 23-Feb-2024 00:00:00 and 01-Mar-2024 23:59:59.|100.00% of total amount will be charged, If cancelled between 02-Mar-2024 00:00:00 and 14-Mar-2024 23:59:59.|#!#",
+            "LastVoucherDate": "2024-02-24T00:00:00",
+            "CancellationPolicy": "Deluxe Quadruple Room, 2 Queen Beds,Nonsmoking#^#INR 22329.00 will be charged, If cancelled between 24-Feb-2024 00:00:00 and 01-Mar-2024 23:59:59.|100.00% of total amount will be charged, If cancelled between 02-Mar-2024 00:00:00 and 14-Mar-2024 23:59:59.|#!#",
             "Inclusion": [
-                "Room Only"
-            ],
-            "IsPassportMandatory": false,
-            "IsPANMandatory": true
-        },
-        NoOfAdults:3,
-        NoOfChild:1,
-        ChildAge:[4],
-        cityName:"Mumbai",
-        traceId:"64973b94-079f-4a1e-b266-abb8c911cb80"
-    },{
-        search:{
-            "IsHotDeal": false,
-            "ResultIndex": 1,
-            "HotelCode": "46279421",
-            "HotelName": "Hotel Paris Residency",
-            "HotelCategory": "",
-            "StarRating": 3,
-            "HotelDescription": "",
-            "HotelPromotion": "",
-            "HotelPolicy": "",
-            "Price": {
-                "CurrencyCode": "INR",
-                "RoomPrice": 5026.16,
-                "Tax": 0,
-                "ExtraGuestCharge": 0,
-                "ChildCharge": 0,
-                "OtherCharges": 2512.68,
-                "Discount": 0,
-                "PublishedPrice": 19266.01,
-                "PublishedPriceRoundedOff": 19266,
-                "OfferedPrice": 7538.84,
-                "OfferedPriceRoundedOff": 7539,
-                "AgentCommission": 11727.17,
-                "AgentMarkUp": 0,
-                "ServiceTax": 452.28,
-                "TCS": 0,
-                "TDS": 0,
-                "ServiceCharge": 0,
-                "TotalGSTAmount": 452.2826,
-                "GST": {
-                    "CGSTAmount": 0,
-                    "CGSTRate": 0,
-                    "CessAmount": 0,
-                    "CessRate": 0,
-                    "IGSTAmount": 452.2826,
-                    "IGSTRate": 18,
-                    "SGSTAmount": 0,
-                    "SGSTRate": 0,
-                    "TaxableAmount": 2512.68
-                }
-            },
-            "HotelPicture": "https://b2b.tektravels.com/Images/HotelNA.jpg",
-            "HotelAddress": "1st Floor,Kasam Meetha Building,Dada Saheb Phalke Marg, Dadar east,Mumbai,Maharashtra,IN, , , , ",
-            "HotelContactNo": "",
-            "HotelMap": null,
-            "Latitude": "",
-            "Longitude": "",
-            "HotelLocation": null,
-            "SupplierPrice": null,
-            "RoomDetails": []
-        },
-        room: {
-            "AvailabilityType": "Confirm",
-            "ChildCount": 0,
-            "RequireAllPaxDetails": true,
-            "RoomId": 0,
-            "RoomStatus": 0,
-            "RoomIndex": 2,
-            "RoomTypeCode": "228012118|260296936$37340^^2^^228012118|260296936|37340|141~!:~2",
-            "RoomDescription": "Family Room,2 Queen Beds",
-            "RoomTypeName": "Family Room,2 Queen Beds",
-            "RatePlanCode": "228012118|260296936|37340|141",
-            "RatePlan": 0,
-            "RatePlanName": "Room Only",
-            "InfoSource": "FixedCombination",
-            "SequenceNo": "TH~~46279421~1",
-            "DayRates": [
-                {
-                    "Amount": 798.51,
-                    "Date": "2024-03-12T00:00:00"
-                },
-                {
-                    "Amount": 798.51,
-                    "Date": "2024-03-13T00:00:00"
-                }
-            ],
-            "IsPerStay": false,
-            "SupplierPrice": null,
-            "Price": {
-                "CurrencyCode": "INR",
-                "RoomPrice": 1597.03,
-                "Tax": 918.03,
-                "ExtraGuestCharge": 0,
-                "ChildCharge": 0,
-                "OtherCharges": 1257.13,
-                "Discount": 0,
-                "PublishedPrice": 8996.89,
-                "PublishedPriceRoundedOff": 8997,
-                "OfferedPrice": 3772.2,
-                "OfferedPriceRoundedOff": 3772,
-                "AgentCommission": 5224.69,
-                "AgentMarkUp": 0,
-                "ServiceTax": 226.32,
-                "TCS": 0,
-                "TDS": 2090.19,
-                "ServiceCharge": 0,
-                "TotalGSTAmount": 226.316,
-                "GST": {
-                    "CGSTAmount": 0,
-                    "CGSTRate": 0,
-                    "CessAmount": 0,
-                    "CessRate": 0,
-                    "IGSTAmount": 226.316,
-                    "IGSTRate": 18,
-                    "SGSTAmount": 0,
-                    "SGSTRate": 0,
-                    "TaxableAmount": 1257.33
-                }
-            },
-            "RoomPromotion": "Private sale|",
-            "Amenities": [
-                "Room Only"
-            ],
-            "Amenity": [
-                "Room Only"
-            ],
-            "SmokingPreference": "NoPreference",
-            "BedTypes": [],
-            "HotelSupplements": [],
-            "LastCancellationDate": "2024-02-22T23:59:59",
-            "CancellationPolicies": [
-                {
-                    "Charge": 8384,
-                    "ChargeType": 1,
-                    "Currency": "INR",
-                    "FromDate": "2024-02-23T00:00:00",
-                    "ToDate": "2024-03-01T23:59:59"
-                },
-                {
-                    "Charge": 100,
-                    "ChargeType": 2,
-                    "Currency": "INR",
-                    "FromDate": "2024-03-02T00:00:00",
-                    "ToDate": "2024-03-14T23:59:59"
-                }
-            ],
-            "LastVoucherDate": "2024-02-23T00:00:00",
-            "CancellationPolicy": "Family Room,2 Queen Beds#^#INR 8384.00 will be charged, If cancelled between 23-Feb-2024 00:00:00 and 01-Mar-2024 23:59:59.|100.00% of total amount will be charged, If cancelled between 02-Mar-2024 00:00:00 and 14-Mar-2024 23:59:59.|#!#",
-            "Inclusion": [
-                "Room Only"
+                "Free breakfast "
             ],
             "IsPassportMandatory": false,
             "IsPANMandatory": true
@@ -602,7 +602,7 @@ const hotelSample={
         NoOfChild:1,
         ChildAge:[3],
         cityName:"Mumbai",
-        traceId:"64973b94-079f-4a1e-b266-abb8c911cb80"
+        traceId:"16141a5e-dd9c-4075-92c7-eec72b5833af"
     }]
 }
 

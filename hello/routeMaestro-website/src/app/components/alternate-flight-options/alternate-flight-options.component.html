@@ -47,6 +47,10 @@
             <span style="font-weight: 600;">No Of Stops</span>
             <div class="box">
               <div class="item">
+                <input type="checkbox" (change)="toggleStops(0,$event.target.checked)" >
+                <span>0</span>
+              </div>
+              <div class="item">
                 <input type="checkbox" (change)="toggleStops(1,$event.target.checked)" >
                 <span>1</span>
               </div>

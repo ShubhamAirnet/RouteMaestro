@@ -268,26 +268,23 @@ private formatNumber(num: number): string {
   }
 
   addTraveler() {
-    console.log('added-start')
+
   this.shouldUpdateFormValues=true
   
     console.log('length', this.travelers);
     
 
-    console.log('length after')
   
     const newTraveler = { ...this.travelerForm.value };
     console.log(newTraveler)
     
-  console.log('in middle')
-    // Save passenger data asynchronously
+
     this.savePassengerData(this.travelerForm.value)
       console.log(this.travelerForm.value);
   
       this.travelers[this.currentIndex] = this.travelerForm.value;
       this.editIndex = undefined;
-      console.log('in midldle')
-      // Reset the form inside the asynchronous block
+     
       this.travelerForm.reset();
   
       this.travelerArrayChange.emit(this.travelers);

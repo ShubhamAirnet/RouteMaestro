@@ -18,7 +18,7 @@ export class AlternateFlightOptionsComponent implements OnInit {
  isFiltered:boolean=false;
  filteredFlights:any;
  numberOfStopsFilter: number=1;
- airline:string="Swiss";
+ airline=[];
  airlineNames: Set<string> = new Set();
 
  selectedRefundable: string | null = null;
@@ -83,6 +83,7 @@ export class AlternateFlightOptionsComponent implements OnInit {
     }else{
       this.numberOfStopsFilter=null;
     }
+    console.log(this.numberOfStopsFilter)
     this.applyFilters()
   }
 
@@ -117,27 +118,34 @@ export class AlternateFlightOptionsComponent implements OnInit {
 
 // filtering functions
 
-// isRefundable
 filterFlights() {
   if (this.isFiltered) {
     this.filteredFlights = this.allFlightSets.filter((item) => {
-      const refundableCondition = (this.isRefundable && item.isRefundable === true) || (this.isNonRefundable && item.isRefundable === false);
-      const lccCondition = (this.isLCC && item.isLCC === true) || (this.isNonLCC && item.isLCC === false);
-      const airlineCondition = this.airline === '' || item.segments.some((sector) => sector.some((key) => this.airline.includes(key.Airline.AirlineName)));
-      const stopsCondition = this.numberOfStopsFilter === null || item.segments.some((sector) => sector.length - 1 === this.numberOfStopsFilter);
+      const refundableCondition = !this.isRefundable || item.isRefundable === this.isRefundable;
+      const nonRefundable=!this.isNonRefundable || item.isRefundable === false;
+      const nonLccCondiation=!this.isNonLCC || item.isLCC === false;
+      const lccCondition = !this.isLCC || item.isLCC === this.isLCC;
+      const airlineCondition =
+      this.airline.length === 0 ||
+      item.segments.some((sector) =>
+        sector.some((key) => this.airline.includes(key.Airline.AirlineName))
+      );
+          const stopsCondition = this.numberOfStopsFilter === null || item.segments.some((sector) => sector.length - 1 === this.numberOfStopsFilter);
 
       // Combine conditions using logical AND
-      const combinedCondition = refundableCondition && lccCondition && airlineCondition && stopsCondition;
+      const combinedCondition = refundableCondition && lccCondition && airlineCondition && stopsCondition && nonLccCondiation && nonRefundable;
 
       return combinedCondition;
     });
   } else {
-    // Handle the case when none of the filters are active
+    // Include all data when no filters are active
     this.filteredFlights = this.allFlightSets;
   }
+
   console.log('filtered ', this.filteredFlights);
   this.getAirlineNames(this.filteredFlights);
 }
+
 
 
 
@@ -160,20 +168,21 @@ getAirlineNames( flights:any){
   console.log('names',this.airlineNames)
 }
 
-// updateNamesArray(sector: any, isChecked: boolean){
-//   if (isChecked) {
-//     this.airline.push(sector);
+updateNamesArray(sector: any, isChecked: boolean){
+  if (isChecked) {
+    this.airline.push(sector);
    
-//   } else {
-//     // Remove the sector from the array
-//     const index = this.airline.findIndex(s => s === sector);
-//     if (index !== -1) {
-//       this.airline.splice(index, 1);
-//     }
-//     console.log(this.airline)
-//     this.applyFilters()
-//   }
-// }
+  } else {
+    // Remove the sector from the array
+    const index = this.airline.findIndex(s => s === sector);
+    if (index !== -1) {
+      this.airline.splice(index, 1);
+    }
+    
+  }
+  console.log(this.airline)
+    this.applyFilters()
+}
 
 
 

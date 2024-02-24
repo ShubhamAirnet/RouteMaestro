@@ -67,6 +67,13 @@ body {
     gap: 15px;
 }
 
+.note{
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 8px;
+}
+
 .sub-details {
     display: flex;
     flex-wrap: wrap;
