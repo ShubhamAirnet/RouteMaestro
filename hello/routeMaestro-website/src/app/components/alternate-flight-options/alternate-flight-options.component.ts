@@ -7,6 +7,8 @@ import { Component, OnInit,Input, Output,EventEmitter } from '@angular/core';
 })
 export class AlternateFlightOptionsComponent implements OnInit {
  
+  isOpen = true;
+
   @Input() allFlightSets :any;
   @Input() currentFlightSetResultIdx :string;
 
@@ -32,6 +34,7 @@ export class AlternateFlightOptionsComponent implements OnInit {
   constructor() { }
 
   ngOnInit(): void {
+    console.log(this.isOpen)
     console.log(this.allFlightSets);
     this.applyFilters()
 
@@ -188,7 +191,6 @@ updateNamesArray(sector: any, isChecked: boolean){
 
 
 
-  isOpen = true;
 
   openModal() {
     this.isOpen = true;

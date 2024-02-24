@@ -1,7 +1,5 @@
 <main>
-  <!-- <div *ngFor="let citySchedule of allSchedules"> -->
-  <!-- whole card for a city -->
-  <!-- <app-hotel-cards *ngIf="dialog" [dialog]="dialog" [hotelName]="hotelName"  (hotelNameChange)="handleHotelNameChange($event)" [checkInDate]="checkInDate" (closeDialog)="dialogbox()" [city]="citySchedule" (addToItineraryEvent)="handleAddToItinerary($event)" [allHotels]="allHotels"></app-hotel-cards> -->
+ 
   <div
     style="background-color: #fff; border: 1px solid grey; border-radius: 20px"
   >
@@ -12,7 +10,7 @@
         border-bottom: 2px solid #000;
         height: 34px;
         width: 100%;
-        background-color: #2F3268;
+        background-color: #2f3268;
         display: flex;
         justify-content: center;
         align-items: center;
@@ -29,10 +27,12 @@
         "
       >
         <!--       {{getNumberOfDaysInCity(citySchedule)}} Days in {{getCityName(citySchedule)}} -->
+
         {{ getNumberOfDaysInCity(citySchedule) }} Days in
         {{ getCityName(citySchedule) }}
       </h2>
     </div>
+
     <!-- city body -->
     <div
       style="
@@ -65,7 +65,7 @@
               margin: 0;
               font-size: 18px;
               font-weight: 700;
-              color: #FF4040;
+              color: #ff4040;
               display: flex;
               justify-content: flex-end;
               align-items: center;
@@ -78,6 +78,7 @@
               >{{ getHotelNameToDisplay(currentHotel) }}
             </span>
           </h1>
+
           <!-- butttons -->
           <div
             style="
@@ -94,7 +95,7 @@
                 padding: 0;
                 background-color: #fff;
                 display: flex;
-                justify-content: center;
+                justify-content: center; 
                 align-items: center;
               "
               (click)="dialogbox()"
@@ -106,6 +107,7 @@
                 width="22px"
               />
             </button>
+
             <button
               style="
                 background-color: rgb(104, 132, 255);
@@ -124,6 +126,7 @@
             </button>
           </div>
         </div>
+
         <!-- itinerary when staying in particular property -->
         <div>
           <!-- row 1 -->
@@ -148,8 +151,9 @@
                 border-right: 1px solid grey;
               "
             >
-              <h2 style="margin: 0; font-size: 20px; color: #FF4040">15Jan</h2>
+              <h2 style="margin: 0; font-size: 20px; color: #ff4040">15Jan</h2>
             </div>
+
             <!-- morning -->
             <div
               style="
@@ -163,7 +167,7 @@
                 border-right: 1px solid grey;
               "
             >
-              <h2 style="margin: 0; font-size: 15px; color: #FF4040">
+              <h2 style="margin: 0; font-size: 15px; color: #ff4040">
                 Morning
               </h2>
               <p
@@ -177,6 +181,7 @@
                 {{ getMorningActivity(oneDaySchedule) }}
               </p>
             </div>
+
             <!-- afternoon -->
             <div
               style="
@@ -190,7 +195,7 @@
                 border-right: 1px solid grey;
               "
             >
-              <h2 style="margin: 0; font-size: 15px; color: #FF4040">
+              <h2 style="margin: 0; font-size: 15px; color: #ff4040">
                 Afternoon
               </h2>
               <p
@@ -204,6 +209,7 @@
                 {{ getAfternoonActivity(oneDaySchedule) }}
               </p>
             </div>
+
             <!-- evening -->
             <div
               style="
@@ -217,7 +223,7 @@
                 border-right: 1px solid grey;
               "
             >
-              <h2 style="margin: 0; font-size: 15px; color: #FF4040">
+              <h2 style="margin: 0; font-size: 15px; color: #ff4040">
                 Evening
               </h2>
               <p
@@ -231,6 +237,7 @@
                 {{ getEveningActivity(oneDaySchedule) }}
               </p>
             </div>
+
             <!-- night -->
             <div
               style="
@@ -242,7 +249,7 @@
                 justify-content: space-evenly;
               "
             >
-              <h2 style="margin: 0; font-size: 15px; color: #FF4040">Night</h2>
+              <h2 style="margin: 0; font-size: 15px; color: #ff4040">Night</h2>
               <p
                 style="
                   margin: 0;
@@ -254,8 +261,11 @@
                 {{ getNightActivity(oneDaySchedule) }}
               </p>
             </div>
+
+            
           </div>
         </div>
+
         <app-hotel-cards
           *ngIf="dialog"
           [dialog]="dialog"
@@ -263,15 +273,24 @@
           (hotelNameChange)="handleHotelNameChange($event)"
           [checkInDate]="getCheckInDate(currentHotel.checkInDate)"
           (closeDialog)="dialogbox()"
-          [city]="citySchedule"
+          [city]="citySchedule" 
           (addToItineraryEvent)="handleAddToItinerary($event)"
-          [allHotels]="allHotels"
+          [allHotels]="allHotels" 
         ></app-hotel-cards>
+
         <div *ngIf="isHotelInfo">
           <app-hotel-info [hotelOnDisplayDetails]="currentHotel.hotel" (finalRoomsArrChange)="gotFinalRoomsArr($event)" ></app-hotel-info>
         </div>
+
       </div>
     </div>
+
+    
   </div>
-  <!-- </div> -->
+
+
+
+
+
+
 </main>
